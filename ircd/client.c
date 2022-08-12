@@ -1143,7 +1143,7 @@ free_exited_clients(void *unused)
 						target_p->name, (unsigned int) target_p->status,
 						(unsigned long long)target_p->flags,  target_p->handler);
 					sendto_realops_snomask(SNO_GENERAL, L_ALL,
-						"Please report this to the solanum developers!");
+						"Please report this to the ircd-FEF developers!");
 					found++;
 				}
 			}
@@ -1287,7 +1287,7 @@ exit_aborted_clients(void *unused)
 					abt->client->name, (unsigned int) abt->client->status,
 					(unsigned long long)abt->client->flags, abt->client->handler);
 				sendto_realops_snomask(SNO_GENERAL, L_ALL,
-					"Please report this to the solanum developers!");
+					"Please report this to the ircd-FEF developers!");
 				continue;
 			}
 		}

@@ -1,7 +1,12 @@
 # News
 
-This is solanum 1.0-dev.
+This is ircd-FEF 8.0-dev.
 See LICENSE for licensing details (GPL v2).
+
+## ircd-FEF-8.0
+
+Include changes from solanum-1.0-dev.
+
 
 ## solanum-1.0
 

@@ -1,5 +1,9 @@
-# solanum ![Build Status](https://github.com/solanum-ircd/solanum/workflows/CI/badge.svg)
+# FEFnet ircd
 
+Rebased to solanum. The following text is from the solanum project, until I bother updating this better.
+
+(Note: Unlike Solanum, we support any system that follows The Single UNIX Specification 4 [POSIX.1-2008])
+---
 Solanum is an IRCv3 server designed to be highly scalable.  It implements IRCv3.1 and some parts of IRCv3.2.
 
 It is meant to be used with an IRCv3-capable services implementation such as [Atheme][atheme] or [Anope][anope].
@@ -11,7 +15,7 @@ It is meant to be used with an IRCv3-capable services implementation such as [At
 
  * A supported platform
  * A working dynamic library system
- * A working lex and yacc - flex and bison should work
+ * A working lex and yacc - flex and byacc (or bison) should work
 
 # platforms
 

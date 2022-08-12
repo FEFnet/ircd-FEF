@@ -206,7 +206,7 @@ init_sys(void)
 		if(maxconnections <= MAX_BUFFER)
 		{
 			fprintf(stderr, "ERROR: Shell FD limits are too low.\n");
-			fprintf(stderr, "ERROR: solanum reserves %d FDs, shell limits must be above this\n", MAX_BUFFER);
+			fprintf(stderr, "ERROR: ircd-FEF reserves %d FDs, shell limits must be above this\n", MAX_BUFFER);
 			exit(EXIT_FAILURE);
 		}
 		return;

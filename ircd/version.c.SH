@@ -1,7 +1,7 @@
 #!/bin/sh
 
 spitshell=cat
-package=solanum
+package=ircd-FEF
 
 echo "Extracting $package/src/version.c..."
 

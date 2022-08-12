@@ -28,7 +28,7 @@ fi
 SERNO=`git log -1 --date=format:%Y%m%d --pretty=format:%cd-%h`
 DATECODE=`git log -1 --pretty=format:%ct`
 
-echo "[solanum] Generating include/serno.h for tip $MYTIP."
+echo "[ircd-FEF] Generating include/serno.h for tip $MYTIP."
 cat << _EOF_ > include/serno.h
 /* Generated automatically by makepackage. Any changes made here will be lost. */
 #define SERNO "$SERNO"
