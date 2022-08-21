@@ -591,9 +591,6 @@ solanum_main(int argc, char * const argv[])
 	if(printVersion)
 	{
 		printf("ircd: version %s(%s)\n", ircd_version, serno);
-#ifdef CUSTOM_BRANDING
-		printf("ircd: based on %s-%s\n", PACKAGE_NAME, PACKAGE_VERSION);
-#endif
 		printf("ircd: %s\n", rb_lib_version());
 		exit(EXIT_SUCCESS);
 	}

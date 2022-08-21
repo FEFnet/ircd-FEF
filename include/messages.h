@@ -113,11 +113,7 @@
 #define NUMERIC_STR_347      ":%s 347 %s %s :End of Channel Invite List"
 #define NUMERIC_STR_348      ":%s 348 %s %s %s %s %lu"
 #define NUMERIC_STR_349      ":%s 349 %s %s :End of Channel Exception List"
-#ifndef CUSTOM_BRANDING
 #define NUMERIC_STR_351      "%s(%s). %s :%s TS%dow"
-#else
-#define NUMERIC_STR_351      "%s(%s,%s). %s :%s TS%dow"
-#endif
 #define NUMERIC_STR_352      ":%s 352 %s %s %s %s %s %s %s :%d %s"
 #define NUMERIC_STR_353      ":%s 353 %s %s %s :"
 #define NUMERIC_STR_360      ":%s 360 %s %s :was connecting from *@%s %s"

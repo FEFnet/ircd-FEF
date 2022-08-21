@@ -442,37 +442,6 @@ AC_SUBST([PROGRAM_PREFIX])
 AC_DEFINE_UNQUOTED([PROGRAM_PREFIX], ["$with_program_prefix"], [String with which all programs intended to be in PATH are prefixed.])
 
 dnl **********************************************************************
-dnl Branding
-dnl **********************************************************************
-
-AC_MSG_CHECKING([whether custom branding is requested])
-AC_ARG_WITH(custom-branding,
-AC_HELP_STRING([--with-custom-branding=NAME],
-	       [Custom branding name.]),
-	       [BRANDING_NAME=$withval
-		AC_MSG_RESULT([yes])],
-	       [BRANDING_NAME=$PACKAGE_NAME
-		AC_MSG_RESULT([no])]
-)
-
-AC_MSG_CHECKING([whether a custom version is requested])
-AC_ARG_WITH(custom-version,
-AC_HELP_STRING([--with-custom-version=NAME],
-	       [Custom version branding.]),
-	       [BRANDING_VERSION=$withval
-		AC_MSG_RESULT([yes])],
-	       [BRANDING_VERSION=$PACKAGE_VERSION
-		AC_MSG_RESULT([no])]
-)
-
-AC_DEFINE_UNQUOTED(BRANDING_NAME, ["$BRANDING_NAME"], [Custom branding name.])
-AC_DEFINE_UNQUOTED(BRANDING_VERSION, ["$BRANDING_VERSION"], [Custom branding name.])
-
-if test "x$BRANDING_NAME" != "x$PACKAGE_NAME"; then
-	AC_DEFINE(CUSTOM_BRANDING, 1, [Define if custom branding is enabled.])
-fi
-
-dnl **********************************************************************
 dnl Enable oper chghost
 dnl **********************************************************************
 
@@ -667,7 +636,7 @@ else
 fi
 
 echo "
-Configuration of ${BRANDING_NAME}-${BRANDING_VERSION}:
+Configuration of ${PACKAGE_NAME}-${PACKAGE_VERSION}:
 	Install directory  : $prefix
 
 	OpenSSL            : $openssl
@@ -676,5 +645,5 @@ Configuration of ${BRANDING_NAME}-${BRANDING_VERSION}:
 	Nickname length    : $NICKLEN
 	Topic length       : $TOPICLEN
 
-Use (g)make to compile $BRANDING_NAME, then (g)make install to install it.
+Use (g)make to compile $PACKAGE_NAME, then (g)make install to install it.
 "
