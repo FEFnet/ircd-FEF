@@ -14,6 +14,7 @@ AM_SILENT_RULES([yes])
 AM_CONFIG_HEADER(include/librb_config.h)
 
 AC_PREFIX_DEFAULT(/usr/local/librb)
+AC_USE_SYSTEM_EXTENSIONS
 AC_GNU_SOURCE
 
 dnl Checks for programs.
@@ -59,14 +60,14 @@ LIBTOOL="$LIBTOOL --silent"
 
 case "$host_os" in
 *solaris*)
-     CPPFLAGS="$CFLAGS -D_POSIX_PTHREAD_SEMANTICS -D_XPG4_2"
+     CPPFLAGS="$CFLAGS -D_POSIX_PTHREAD_SEMANTICS -D_XOPEN_SOURCE=700"
      ;;
 *)
      ;;
 esac
 
 # backwards support for IRC_CFLAGS
-CFLAGS="$IRC_CFLAGS $CFLAGS -Wall"
+CFLAGS="$IRC_CFLAGS $CFLAGS"
 
 dnl use directory structure of cached as default (hack)
 if test "$libexecdir" = '${exec_prefix}/libexec' &&
@@ -366,7 +367,7 @@ fi
 
 AC_ARG_ENABLE(warnings,
 AC_HELP_STRING([--enable-warnings],[Enable all sorts of warnings for debugging.]),
-[CFLAGS="$CFLAGS -Wall -Werror -Wcast-qual -Wmissing-declarations -Wmissing-prototypes -Wnested-externs -Wshadow -Wwrite-strings -W -Wno-unused -Wunused-function -Wunused-variable -Wno-unused-parameter -Wno-null-pointer-subtraction"],[])
+[CFLAGS="$CFLAGS -Wall -Werror -Wcast-qual -Wmissing-declarations -Wmissing-prototypes -Wnested-externs -Wshadow -Wwrite-strings -W -Wno-unused -Wunused-function -Wunused-variable -Wno-unused-parameter -Wno-null-pointer-subtraction"],[-w])
 
 AC_SUBST(LDFLAGS)
 AC_SUBST(PICFLAGS)

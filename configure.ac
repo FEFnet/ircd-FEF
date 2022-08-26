@@ -34,10 +34,6 @@ LTDL_INIT
 build_ltdl=$with_included_ltdl
 AM_CONDITIONAL([BUILD_LTDL], [test x"$build_ltdl" = x"yes"])
 
-if test "$ac_cv_c_compiler_gnu" = yes; then
-	IRC_CFLAGS="$IRC_CFLAGS -O0 -Wall"
-fi
-
 dnl If we support -g, use it!
 if test "$ac_cv_prog_cc_g" = yes; then
 	IRC_CFLAGS="$IRC_CFLAGS -g"
@@ -78,7 +74,7 @@ AC_PROG_YACC
 
 dnl AC_PROG_YACC defaults to yacc unconditionally if nothing can be found
 if test "$YACC" = "yacc" -a -z "`which $YACC 2>/dev/null`"; then
-	AC_MSG_ERROR([could not locate a suitable parser generator; install bison, yacc, or byacc])
+	AC_MSG_ERROR([could not locate a suitable parser generator; install byacc, bison, or yacc.])
 fi
 
 AC_PROG_LEX
@@ -419,18 +415,6 @@ PROGRAM_PREFIX="$with_program_prefix"
 AC_SUBST([PROGRAM_PREFIX])
 AC_DEFINE_UNQUOTED([PROGRAM_PREFIX], ["$with_program_prefix"], [String with which all programs intended to be in PATH are prefixed.])
 
-dnl **********************************************************************
-dnl Enable oper chghost
-dnl **********************************************************************
-
-AC_ARG_ENABLE(oper-chghost,
-AC_HELP_STRING([--enable-oper-chghost],[Enable opers to use the CHGHOST command]),
-[operchghost=$enableval],[operchghost=no])
-
-if test "$operchghost" = yes; then
-	AC_DEFINE(ENABLE_OPER_CHGHOST, 1, [Define this to enable opers to use the CHGHOST command.])
-fi
-
 dnl Debug-related options
 dnl =====================
 
@@ -464,25 +448,25 @@ else
 	AC_MSG_RESULT(no)
 fi
 
-AC_DEFINE([NICKNAMEHISTORYLENGTH], 15000, [Size of the WHOWAS array.])
-AC_DEFINE([CHANNEL_HEAP_SIZE], 8192, [Size of the channel heap.])
-AC_DEFINE([BAN_HEAP_SIZE], 4096, [Size of the ban heap.])
-AC_DEFINE([CLIENT_HEAP_SIZE], 8192, [Size of the client heap.])
-AC_DEFINE([LCLIENT_HEAP_SIZE], 1024, [Size of the local client heap.])
-AC_DEFINE([PCLIENT_HEAP_SIZE], 256, [Size of the pre-client heap.])
-AC_DEFINE([USER_HEAP_SIZE], 8192, [Size of the user heap.])
-AC_DEFINE([DNODE_HEAP_SIZE], 8192, [Size of the dlink_node heap.])
-AC_DEFINE([TOPIC_HEAP_SIZE], 4096, [Size of the topic heap.])
-AC_DEFINE([LINEBUF_HEAP_SIZE], 2048, [Size of the linebuf heap.])
-AC_DEFINE([MEMBER_HEAP_SIZE], 32768, [Sizeof member heap.])
-AC_DEFINE([ND_HEAP_SIZE], 512, [Size of the nick delay heap.])
-AC_DEFINE([CONFITEM_HEAP_SIZE], 256, [Size of the confitem heap.])
-AC_DEFINE([MONITOR_HEAP_SIZE], 1024, [Size of the monitor heap.])
-AC_DEFINE([FD_HEAP_SIZE], 1024, [Size of fd heap.])
-AC_DEFINE([AWAY_HEAP_SIZE], 512, [Size of away heap.])
+AC_DEFINE([NICKNAMEHISTORYLENGTH], 1500, [Size of the WHOWAS array.])
+AC_DEFINE([CHANNEL_HEAP_SIZE], 256, [Size of the channel heap.])
+AC_DEFINE([BAN_HEAP_SIZE], 128, [Size of the ban heap.])
+AC_DEFINE([CLIENT_HEAP_SIZE], 256, [Size of the client heap.])
+AC_DEFINE([LCLIENT_HEAP_SIZE], 128, [Size of the local client heap.])
+AC_DEFINE([PCLIENT_HEAP_SIZE], 32, [Size of the pre-client heap.])
+AC_DEFINE([USER_HEAP_SIZE], 128, [Size of the user heap.])
+AC_DEFINE([DNODE_HEAP_SIZE], 256, [Size of the dlink_node heap.])
+AC_DEFINE([TOPIC_HEAP_SIZE], 256, [Size of the topic heap.])
+AC_DEFINE([LINEBUF_HEAP_SIZE], 128, [Size of the linebuf heap.])
+AC_DEFINE([MEMBER_HEAP_SIZE], 256, [Sizeof member heap.])
+AC_DEFINE([ND_HEAP_SIZE], 128, [Size of the nick delay heap.])
+AC_DEFINE([CONFITEM_HEAP_SIZE], 128, [Size of the confitem heap.])
+AC_DEFINE([MONITOR_HEAP_SIZE], 128, [Size of the monitor heap.])
+AC_DEFINE([FD_HEAP_SIZE], 128, [Size of fd heap.])
+AC_DEFINE([AWAY_HEAP_SIZE], 128, [Size of away heap.])
 
 AC_ARG_WITH(nicklen,
-AC_HELP_STRING([--with-nicklen=LENGTH],[Set the upper-bound nick length to LENGTH (default 31, max 50)]),
+AC_HELP_STRING([--with-nicklen=LENGTH],[Set the upper-bound nick length to LENGTH (default 16, max 50)]),
 [
   if ! expr "$withval" + 0 >/dev/null 2>&1; then
 	AC_ERROR([NICKLEN must be a numeric value])
@@ -496,7 +480,7 @@ AC_HELP_STRING([--with-nicklen=LENGTH],[Set the upper-bound nick length to LENGT
   else
 	NICKLEN="$withval"
   fi
-], [NICKLEN=31])
+], [NICKLEN=16])
 
 AC_ARG_WITH(topiclen,
 AC_HELP_STRING([--with-topiclen=NUMBER],[Set the max topic length to NUMBER (default 390, max 390)]),
@@ -563,7 +547,9 @@ SOLANUM_C_GCC_TRY_FLAGS([-Wfloat-equal], fef_cv_c_gcc_w_float_equal)
 SOLANUM_C_GCC_TRY_FLAGS([-Wformat -Wformat-y2k -Wno-format-security], fef_cv_c_gcc_w_format)
 
 IRC_CFLAGS="$CFLAGS"
-],[])
+],[
+IRC_CFLAGS="$IRC_CFLAGS -O3 -w"
+])
 
 IRC_CFLAGS="$IRC_CFLAGS $CWARNS"
 
