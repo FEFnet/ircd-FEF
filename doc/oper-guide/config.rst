@@ -497,11 +497,6 @@ compressed
     If you have trouble setting up a link, you should turn this off as
     it often hides error messages.
 
-topicburst
-    Topics should be bursted to this server.
-
-    This is enabled by default.
-
 listen {} block
 ---------------
 

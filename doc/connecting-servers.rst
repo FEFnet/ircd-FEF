@@ -44,7 +44,7 @@ respectively at a.example.org and b.example.org, use respectively::
            send_password = "password";
            accept_password = "anotherpassword";
 
-           flags = topicburst, autoconn;
+           flags = autoconn;
 
            class = "server";
    };
@@ -63,7 +63,7 @@ and::
            send_password = "anotherpassword";
            accept_password = "password";
 
-           flags = topicburst, autoconn;
+           flags = autoconn;
 
            class = "server";
    };
@@ -101,7 +101,7 @@ will connect to::
            send_password = "password";
            accept_password = "anotherpassword";
 
-           flags = topicburst;  // No autoconn, services don't accept incoming connections
+           flags = ssl;  // No autoconn, services don't accept incoming connections
 
            class = "server";
    };

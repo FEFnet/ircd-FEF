@@ -314,7 +314,7 @@ connect "irc.uplink.com" {
 	accept_password = "anotherpassword";
 	port = 6666;
 	class = "server";
-	flags = topicburst;
+	flags = autoconn;
 
 	#fingerprint = "c77106576abf7f9f90cca0f63874a60f2e40a64b";
 };
@@ -325,7 +325,7 @@ connect "ssl.uplink.com" {
 	accept_password = "anotherpassword";
 	port = 9999;
 	class = "server";
-	flags = ssl, topicburst;
+	flags = ssl;
 };
 
 service {

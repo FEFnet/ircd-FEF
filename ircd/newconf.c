@@ -363,7 +363,6 @@ static struct mode_table connect_table[] = {
 	{ "autoconn",	SERVER_AUTOCONN		},
 	{ "compressed",	0			},
 	{ "encrypted",	SERVER_ENCRYPTED	},
-	{ "topicburst",	SERVER_TB		},
 	{ "sctp",	SERVER_SCTP		},
 	{ "ssl",	SERVER_SSL		},
 	{ "no-export",	SERVER_NO_EXPORT	},
@@ -1253,7 +1252,6 @@ conf_begin_connect(struct TopConf *tc)
 
 	yy_server = make_server_conf();
 	yy_server->port = PORTNUM;
-	yy_server->flags |= SERVER_TB;
 
 	if(conf_cur_block_name != NULL)
 		yy_server->name = rb_strdup(conf_cur_block_name);

@@ -443,10 +443,6 @@ check_server(const char *name, struct Client *client_p)
 	}
 	attach_server_conf(client_p, server_p);
 
-	/* clear TB if they support but we dont want it */
-	if(!ServerConfTb(server_p))
-		ClearCap(client_p, CAP_TB);
-
 	return 0;
 }
 
@@ -799,8 +795,7 @@ server_estab(struct Client *client_p)
 			   EmptyString(server_p->spasswd) ? "*" : server_p->spasswd, TS_CURRENT, me.id);
 
 		/* pass info to new server */
-		send_capabilities(client_p, default_server_capabs | CAP_MASK
-				  | (ServerConfTb(server_p) ? CAP_TB : 0));
+		send_capabilities(client_p, default_server_capabs | CAP_MASK | CAP_TB);
 
 		sendto_one(client_p, "SERVER %s 1 :%s%s",
 			   me.name,
@@ -1315,8 +1310,7 @@ serv_connect_callback(rb_fde_t *F, int status, void *data)
 		   EmptyString(server_p->spasswd) ? "*" : server_p->spasswd, TS_CURRENT, me.id);
 
 	/* pass my info to the new server */
-	send_capabilities(client_p, default_server_capabs | CAP_MASK
-			  | (ServerConfTb(server_p) ? CAP_TB : 0));
+	send_capabilities(client_p, default_server_capabs | CAP_MASK | CAP_TB);
 
 	sendto_one(client_p, "SERVER %s 1 :%s%s",
 		   me.name,
