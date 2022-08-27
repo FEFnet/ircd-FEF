@@ -221,7 +221,6 @@ struct config_file_entry
 	int default_ident_timeout;
 	int ping_cookie;
 	int tkline_expire_notices;
-	int use_whois_actually;
 	int disable_auth;
 	int post_registration_delay;
 	int connect_timeout;

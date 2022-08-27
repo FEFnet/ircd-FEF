@@ -356,7 +356,7 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 					   show_ip(source_p, target_p) ? target_p->sockhost : "255.255.255.255");
 			SetDynSpoof(target_p);
 		}
-		else if(ConfigFileEntry.use_whois_actually && show_ip(source_p, target_p))
+		else if(show_ip(source_p, target_p))
 			sendto_one_numeric(source_p, RPL_WHOISACTUALLY,
 					   form_str(RPL_WHOISACTUALLY),
 					   target_p->name, target_p->sockhost);
@@ -389,7 +389,7 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 					   show_ip(source_p, target_p) && !EmptyString(target_p->sockhost) && strcmp(target_p->sockhost, "0")? target_p->sockhost : "255.255.255.255");
 			SetDynSpoof(target_p);
 		}
-		else if(ConfigFileEntry.use_whois_actually && show_ip(source_p, target_p) &&
+		else if(show_ip(source_p, target_p) &&
 		   !EmptyString(target_p->sockhost) && strcmp(target_p->sockhost, "0"))
 		{
 			sendto_one_numeric(source_p, RPL_WHOISACTUALLY,

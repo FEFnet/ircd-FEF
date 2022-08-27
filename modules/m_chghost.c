@@ -87,7 +87,7 @@ clean_host(const char *host)
  * parv[1] = real host
  *
  * Yes this contains a little race condition if someone does a whois
- * in between the UID and REALHOST and use_whois_actually is enabled.
+ * in between the UID and REALHOST.
  * I don't think that's a big problem as the whole thing is a
  * race condition.
  */
