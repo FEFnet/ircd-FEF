@@ -614,7 +614,7 @@ burst_TS6(struct Client *client_p)
 						use_id(target_p), target_p->user->suser);
 		}
 
-		if(ConfigFileEntry.burst_away && !EmptyString(target_p->user->away))
+		if(!EmptyString(target_p->user->away))
 			sendto_one(client_p, ":%s AWAY :%s",
 				   use_id(target_p),
 				   target_p->user->away);

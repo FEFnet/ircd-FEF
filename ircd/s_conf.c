@@ -772,7 +772,6 @@ set_default_conf(void)
 	ConfigFileEntry.hide_error_messages = 1;
 	ConfigFileEntry.dots_in_ident = 0;
 	ConfigFileEntry.max_targets = MAX_TARGETS_DEFAULT;
-	ConfigFileEntry.burst_away = false;
 	ConfigFileEntry.collision_fnc = true;
 	ConfigFileEntry.resv_fnc = true;
 	ConfigFileEntry.global_snotices = true;

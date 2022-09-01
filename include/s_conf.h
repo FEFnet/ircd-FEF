@@ -224,7 +224,6 @@ struct config_file_entry
 	int disable_auth;
 	int post_registration_delay;
 	int connect_timeout;
-	int burst_away;
 	int reject_ban_time;
 	int reject_after_count;
 	int reject_duration;
