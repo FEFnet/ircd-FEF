@@ -382,11 +382,6 @@ static struct InfoStruct info_table[] = {
 		INFO_STRING(&ServerInfo.network_name),
 	},
 	{
-		"no_oper_flood",
-		"Disable flood control for operators",
-		INFO_INTBOOL(&ConfigFileEntry.no_oper_flood),
-	},
-	{
 		"non_redundant_klines",
 		"Check for and disallow redundant K-lines",
 		INFO_INTBOOL(&ConfigFileEntry.non_redundant_klines),

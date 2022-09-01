@@ -612,7 +612,6 @@ general {
 	connect_timeout = 30 seconds;
 	default_ident_timeout = 5;
 	disable_auth = no;
-	no_oper_flood = yes;
 	max_targets = 4;
 	client_flood_max_lines = 20;
 	post_registration_delay = 0 seconds;

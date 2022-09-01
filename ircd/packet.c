@@ -109,7 +109,7 @@ parse_client_queued(struct Client *client_p)
 		/* allow opers 4 times the amount of messages as users. why 4?
 		 * why not. :) --fl_
 		 */
-		if(IsOperGeneral(client_p) && ConfigFileEntry.no_oper_flood)
+		if(IsOperGeneral(client_p))
 			allow_read *= 4;
 		/*
 		 * Handle flood protection here - if we exceed our flood limit on
@@ -292,14 +292,11 @@ read_packet(rb_fde_t * F, void *data)
 			return;
 
 		/* Check to make sure we're not flooding */
-		if(!IsAnyServer(client_p) &&
+		if(!IsAnyServer(client_p) && !IsOperGeneral(client_p) &&
 		   (rb_linebuf_alloclen(&client_p->localClient->buf_recvq) > ConfigFileEntry.client_flood_max_lines))
 		{
-			if(!(ConfigFileEntry.no_oper_flood && IsOperGeneral(client_p)))
-			{
-				exit_client(client_p, client_p, client_p, "Excess Flood");
-				return;
-			}
+			exit_client(client_p, client_p, client_p, "Excess Flood");
+			return;
 		}
 
 		/* bail if short read, but not for SCTP as it returns data in packets */
