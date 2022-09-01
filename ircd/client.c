@@ -1209,29 +1209,13 @@ recurse_remove_clients(struct Client *source_p, const char *comment)
 	if(source_p->serv == NULL)	/* oooops. uh this is actually a major bug */
 		return;
 
-	/* this is very ugly, but it saves cpu :P */
-	if(ConfigFileEntry.nick_delay > 0)
+	RB_DLINK_FOREACH_SAFE(ptr, ptr_next, source_p->serv->users.head)
 	{
-		RB_DLINK_FOREACH_SAFE(ptr, ptr_next, source_p->serv->users.head)
-		{
-			target_p = ptr->data;
-			target_p->flags |= FLAGS_KILLED;
-			add_nd_entry(target_p->name);
+		target_p = ptr->data;
+		target_p->flags |= FLAGS_KILLED;
 
 			if(!IsDead(target_p) && !IsClosing(target_p))
-				exit_remote_client(NULL, target_p, &me, comment);
-		}
-	}
-	else
-	{
-		RB_DLINK_FOREACH_SAFE(ptr, ptr_next, source_p->serv->users.head)
-		{
-			target_p = ptr->data;
-			target_p->flags |= FLAGS_KILLED;
-
-			if(!IsDead(target_p) && !IsClosing(target_p))
-				exit_remote_client(NULL, target_p, &me, comment);
-		}
+			exit_remote_client(NULL, target_p, &me, comment);
 	}
 
 	RB_DLINK_FOREACH_SAFE(ptr, ptr_next, source_p->serv->servers.head)

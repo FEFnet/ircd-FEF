@@ -619,7 +619,6 @@ general {
 	oper_only_umodes = operwall, locops, servnotice;
 	oper_umodes = locops, servnotice, operwall, wallop;
 	oper_snomask = "+s";
-	nick_delay = 0 seconds; # 15 minutes if you want to enable this
 	reject_ban_time = 1 minute;
 	reject_after_count = 3;
 	reject_duration = 5 minutes;

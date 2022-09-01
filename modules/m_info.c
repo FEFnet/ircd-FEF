@@ -382,11 +382,6 @@ static struct InfoStruct info_table[] = {
 		INFO_STRING(&ServerInfo.network_name),
 	},
 	{
-		"nick_delay",
-		"Delay nicks are locked for on split",
-		INFO_DECIMAL(&ConfigFileEntry.nick_delay),
-	},
-	{
 		"no_oper_flood",
 		"Disable flood control for operators",
 		INFO_INTBOOL(&ConfigFileEntry.no_oper_flood),

@@ -823,7 +823,9 @@ add_nd_entry(const char *name)
 	nd = rb_bh_alloc(nd_heap);
 
 	rb_strlcpy(nd->name, name, sizeof(nd->name));
-	nd->expire = rb_current_time() + ConfigFileEntry.nick_delay;
+	/* Pad expire time so that the entry doesn't expire before services can
+	 * update the duration! */
+	nd->expire = rb_current_time() + 900;
 
 	/* this list is ordered */
 	rb_dlinkAddTail(nd, &nd->lnode, &nd_list);
