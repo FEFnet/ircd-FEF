@@ -10,7 +10,6 @@ authd_SOURCES =	\
 	res.c \
 	reslib.c \
 	providers/dnsbl.c \
-	providers/ident.c \
 	providers/rdns.c \
 	providers/opm.c
 

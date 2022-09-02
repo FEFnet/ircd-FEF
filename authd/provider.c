@@ -92,13 +92,12 @@ init_providers(void)
 	auth_clients = rb_dictionary_create("pending auth clients", rb_uint32cmp);
 	timeout_ev = rb_event_addish("provider_timeout_event", provider_timeout_event, NULL, 1);
 
-	/* FIXME must be started before rdns/ident to receive completion notification from them */
+	/* FIXME must be started before rdns to receive completion notification from it */
 	load_provider(&dnsbl_provider);
 	load_provider(&opm_provider);
 
 	/* FIXME must be started after dnsbl/opm in case of early completion notifications */
 	load_provider(&rdns_provider);
-	load_provider(&ident_provider);
 }
 
 /* Terminate all providers */
@@ -273,9 +272,9 @@ reject_client(struct auth_client *auth, uint32_t id, const char *data, const cha
 	 * In the future this may not be the case.
 	 * --Elizafox
 	 */
-	rb_helper_write(authd_helper, "R %x %c %s %s %s :%s",
+	rb_helper_write(authd_helper, "R %x %c * %s %s :%s",
 		auth->cid, id != UINT32_MAX ? auth->data[id].provider->letter : '*',
-		auth->username, auth->hostname,
+		auth->hostname,
 		data == NULL ? "*" : data, buf);
 
 	if(id != UINT32_MAX)
@@ -288,7 +287,7 @@ reject_client(struct auth_client *auth, uint32_t id, const char *data, const cha
 void
 accept_client(struct auth_client *auth)
 {
-	rb_helper_write(authd_helper, "A %x %s %s", auth->cid, auth->username, auth->hostname);
+	rb_helper_write(authd_helper, "A %x * %s", auth->cid, auth->hostname);
 	cancel_providers(auth);
 }
 
@@ -328,7 +327,6 @@ start_auth(const char *cid, const char *l_ip, const char *l_port, const char *c_
 	SET_SS_PORT(&auth->c_addr, htons(auth->c_port));
 
 	rb_strlcpy(auth->hostname, "*", sizeof(auth->hostname));
-	rb_strlcpy(auth->username, "*", sizeof(auth->username));
 
 	auth->data = rb_malloc(allocated_pids * sizeof(struct auth_client_data));
 

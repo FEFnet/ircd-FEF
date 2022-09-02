@@ -316,11 +316,8 @@ void
 configure_authd(void)
 {
 	/* Timeouts */
-	set_authd_timeout("ident_timeout", GlobalSetOptions.ident_timeout);
 	set_authd_timeout("rdns_timeout", ConfigFileEntry.connect_timeout);
 	set_authd_timeout("rbl_timeout", ConfigFileEntry.connect_timeout);
-
-	ident_check_enable(!ConfigFileEntry.disable_auth);
 
 	/* Configure OPM */
 	if(rb_dlink_list_length(&opm_list) > 0 &&
@@ -507,15 +504,6 @@ authd_decide_client(struct Client *client_p, const char *ident, const char *host
 	if(client_p->preClient == NULL || client_p->preClient->auth.cid == 0)
 		return;
 
-	if(*ident != '*')
-	{
-		rb_strlcpy(client_p->username, ident, sizeof(client_p->username));
-		SetGotId(client_p);
-		ServerStats.is_asuc++;
-	}
-	else
-		ServerStats.is_abad++; /* s_auth used to do this, stay compatible */
-
 	if(*host != '*')
 		rb_strlcpy(client_p->host, host, sizeof(client_p->host));
 
@@ -662,13 +650,6 @@ set_authd_timeout(const char *key, int timeout)
 
 	rb_helper_write(authd_helper, "O %s %d", key, timeout);
 	return true;
-}
-
-/* Enable identd checks */
-void
-ident_check_enable(bool enabled)
-{
-	rb_helper_write(authd_helper, "O ident_enabled %d", enabled ? 1 : 0);
 }
 
 /* Create an OPM listener

@@ -180,7 +180,7 @@ mo_testline(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *sou
 	if (username != NULL)
 	{
 		rb_strlcpy(user_trunc, username, sizeof user_trunc);
-		rb_strlcpy(notildeuser_trunc, *username == '~' ? username + 1 : username, sizeof notildeuser_trunc);
+		rb_strlcpy(notildeuser_trunc, username, sizeof notildeuser_trunc);
 	}
 	else
 	{

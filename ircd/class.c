@@ -190,7 +190,6 @@ add_class(struct Class *classptr)
 		MaxUsers(tmpptr) = MaxUsers(classptr);
 		MaxLocal(tmpptr) = MaxLocal(classptr);
 		MaxGlobal(tmpptr) = MaxGlobal(classptr);
-		MaxIdent(tmpptr) = MaxIdent(classptr);
 		PingFreq(tmpptr) = PingFreq(classptr);
 		MaxSendq(tmpptr) = MaxSendq(classptr);
 		ConFreq(tmpptr) = ConFreq(classptr);
@@ -293,8 +292,8 @@ report_classes(struct Client *source_p)
 				ClassName(cltmp), PingFreq(cltmp),
 				ConFreq(cltmp), MaxUsers(cltmp),
 				MaxSendq(cltmp),
-				MaxLocal(cltmp), MaxIdent(cltmp),
-				MaxGlobal(cltmp), MaxIdent(cltmp),
+				MaxLocal(cltmp), 0,
+				MaxGlobal(cltmp), 0,
 				CurrUsers(cltmp));
 	}
 
@@ -303,8 +302,8 @@ report_classes(struct Client *source_p)
 			ClassName(default_class), PingFreq(default_class),
 			ConFreq(default_class), MaxUsers(default_class),
 			MaxSendq(default_class),
-			MaxLocal(default_class), MaxIdent(default_class),
-			MaxGlobal(default_class), MaxIdent(default_class),
+			MaxLocal(default_class), 0,
+			MaxGlobal(default_class), 0,
 			CurrUsers(default_class));
 }
 

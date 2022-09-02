@@ -81,7 +81,6 @@ void del_dnsbl_entry(const char *host);
 void del_dnsbl_entry_all(void);
 
 bool set_authd_timeout(const char *key, int timeout);
-void ident_check_enable(bool enabled);
 
 void conf_create_opm_listener(const char *ip, uint16_t port);
 void create_opm_listener(const char *ip, uint16_t port);

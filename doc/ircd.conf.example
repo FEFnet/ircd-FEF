@@ -117,7 +117,6 @@ log {
  */
 class "users" {
 	ping_time = 2 minutes;
-	number_per_ident = 10;
 	number_per_ip = 10;
 	number_per_ip_global = 50;
 	cidr_ipv4_bitlen = 24;
@@ -211,8 +210,6 @@ auth {
 	 * resv_exempt                | exempt this user from resvs
 	 * flood_exempt               | exempt this user from flood limits
 	 *                              USE WITH CAUTION.
-	 * no_tilde     (old - flag)  | don't prefix ~ to username if no ident
-	 * need_ident   (old + flag)  | require ident for user in this class
 	 * need_ssl                   | require SSL/TLS for user in this class
 	 * need_sasl                  | require SASL id for user in this class
 	 */
@@ -560,7 +557,6 @@ general {
 	tkline_expire_notices = no;
 	default_floodcount = 10;
 	failed_oper_notice = yes;
-	dots_in_ident = 2;
 	min_nonwildcard = 4;
 	min_nonwildcard_simple = 3;
 	max_accept = 100;
@@ -580,7 +576,6 @@ general {
 	hide_tkdline_duration = no;
 	kline_reason = "K-Lined";
 	sasl_only_client_message = "You need to identify via SASL to use this server.";
-	identd_only_client_message = "You need to install identd to use this server.";
 	sctp_forbidden_client_message = "You are not allowed to use SCTP on this server.";
 	ssltls_only_client_message = "You need to use SSL/TLS to use this server.";
 	not_authorised_client_message = "You are not authorised to access this server.";
@@ -610,8 +605,6 @@ general {
 	short_motd = no;
 	ping_cookie = no;
 	connect_timeout = 30 seconds;
-	default_ident_timeout = 5;
-	disable_auth = no;
 	max_targets = 4;
 	client_flood_max_lines = 20;
 	post_registration_delay = 0 seconds;

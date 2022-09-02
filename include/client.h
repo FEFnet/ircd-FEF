@@ -397,7 +397,6 @@ struct ListClient
 #define FLAGS_CLICAP		0x00000010	/* In CAP negotiation, wait for CAP END */
 #define FLAGS_CLOSING		0x00000020	/* set when closing to suppress errors */
 #define FLAGS_PING_COOKIE	0x00000040	/* has sent ping cookie */
-#define FLAGS_GOTID		0x00000080	/* successful ident lookup achieved */
 #define FLAGS_FLOODDONE		0x00000100	/* flood grace period over / reported */
 #define FLAGS_NORMALEX		0x00000200	/* Client exited normally */
 #define FLAGS_MARK		0x00000400	/* marked client */
@@ -526,10 +525,6 @@ struct ListClient
 #define IsService(x)            ((x)->umodes & UMODE_SERVICE)
 #define IsDeaf(x)               ((x)->umodes & UMODE_DEAF)
 #define IsNoForward(x)          ((x)->umodes & UMODE_NOFORWARD)
-
-#define SetGotId(x)             ((x)->flags |= FLAGS_GOTID)
-#define ClearGotId(x)           ((x)->flags &= ~FLAGS_GOTID)
-#define IsGotId(x)              (((x)->flags & FLAGS_GOTID) != 0)
 
 #define IsExemptKline(x)        ((x)->flags & FLAGS_EXEMPTKLINE)
 #define SetExemptKline(x)       ((x)->flags |= FLAGS_EXEMPTKLINE)

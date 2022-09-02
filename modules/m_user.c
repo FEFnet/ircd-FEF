@@ -95,9 +95,6 @@ do_local_user(struct Client *client_p, struct Client *source_p,
 
 	rb_strlcpy(source_p->info, realname, sizeof(source_p->info));
 
-	if(!IsGotId(source_p))
-		rb_strlcpy(source_p->username, username, sizeof(source_p->username));
-
 	if(source_p->name[0])
 	{
 		/* NICK already received, now I have USER... */

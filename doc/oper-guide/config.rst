@@ -124,7 +124,6 @@ class {} block
 
     class "name" {
             ping_time = duration;
-            number_per_ident = number;
             number_per_ip = number;
             number_per_ip_global = number;
             cidr_ipv4_bitlen = number;

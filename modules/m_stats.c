@@ -1039,9 +1039,6 @@ stats_tstats (struct Client *source_p)
 	sendto_one_numeric(source_p, RPL_STATSDEBUG,
 			   "T :ratelimit blocked commands %u", sp.is_rl);
 	sendto_one_numeric(source_p, RPL_STATSDEBUG,
-			   "T :auth successes %u fails %u",
-			   sp.is_asuc, sp.is_abad);
-	sendto_one_numeric(source_p, RPL_STATSDEBUG,
 			   "T :sasl successes %u fails %u",
 			   sp.is_ssuc, sp.is_sbad);
 	sendto_one_numeric(source_p, RPL_STATSDEBUG, "T :Client Server");

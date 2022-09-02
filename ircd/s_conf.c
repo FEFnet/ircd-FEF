@@ -201,13 +201,13 @@ check_client(struct Client *client_p, struct Client *source_p, const char *usern
 		 * see the IP, we still cannot send it.
 		 */
 		sendto_realops_snomask(SNO_FULL, L_NETWIDE,
-				"Too many local connections for %s[%s%s@%s] [%s]",
-				source_p->name, IsGotId(source_p) ? "" : "~",
+				"Too many local connections for %s[%s@%s] [%s]",
+				source_p->name,
 				source_p->username, source_p->host,
 				show_ip(NULL, source_p) && !IsIPSpoof(source_p) ? source_p->sockhost : "0");
 
-		ilog(L_FUSER, "Too many local connections from %s!%s%s@%s",
-			source_p->name, IsGotId(source_p) ? "" : "~",
+		ilog(L_FUSER, "Too many local connections from %s!%s@%s",
+			source_p->name,
 			source_p->username, source_p->sockhost);
 
 		ServerStats.is_ref++;
@@ -216,41 +216,27 @@ check_client(struct Client *client_p, struct Client *source_p, const char *usern
 
 	case TOO_MANY_GLOBAL:
 		sendto_realops_snomask(SNO_FULL, L_NETWIDE,
-				"Too many global connections for %s[%s%s@%s] [%s]",
-				source_p->name, IsGotId(source_p) ? "" : "~",
+				"Too many global connections for %s[%s@%s] [%s]",
+				source_p->name,
 				source_p->username, source_p->host,
 				show_ip(NULL, source_p) && !IsIPSpoof(source_p) ? source_p->sockhost : "0");
-		ilog(L_FUSER, "Too many global connections from %s!%s%s@%s",
-			source_p->name, IsGotId(source_p) ? "" : "~",
+		ilog(L_FUSER, "Too many global connections from %s!%s@%s",
+			source_p->name,
 			source_p->username, source_p->sockhost);
 
 		ServerStats.is_ref++;
 		exit_client(client_p, source_p, &me, "Too many host connections (global)");
 		break;
 
-	case TOO_MANY_IDENT:
-		sendto_realops_snomask(SNO_FULL, L_NETWIDE,
-				"Too many user connections for %s[%s%s@%s] [%s]",
-				source_p->name, IsGotId(source_p) ? "" : "~",
-				source_p->username, source_p->host,
-				show_ip(NULL, source_p) && !IsIPSpoof(source_p) ? source_p->sockhost : "0");
-		ilog(L_FUSER, "Too many user connections from %s!%s%s@%s",
-			source_p->name, IsGotId(source_p) ? "" : "~",
-			source_p->username, source_p->sockhost);
-
-		ServerStats.is_ref++;
-		exit_client(client_p, source_p, &me, "Too many user connections (global)");
-		break;
-
 	case I_LINE_FULL:
 		sendto_realops_snomask(SNO_FULL, L_NETWIDE,
-				"I-line is full for %s[%s%s@%s] [%s]",
-				source_p->name, IsGotId(source_p) ? "" : "~",
+				"I-line is full for %s[%s@%s] [%s]",
+				source_p->name,
 				source_p->username, source_p->host,
 				show_ip(NULL, source_p) && !IsIPSpoof(source_p) ? source_p->sockhost : "0");
 
-		ilog(L_FUSER, "Too many connections from %s!%s%s@%s.",
-			source_p->name, IsGotId(source_p) ? "" : "~",
+		ilog(L_FUSER, "Too many connections from %s!%s@%s.",
+			source_p->name,
 			source_p->username, source_p->sockhost);
 
 		ServerStats.is_ref++;
@@ -273,15 +259,15 @@ check_client(struct Client *client_p, struct Client *source_p, const char *usern
 #endif
 			sendto_realops_snomask(SNO_UNAUTH, L_NETWIDE,
 					"Unauthorised client connection from "
-					"%s!%s%s@%s [%s] on [%s/%u].",
-					source_p->name, IsGotId(source_p) ? "" : "~",
+					"%s!%s%s@%s [%s] on [/%u].",
+					source_p->name,
 					source_p->username, source_p->host,
 					source_p->sockhost,
 					source_p->localClient->listener->name, port);
 
 			ilog(L_FUSER,
-				"Unauthorised client connection from %s!%s%s@%s on [%s/%u].",
-				source_p->name, IsGotId(source_p) ? "" : "~",
+				"Unauthorised client connection from %s!%s@%s on [%s/%u].",
+				source_p->name,
 				source_p->username, source_p->sockhost,
 				source_p->localClient->listener->name, port);
 			add_reject(client_p, NULL, NULL, NULL, "You are not authorised to use this server.");
@@ -386,26 +372,12 @@ static struct ConfItem *
 find_address_conf_by_client(struct Client *client_p, const char *username)
 {
 	struct ConfItem *aconf;
-	char non_ident[USERLEN + 1];
 
-	if(IsGotId(client_p))
-	{
-		aconf = find_address_conf(client_p->host, client_p->sockhost,
-					client_p->username, client_p->username,
-					(struct sockaddr *) &client_p->localClient->ip,
-					GET_SS_FAMILY(&client_p->localClient->ip),
-					client_p->localClient->auth_user);
-	}
-	else
-	{
-		rb_strlcpy(non_ident, "~", sizeof(non_ident));
-		rb_strlcat(non_ident, username, sizeof(non_ident));
-		aconf = find_address_conf(client_p->host, client_p->sockhost,
-					non_ident, client_p->username,
-					(struct sockaddr *) &client_p->localClient->ip,
-					GET_SS_FAMILY(&client_p->localClient->ip),
-					client_p->localClient->auth_user);
-	}
+	aconf = find_address_conf(client_p->host, client_p->sockhost,
+				client_p->username, client_p->username,
+				(struct sockaddr *) &client_p->localClient->ip,
+				GET_SS_FAMILY(&client_p->localClient->ip),
+				client_p->localClient->auth_user);
 	return aconf;
 }
 
@@ -497,13 +469,9 @@ attach_iline(struct Client *client_p, struct ConfItem *aconf)
 	int local_count = 0;
 	int global_count = 0;
 	int ident_count = 0;
-	int unidented;
 
 	if(IsConfExemptLimits(aconf))
 		return (attach_conf(client_p, aconf));
-
-	unidented = !IsGotId(client_p) && !IsNoTilde(aconf) &&
-		(!IsConfDoSpoofIp(aconf) || !strchr(aconf->info.name, '@'));
 
 	/* find_hostname() returns the head of the list to search */
 	RB_DLINK_FOREACH(ptr, find_hostname(client_p->host))
@@ -518,22 +486,11 @@ attach_iline(struct Client *client_p, struct ConfItem *aconf)
 
 		global_count++;
 
-		if(unidented)
-		{
-			if(*target_p->username == '~')
-				ident_count++;
-		}
-		else if(irccmp(target_p->username, client_p->username) == 0)
-			ident_count++;
-
 		if(ConfMaxLocal(aconf) && local_count >= ConfMaxLocal(aconf))
 			return (TOO_MANY_LOCAL);
 		else if(ConfMaxGlobal(aconf) && global_count >= ConfMaxGlobal(aconf))
 			return (TOO_MANY_GLOBAL);
-		else if(ConfMaxIdent(aconf) && ident_count >= ConfMaxIdent(aconf))
-			return (TOO_MANY_IDENT);
 	}
-
 
 	return (attach_conf(client_p, aconf));
 }
@@ -769,7 +726,6 @@ set_default_conf(void)
 	ConfigFileEntry.fname_ioerrorlog = NULL;
 	ConfigFileEntry.hide_spoof_ips = true;
 	ConfigFileEntry.hide_error_messages = 1;
-	ConfigFileEntry.dots_in_ident = 0;
 	ConfigFileEntry.max_targets = MAX_TARGETS_DEFAULT;
 	ConfigFileEntry.collision_fnc = true;
 	ConfigFileEntry.resv_fnc = true;
@@ -821,7 +777,6 @@ set_default_conf(void)
 	ConfigFileEntry.min_nonwildcard = 4;
 	ConfigFileEntry.min_nonwildcard_simple = 3;
 	ConfigFileEntry.default_floodcount = 8;
-	ConfigFileEntry.default_ident_timeout = IDENT_TIMEOUT_DEFAULT;
 	ConfigFileEntry.tkline_expire_notices = 0;
 
         ConfigFileEntry.reject_after_count = 5;
@@ -871,9 +826,6 @@ read_conf(void)
 static void
 validate_conf(void)
 {
-	if(ConfigFileEntry.default_ident_timeout < 1)
-		ConfigFileEntry.default_ident_timeout = IDENT_TIMEOUT_DEFAULT;
-
 	if(ConfigFileEntry.ts_warn_delta < TS_WARN_DELTA_MIN)
 		ConfigFileEntry.ts_warn_delta = TS_WARN_DELTA_DEFAULT;
 
@@ -1556,8 +1508,6 @@ clear_out_old_conf(void)
 	ConfigFileEntry.drain_reason = NULL;
 	rb_free(ConfigFileEntry.sasl_only_client_message);
 	ConfigFileEntry.sasl_only_client_message = NULL;
-	rb_free(ConfigFileEntry.identd_only_client_message);
-	ConfigFileEntry.identd_only_client_message = NULL;
 	rb_free(ConfigFileEntry.sctp_forbidden_client_message);
 	ConfigFileEntry.sctp_forbidden_client_message = NULL;
 	rb_free(ConfigFileEntry.ssltls_only_client_message);

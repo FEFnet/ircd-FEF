@@ -57,7 +57,6 @@ struct auth_client
 	struct rb_sockaddr_storage c_addr;	/* Client address/port */
 
 	char hostname[HOSTLEN + 1];		/* Used for DNS lookup */
-	char username[USERLEN + 1];		/* Used for ident lookup */
 
 	bool providers_starting;		/* Providers are still warming up */
 	bool providers_cancelled;		/* Providers are being cancelled */
@@ -104,7 +103,6 @@ struct auth_provider
 };
 
 extern struct auth_provider rdns_provider;
-extern struct auth_provider ident_provider;
 extern struct auth_provider dnsbl_provider;
 extern struct auth_provider opm_provider;
 

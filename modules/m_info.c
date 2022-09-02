@@ -171,11 +171,6 @@ static struct InfoStruct info_table[] = {
 		INFO_DECIMAL(&ConfigFileEntry.connect_timeout),
 	},
 	{
-		"default_ident_timeout",
-		"Amount of time the server waits for ident responses from clients",
-		INFO_DECIMAL(&ConfigFileEntry.default_ident_timeout),
-	},
-	{
 		"default_floodcount",
 		"Startup value of FLOODCOUNT",
 		INFO_DECIMAL(&ConfigFileEntry.default_floodcount),
@@ -204,11 +199,6 @@ static struct InfoStruct info_table[] = {
 		"sasl_only_client_message",
 		"Message to quit users with if they require SASL authentication.",
 		INFO_STRING(&ConfigFileEntry.sasl_only_client_message),
-	},
-	{
-		"identd_only_client_message",
-		"Message to quit users with if they require Identd.",
-		INFO_STRING(&ConfigFileEntry.identd_only_client_message),
 	},
 	{
 		"sctp_forbidden_client_message",
@@ -246,19 +236,9 @@ static struct InfoStruct info_table[] = {
 		INFO_STRING(&ConfigFileEntry.illegal_name_short_client_message),
 	},
 	{
-		"disable_auth",
-		"Controls whether auth checking is disabled or not",
-		INFO_INTBOOL_YN(&ConfigFileEntry.disable_auth),
-	},
-	{
 		"disable_fake_channels",
 		"Controls whether bold etc are disabled for JOIN",
 		INFO_INTBOOL_YN(&ConfigFileEntry.disable_fake_channels),
-	},
-	{
-		"dots_in_ident",
-		"Number of permissible dots in an ident",
-		INFO_DECIMAL(&ConfigFileEntry.dots_in_ident),
 	},
 	{
 		"failed_oper_notice",

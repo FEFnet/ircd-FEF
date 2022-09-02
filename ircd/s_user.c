@@ -391,7 +391,7 @@ register_local_user(struct Client *client_p, struct Client *source_p)
 	source_p->localClient->firsttime = client_p->localClient->last = rb_current_time();
 
 	/* XXX - fixme. we shouldnt have to build a users buffer twice.. */
-	if(!IsGotId(source_p) && (strchr(source_p->username, '[') != NULL))
+	if(strchr(source_p->username, '[') != NULL)
 	{
 		const char *p;
 		int i = 0;
@@ -479,43 +479,20 @@ register_local_user(struct Client *client_p, struct Client *source_p)
 		return (CLIENT_EXITED);
 	}
 
-	if(!IsGotId(source_p))
+	/* dont replace username if its supposed to be spoofed --fl */
+	if(!IsConfDoSpoofIp(aconf) || !strchr(aconf->info.name, '@'))
 	{
-		const char *p;
+		const char *p = myusername;
 		int i = 0;
 
-		if(IsNeedIdentd(aconf))
+		while (*p && i < USERLEN)
 		{
-
-			const char *identd_only_client_message = ConfigFileEntry.identd_only_client_message;
-
-			if (identd_only_client_message == NULL)
-				identd_only_client_message = "You need to install identd to use this server.";
-
-			ServerStats.is_ref++;
-			sendto_one_notice(source_p, ":*** Notice -- %s", identd_only_client_message);
-
-			exit_client(client_p, source_p, &me, identd_only_client_message);
-			return (CLIENT_EXITED);
+			if(*p != '[')
+				source_p->username[i++] = *p;
+			p++;
 		}
 
-		/* dont replace username if its supposed to be spoofed --fl */
-		if(!IsConfDoSpoofIp(aconf) || !strchr(aconf->info.name, '@'))
-		{
-			p = myusername;
-
-			if(!IsNoTilde(aconf))
-				source_p->username[i++] = '~';
-
-			while (*p && i < USERLEN)
-			{
-				if(*p != '[')
-					source_p->username[i++] = *p;
-				p++;
-			}
-
-			source_p->username[i] = '\0';
-		}
+		source_p->username[i] = '\0';
 	}
 
 	if(IsNeedSasl(aconf) && !*source_p->user->suser)
@@ -934,9 +911,6 @@ valid_username(const char *username)
 	if(username == NULL)
 		return false;
 
-	if('~' == *p)
-		++p;
-
 	/* reject usernames that don't start with an alphanum
 	 * i.e. reject jokers who have '-@somehost' or '.@somehost'
 	 * or "-hi-@somehost", "h-----@somehost" would still be accepted.
@@ -946,15 +920,7 @@ valid_username(const char *username)
 
 	while (*++p)
 	{
-		if((*p == '.') && ConfigFileEntry.dots_in_ident)
-		{
-			dots++;
-			if(dots > ConfigFileEntry.dots_in_ident)
-				return false;
-			if(!IsUserChar(p[1]))
-				return false;
-		}
-		else if(!IsUserChar(*p))
+		if(!IsUserChar(*p))
 			return false;
 	}
 	return true;

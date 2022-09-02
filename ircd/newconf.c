@@ -348,9 +348,6 @@ static struct mode_table auth_table[] = {
 	{"shide_exempt",	CONF_FLAGS_EXEMPTSHIDE		},
 	{"jupe_exempt",		CONF_FLAGS_EXEMPTJUPE		},
 	{"resv_exempt",		CONF_FLAGS_EXEMPTRESV		},
-	{"no_tilde",		CONF_FLAGS_NO_TILDE		},
-	{"need_ident",		CONF_FLAGS_NEED_IDENTD		},
-	{"have_ident",		CONF_FLAGS_NEED_IDENTD		},
 	{"need_ssl", 		CONF_FLAGS_NEED_SSL		},
 	{"need_sasl",		CONF_FLAGS_NEED_SASL		},
 	{"extend_chans",	CONF_FLAGS_EXTEND_CHANS		},
@@ -843,17 +840,10 @@ conf_set_class_number_per_ip(void *data)
 	yy_class->max_local = *(unsigned int *) data;
 }
 
-
 static void
 conf_set_class_number_per_ip_global(void *data)
 {
 	yy_class->max_global = *(unsigned int *) data;
-}
-
-static void
-conf_set_class_number_per_ident(void *data)
-{
-	yy_class->max_ident = *(unsigned int *) data;
 }
 
 static void
@@ -2652,7 +2642,6 @@ static struct ConfEntry conf_class_table[] =
 	{ "number_per_cidr",	CF_INT,  conf_set_class_number_per_cidr,	0, NULL },
 	{ "number_per_ip",	CF_INT,  conf_set_class_number_per_ip,		0, NULL },
 	{ "number_per_ip_global", CF_INT,conf_set_class_number_per_ip_global,	0, NULL },
-	{ "number_per_ident", 	CF_INT,  conf_set_class_number_per_ident,	0, NULL },
 	{ "connectfreq", 	CF_TIME, conf_set_class_connectfreq,		0, NULL },
 	{ "max_number", 	CF_INT,  conf_set_class_max_number,		0, NULL },
 	{ "max_autoconn",	CF_INT,  conf_set_class_max_autoconn,		0, NULL },
@@ -2725,9 +2714,6 @@ static struct ConfEntry conf_general_table[] =
 	{ "post_registration_delay", CF_TIME, NULL, 0, &ConfigFileEntry.post_registration_delay	},
 	{ "connect_timeout",	CF_TIME,  NULL, 0, &ConfigFileEntry.connect_timeout	},
 	{ "default_floodcount", CF_INT,   NULL, 0, &ConfigFileEntry.default_floodcount	},
-	{ "default_ident_timeout",	CF_INT, NULL, 0, &ConfigFileEntry.default_ident_timeout		},
-	{ "disable_auth",	CF_YESNO, NULL, 0, &ConfigFileEntry.disable_auth	},
-	{ "dots_in_ident",	CF_INT,   NULL, 0, &ConfigFileEntry.dots_in_ident	},
 	{ "failed_oper_notice",	CF_YESNO, NULL, 0, &ConfigFileEntry.failed_oper_notice	},
 	{ "global_snotices",	CF_YESNO, NULL, 0, &ConfigFileEntry.global_snotices	},
 	{ "hide_spoof_ips",	CF_YESNO, NULL, 0, &ConfigFileEntry.hide_spoof_ips	},
@@ -2774,7 +2760,6 @@ static struct ConfEntry conf_general_table[] =
 	{ "certfp_method",	CF_STRING, conf_set_general_certfp_method, 0, NULL },
 	{ "drain_reason",	CF_QSTRING, NULL, BUFSIZE, &ConfigFileEntry.drain_reason	},
 	{ "sasl_only_client_message",	CF_QSTRING, NULL, BUFSIZE, &ConfigFileEntry.sasl_only_client_message	},
-	{ "identd_only_client_message",	CF_QSTRING, NULL, BUFSIZE, &ConfigFileEntry.identd_only_client_message	},
 	{ "sctp_forbidden_client_message",	CF_QSTRING, NULL, BUFSIZE, &ConfigFileEntry.sctp_forbidden_client_message	},
 	{ "ssltls_only_client_message",	CF_QSTRING, NULL, BUFSIZE, &ConfigFileEntry.ssltls_only_client_message	},
 	{ "not_authorised_client_message",	CF_QSTRING, NULL, BUFSIZE, &ConfigFileEntry.not_authorised_client_message	},

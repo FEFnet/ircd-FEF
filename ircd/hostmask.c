@@ -393,15 +393,10 @@ find_address_conf(const char *host, const char *sockhost, const char *user,
 		const char *notildeuser, struct sockaddr *ip, int aftype, char *auth_user)
 {
 	struct ConfItem *iconf, *kconf;
-	const char *vuser;
 
 	/* Find the best I-line... If none, return NULL -A1kmm */
 	if(!(iconf = find_conf_by_address(host, sockhost, NULL, ip, CONF_CLIENT, aftype, user, auth_user)))
 		return NULL;
-	/* Find what their visible username will be.
-	 * Note that the username without tilde may contain one char more.
-	 * -- jilles */
-	vuser = IsNoTilde(iconf) ? notildeuser : user;
 
 	/* If they are exempt from K-lines, return the best I-line. -A1kmm */
 	if(IsConfExemptKline(iconf))
@@ -422,7 +417,7 @@ find_address_conf(const char *host, const char *sockhost, const char *user,
 			*p = '@';
 		}
 		else
-			kconf = find_conf_by_address(iconf->info.name, NULL, NULL, NULL, CONF_KILL, aftype, vuser, NULL);
+			kconf = find_conf_by_address(iconf->info.name, NULL, NULL, NULL, CONF_KILL, aftype, user, NULL);
 
 		if(kconf)
 			return kconf;
@@ -438,15 +433,6 @@ find_address_conf(const char *host, const char *sockhost, const char *user,
 	/* If they are K-lined, return the K-line */
 	if(kconf)
 		return kconf;
-
-	/* if no_tilde, check the username without tilde against klines too
-	 * -- jilles */
-	if(user != vuser)
-	{
-		kconf = find_conf_by_address(host, sockhost, NULL, ip, CONF_KILL, aftype, vuser, NULL);
-		if(kconf)
-			return kconf;
-	}
 
 	return iconf;
 }
@@ -694,10 +680,6 @@ show_iline_prefix(struct Client *sptr, struct ConfItem *aconf, char *name)
 	char *prefix_ptr;
 
 	prefix_ptr = prefix_of_host;
-	if(IsNoTilde(aconf))
-		*prefix_ptr++ = '-';
-	if(IsNeedIdentd(aconf))
-		*prefix_ptr++ = '+';
 	if(IsConfDoSpoofIp(aconf))
 		*prefix_ptr++ = '=';
 	if(IsNeedSasl(aconf))

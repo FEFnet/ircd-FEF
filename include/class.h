@@ -37,7 +37,6 @@ struct Class
 	int max_autoconn;
 	int max_local;
 	int max_global;
-	int max_ident;
 	int max_sendq;
 	int con_freq;
 	int ping_freq;
@@ -56,7 +55,6 @@ extern struct Class *default_class;
 #define ConFreq(x)      ((x)->con_freq)
 #define MaxLocal(x)	((x)->max_local)
 #define MaxGlobal(x)	((x)->max_global)
-#define MaxIdent(x)	((x)->max_ident)
 #define MaxUsers(x)	((x)->max_total)
 #define MaxAutoconn(x)	((x)->max_autoconn)
 #define PingFreq(x)     ((x)->ping_freq)
@@ -72,7 +70,6 @@ extern struct Class *default_class;
 #define ConfConFreq(x)   (ClassPtr(x)->con_freq)
 #define ConfMaxLocal(x)  (ClassPtr(x)->max_local)
 #define ConfMaxGlobal(x) (ClassPtr(x)->max_global)
-#define ConfMaxIdent(x)  (ClassPtr(x)->max_ident)
 #define ConfMaxUsers(x)  (ClassPtr(x)->max_total)
 #define ConfPingFreq(x)  (ClassPtr(x)->ping_freq)
 #define ConfMaxSendq(x)  (ClassPtr(x)->max_sendq)

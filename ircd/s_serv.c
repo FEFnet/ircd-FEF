@@ -788,9 +788,6 @@ server_estab(struct Client *client_p)
 		client_p->localClient->passwd = NULL;
 	}
 
-	/* Its got identd , since its a server */
-	SetGotId(client_p);
-
 	if(IsUnknown(client_p))
 	{
 		/* the server may be linking based on certificate fingerprint now. --nenolod */
