@@ -403,18 +403,6 @@ AC_ARG_WITH([rundir],
 AC_SUBST([rundir])
 AC_DEFINE_DIR([PKGRUNDIR], [pkgrundir], [Directory to store pidfile in.])
 
-dnl Installed utility program prefixes (does not affect binaries
-dnl installed into pkglibexecdir)
-AC_MSG_CHECKING([for program prefix])
-AC_ARG_WITH([program-prefix],
-	[AS_HELP_STRING([--with-program-prefix=], [If set, programs installed into PATH will be installed with names prefixed by this prefix.])],
-	[test "x$with_program_prefix" = "xno" && with_program_prefix=],
-	[with_program_prefix=])
-AC_MSG_RESULT(["$with_program_prefix"])
-PROGRAM_PREFIX="$with_program_prefix"
-AC_SUBST([PROGRAM_PREFIX])
-AC_DEFINE_UNQUOTED([PROGRAM_PREFIX], ["$with_program_prefix"], [String with which all programs intended to be in PATH are prefixed.])
-
 dnl Debug-related options
 dnl =====================
 

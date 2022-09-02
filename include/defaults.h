@@ -108,7 +108,7 @@ extern const char *ircd_paths[IRCD_PATH_COUNT];
 #define LOGPATH		LOG_DIR
 #define UHPATH		HELP_DIR "/users"
 #define HPATH		HELP_DIR "/opers"
-#define SPATH		BINPATH "/" PROGRAM_PREFIX "/" BRANDING_NAME	/* ircd executable */
+#define SPATH		BINPATH  "/ircd"				/* ircd executable */
 #define CPATH		ETCPATH "/ircd.conf"				/* ircd.conf file */
 #define MPATH		ETCPATH "/ircd.motd"				/* MOTD file */
 #define LPATH		LOGPATH "/ircd.log"				/* ircd logfile */
