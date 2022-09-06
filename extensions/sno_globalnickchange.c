@@ -27,9 +27,6 @@ DECLARE_MODULE_AV2(globalnickchange, _modinit, NULL, NULL, NULL, gcn_hfnlist, NU
 static int
 _modinit(void)
 {
-	/* show the fact that we are showing user information in /version */
-	opers_see_all_users = true;
-
 	return 0;
 }
 

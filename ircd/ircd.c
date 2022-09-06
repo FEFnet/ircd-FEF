@@ -102,7 +102,6 @@ volatile sig_atomic_t dorehashbans = false;
 volatile sig_atomic_t doremotd = false;
 bool kline_queued = false;
 bool server_state_foreground = false;
-bool opers_see_all_users = false;
 bool ircd_ssl_ok = false;
 bool ircd_zlib_ok = true;
 

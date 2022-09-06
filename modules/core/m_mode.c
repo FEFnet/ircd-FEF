@@ -86,22 +86,8 @@ m_mode(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_p
 	struct membership *msptr;
 	int n = 2;
 	const char *dest;
-	int operspy = 0;
 
 	dest = parv[1];
-
-	if(IsOperSpy(source_p) && *dest == '!')
-	{
-		dest++;
-		operspy = 1;
-
-		if(EmptyString(dest))
-		{
-			sendto_one(source_p, form_str(ERR_NEEDMOREPARAMS),
-				   me.name, source_p->name, "MODE");
-			return;
-		}
-	}
 
 	/* Now, try to find the channel in question */
 	if(!IsChanPrefix(*dest))
@@ -129,12 +115,9 @@ m_mode(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_p
 	/* Now know the channel exists */
 	if(parc < n + 1)
 	{
-		if(operspy)
-			report_operspy(source_p, "MODE", chptr->chname);
-
 		sendto_one(source_p, form_str(RPL_CHANNELMODEIS),
 			   me.name, source_p->name, parv[1],
-			   operspy ? channel_modes(chptr, &me) : channel_modes(chptr, source_p));
+			   IsOper(source_p) ? channel_modes(chptr, &me) : channel_modes(chptr, source_p));
 
 		sendto_one(source_p, form_str(RPL_CREATIONTIME),
 			   me.name, source_p->name, parv[1], (long long)chptr->channelts);

@@ -124,9 +124,7 @@ confopts(void)
 
 	*p++ = 'M';
 	*p++ = 'p';
-
-	if(opers_see_all_users || ConfigFileEntry.operspy_dont_care_user_info)
-		*p++ = 'S';
+	*p++ = 'S';
 
 #ifdef HAVE_LIBZ
 	*p++ = 'Z';

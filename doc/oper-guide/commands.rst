@@ -507,8 +507,7 @@ MASKTRACE
    MASKTRACE hostmask [gecos]
 
 Searches the local server or network for users that match the hostmask
-and gecos given. Network searches require the ``oper_spy`` privilege and an
-'!' before the hostmask. The matching works the same way as TESTMASK.
+and gecos given. The matching works the same way as TESTMASK.
 
 The hostmask is of the form ``user@host`` or ``user@ip/cidr`` with ``*`` and ``?``
 wildcards, optionally preceded by ``nick!``.
@@ -526,9 +525,7 @@ CHANTRACE
 
    CHANTRACE channel
 
-Displays information about users in a channel. Opers with the ``oper_spy``
-privilege can get the information without being on the channel, by
-prefixing the channel name with an ``!``.
+Displays information about users in a channel.
 
 The IP address field contains ``255.255.255.255`` if the IP address is
 unknown (remote client on a TS5 server) or ``0`` if the IP address is hidden
@@ -553,8 +550,6 @@ considered, not the IP address or real host behind dynamic spoofs.
 The IP address field contains ``255.255.255.255`` if the IP address is
 unknown (remote client on a TS5 server) or 0 if the IP address is hidden
 (``auth{}`` spoof).
-
-Network searches where a listing is given are operspy commands.
 
 CHGHOST
 -------

@@ -51,7 +51,6 @@
 #define SNO_UNAUTH		0x00000200
 #define SNO_EXTERNAL		0x00000400
 #define SNO_SPY			0x00000800
-#define SNO_OPERSPY		0x00001000
 #define SNO_BANNED		0x00002000
 
 char *construct_snobuf(unsigned int val);

@@ -709,7 +709,6 @@ set_default_conf(void)
 	ConfigFileEntry.stats_c_oper_only = false;
 	ConfigFileEntry.stats_y_oper_only = false;
 	ConfigFileEntry.map_oper_only = true;
-	ConfigFileEntry.operspy_admin_only = false;
 	ConfigFileEntry.pace_wait = 10;
 	ConfigFileEntry.caller_id_wait = 60;
 	ConfigFileEntry.pace_wait_simple = 1;
@@ -721,7 +720,6 @@ set_default_conf(void)
 	ConfigFileEntry.fname_serverlog = NULL;
 	ConfigFileEntry.fname_killlog = NULL;
 	ConfigFileEntry.fname_klinelog = NULL;
-	ConfigFileEntry.fname_operspylog = NULL;
 	ConfigFileEntry.fname_ioerrorlog = NULL;
 	ConfigFileEntry.hide_spoof_ips = true;
 	ConfigFileEntry.hide_error_messages = 1;
@@ -729,7 +727,6 @@ set_default_conf(void)
 	ConfigFileEntry.collision_fnc = true;
 	ConfigFileEntry.resv_fnc = true;
 	ConfigFileEntry.global_snotices = true;
-	ConfigFileEntry.operspy_dont_care_user_info = false;
 	ConfigFileEntry.use_propagated_bans = true;
 	ConfigFileEntry.max_ratelimit_tokens = 30;
 	ConfigFileEntry.away_interval = 30;
@@ -1545,8 +1542,6 @@ clear_out_old_conf(void)
 	ConfigFileEntry.fname_killlog = NULL;
 	rb_free(ConfigFileEntry.fname_klinelog);
 	ConfigFileEntry.fname_klinelog = NULL;
-	rb_free(ConfigFileEntry.fname_operspylog);
-	ConfigFileEntry.fname_operspylog = NULL;
 	rb_free(ConfigFileEntry.fname_ioerrorlog);
 	ConfigFileEntry.fname_ioerrorlog = NULL;
 

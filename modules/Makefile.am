@@ -43,7 +43,6 @@ auto_load_mod_LTLIBRARIES = \
   m_motd.la \
   m_names.la \
   m_oper.la \
-  m_operspy.la \
   m_pass.la \
   m_ping.la \
   m_pong.la \

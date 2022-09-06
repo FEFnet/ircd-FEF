@@ -266,11 +266,3 @@ but is useful for keeping track of all linked servers.
 Opers with ``+y`` receive notices when users try to join ``RESV``'ed (“juped”)
 channels. Additionally, if certain extension modules are loaded, they
 will receive notices when special commands are used.
-
-``+Z``, operspy notices
------------------------
-
-Opers with ``+Z`` receive notices whenever an oper anywhere on the network
-uses operspy.
-
-This snomask can be configured to be only effective for admins.

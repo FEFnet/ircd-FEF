@@ -67,25 +67,11 @@ m_topic(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 	struct membership *msptr;
 	char *p = NULL;
 	const char *name;
-	int operspy = 0;
 
 	if((p = strchr(parv[1], ',')))
 		*p = '\0';
 
 	name = parv[1];
-
-	if(IsOperSpy(source_p) && parv[1][0] == '!')
-	{
-		name++;
-		operspy = 1;
-
-		if(EmptyString(name))
-		{
-			sendto_one(source_p, form_str(ERR_NEEDMOREPARAMS),
-					me.name, source_p->name, "TOPIC");
-			return;
-		}
-	}
 
 	if(MyClient(source_p) && !IsFloodDone(source_p))
 		flood_endgrace(source_p);
@@ -153,10 +139,8 @@ m_topic(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 	}
 	else if(MyClient(source_p))
 	{
-		if(operspy)
-			report_operspy(source_p, "TOPIC", chptr->chname);
 		if(!IsMember(source_p, chptr) && SecretChannel(chptr) &&
-				!operspy)
+				!IsOper(source_p))
 		{
 			sendto_one_numeric(source_p, ERR_NOTONCHANNEL,
 					form_str(ERR_NOTONCHANNEL), name);

@@ -11,6 +11,3 @@ the given amount instead of the default 500. MASK causes
 only users matching the given nick!user@host mask to be
 selected. Only the displayed host is considered, not the
 IP address or real host behind dynamic spoofs.
-
-Network searches where a listing is given are operspy
-commands.

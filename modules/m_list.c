@@ -63,7 +63,7 @@ static void _moddeinit(void);
 static void m_list(struct MsgBuf *, struct Client *, struct Client *, int, const char **);
 static void mo_list(struct MsgBuf *, struct Client *, struct Client *, int, const char **);
 
-static void list_one_channel(struct Client *source_p, struct Channel *chptr, int visible);
+static void list_one_channel(struct Client *source_p, struct Channel *chptr);
 
 static void safelist_one_channel(struct Client *source_p, struct Channel *chptr, struct ListClient *params);
 static void safelist_check_cliexit(void *);
@@ -71,7 +71,7 @@ static void safelist_client_instantiate(struct Client *, struct ListClient *);
 static void safelist_client_release(struct Client *);
 static void safelist_iterate_client(struct Client *source_p);
 static void safelist_iterate_clients(void *unused);
-static void safelist_channel_named(struct Client *source_p, const char *name, int operspy);
+static void safelist_channel_named(struct Client *source_p, const char *name);
 
 struct Message list_msgtab = {
 	"LIST", 0, 0, 0, 0,
@@ -169,7 +169,6 @@ mo_list(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 	char *p;
 	char *args = NULL;
 	int i;
-	int operspy = 0;
 
 	if (source_p->localClient->safelist_data != NULL)
 	{
@@ -183,17 +182,10 @@ mo_list(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 		args = LOCAL_COPY(parv[1]);
 	}
 
-	if (args && *args == '!' && IsOperSpy(source_p))
-	{
-		args++;
-		report_operspy(source_p, "LIST", args);
-		operspy = 1;
-	}
-
 	/* Single channel. */
 	if (args && IsChannelName(args) && !strpbrk(args, "*?, "))
 	{
-		safelist_channel_named(source_p, args, operspy);
+		safelist_channel_named(source_p, args);
 		return;
 	}
 
@@ -202,7 +194,6 @@ mo_list(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 
 	params->users_min = ConfigChannel.displayed_usercount;
 	params->users_max = INT_MAX;
-	params->operspy = operspy;
 	params->created_min = params->topic_min =
 		params->created_max = params->topic_max = 0;
 	params->mask = NULL;
@@ -323,8 +314,7 @@ fail:
  * outputs      - none
  * side effects - a channel is listed
  */
-static void list_one_channel(struct Client *source_p, struct Channel *chptr,
-		int visible)
+static void list_one_channel(struct Client *source_p, struct Channel *chptr)
 {
 	char topic[TOPICLEN + 1];
 
@@ -334,7 +324,6 @@ static void list_one_channel(struct Client *source_p, struct Channel *chptr,
 		topic[0] = '\0';
 	strip_colour(topic);
 	sendto_one(source_p, form_str(RPL_LIST), me.name, source_p->name,
-		   visible ? "" : "!",
 		   chptr->chname, rb_dlink_list_length(&chptr->members),
 		   topic);
 }
@@ -384,9 +373,8 @@ static void safelist_client_instantiate(struct Client *client_p, struct ListClie
 	/* give the user some initial data to work with */
 	if (params->mask && (chptr = find_channel(params->mask)))
 	{
-		bool visible = !SecretChannel(chptr) || IsMember(client_p, chptr);
-		if (visible || params->operspy)
-			list_one_channel(client_p, chptr, visible);
+		if (!SecretChannel(chptr) || IsMember(client_p, chptr) || IsOper(client_p))
+			list_one_channel(client_p, chptr);
 	}
 	safelist_iterate_client(client_p);
 }
@@ -421,11 +409,11 @@ static void safelist_client_release(struct Client *client_p)
 /*
  * safelist_channel_named()
  *
- * inputs       - client pointer, channel name, operspy
+ * inputs       - client pointer, channel name
  * outputs      - none
  * side effects - a named channel is listed
  */
-static void safelist_channel_named(struct Client *source_p, const char *name, int operspy)
+static void safelist_channel_named(struct Client *source_p, const char *name)
 {
 	struct Channel *chptr;
 	char *p;
@@ -452,9 +440,9 @@ static void safelist_channel_named(struct Client *source_p, const char *name, in
 		return;
 	}
 
-	visible = !SecretChannel(chptr) || IsMember(source_p, chptr);
-	if (visible || operspy)
-		list_one_channel(source_p, chptr, visible);
+	visible = !SecretChannel(chptr) || IsMember(source_p, chptr) || IsOper(source_p);
+	if (visible)
+		list_one_channel(source_p, chptr);
 
 	sendto_one(source_p, form_str(RPL_LISTEND), me.name, source_p->name);
 	return;
@@ -472,8 +460,8 @@ static void safelist_one_channel(struct Client *source_p, struct Channel *chptr,
 {
 	int visible;
 
-	visible = !SecretChannel(chptr) || IsMember(source_p, chptr);
-	if (!visible && !params->operspy)
+	visible = !SecretChannel(chptr) || IsMember(source_p, chptr) || IsOper(source_p);
+	if (!visible)
 		return;
 
 	if ((unsigned int)chptr->members.length < params->users_min
@@ -500,7 +488,7 @@ static void safelist_one_channel(struct Client *source_p, struct Channel *chptr,
 	if (params->nomask && match(params->nomask, chptr->chname))
 		return;
 
-	list_one_channel(source_p, chptr, visible);
+	list_one_channel(source_p, chptr);
 }
 
 /*

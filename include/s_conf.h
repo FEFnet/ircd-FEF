@@ -168,7 +168,6 @@ struct config_file_entry
 	char *fname_serverlog;
 	char *fname_killlog;
 	char *fname_klinelog;
-	char *fname_operspylog;
 	char *fname_ioerrorlog;
 
 	int disable_fake_channels;
@@ -195,7 +194,6 @@ struct config_file_entry
 	int stats_i_oper_only;
 	int stats_P_oper_only;
 	int map_oper_only;
-	int operspy_admin_only;
 	int pace_wait;
 	int pace_wait_simple;
 	int short_motd;
@@ -224,7 +222,6 @@ struct config_file_entry
 	int resv_fnc;
 	int default_umodes;
 	int global_snotices;
-	int operspy_dont_care_user_info;
 	int use_propagated_bans;
 	int max_ratelimit_tokens;
 	int away_interval;

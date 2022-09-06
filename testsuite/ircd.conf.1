@@ -43,7 +43,7 @@ operator "oper" {
 	user = "*@127.0.0.0/8";
 	password = "oper";
 	flags = kill, remote, kline, unkline, nick_changes,
-		die, rehash, admin, xline, operwall, oper_spy, ~encrypted;
+		die, rehash, admin, xline, operwall, ~encrypted;
 };
 
 connect "testsuite2." {

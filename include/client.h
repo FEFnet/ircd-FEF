@@ -311,7 +311,6 @@ struct ListClient
 	char *chname, *mask, *nomask;
 	unsigned int users_min, users_max;
 	time_t created_min, created_max, topic_min, topic_max;
-	int operspy;
 };
 
 /*

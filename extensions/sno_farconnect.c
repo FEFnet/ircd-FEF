@@ -37,9 +37,6 @@ _modinit(void)
 	/* add the snomask to the available slot */
 	snomask_modes['F'] = find_snomask_slot();
 
-	/* show the fact that we are showing user information in /version */
-	opers_see_all_users = true;
-
 	return 0;
 }
 

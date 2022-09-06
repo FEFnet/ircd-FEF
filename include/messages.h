@@ -97,7 +97,7 @@
 #define NUMERIC_STR_318      "%s :End of /WHOIS list."
 #define NUMERIC_STR_319      ":%s 319 %s %s :"
 #define NUMERIC_STR_321      ":%s 321 %s Channel :Users  Name"
-#define NUMERIC_STR_322      ":%s 322 %s %s%s %lu :%s"
+#define NUMERIC_STR_322      ":%s 322 %s %s %lu :%s"
 #define NUMERIC_STR_323      ":%s 323 %s :End of /LIST"
 #define NUMERIC_STR_324      ":%s 324 %s %s %s"
 #define NUMERIC_STR_325      ":%s 325 %s %s %s :is the current channel mode-lock"

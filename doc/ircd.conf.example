@@ -108,7 +108,6 @@ log {
 	fname_serverlog = "logs/serverlog";
 	#fname_klinelog = "logs/klinelog";
 	fname_killlog = "logs/killlog";
-	fname_operspylog = "logs/operspylog";
 	#fname_ioerrorlog = "logs/ioerror";
 };
 
@@ -246,7 +245,7 @@ privset "global_op" {
 
 privset "admin" {
 	extends = "global_op";
-	privs = oper:admin, oper:die, oper:rehash, oper:spy, oper:grant;
+	privs = oper:admin, oper:die, oper:rehash, oper:grant;
 };
 
 operator "god" {
@@ -597,8 +596,6 @@ general {
 	stats_i_oper_only = masked;
 	stats_k_oper_only = masked;
 	map_oper_only = no;
-	operspy_admin_only = no;
-	operspy_dont_care_user_info = no;
 	caller_id_wait = 1 minute;
 	pace_wait_simple = 1 second;
 	pace_wait = 10 seconds;

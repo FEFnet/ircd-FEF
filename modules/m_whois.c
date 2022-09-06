@@ -47,7 +47,7 @@ static const char whois_desc[] =
 	"Provides the WHOIS command to display information about a user";
 
 static void do_whois(struct Client *client_p, struct Client *source_p, int parc, const char *parv[]);
-static void single_whois(struct Client *source_p, struct Client *target_p, int operspy);
+static void single_whois(struct Client *source_p, struct Client *target_p);
 
 static void m_whois(struct MsgBuf *, struct Client *, struct Client *, int, const char **);
 static void ms_whois(struct MsgBuf *, struct Client *, struct Client *, int, const char **);
@@ -177,33 +177,14 @@ do_whois(struct Client *client_p, struct Client *source_p, int parc, const char 
 	struct Client *target_p;
 	char *nick;
 	char *p = NULL;
-	int operspy = 0;
 
 	nick = LOCAL_COPY(parv[1]);
 	if((p = strchr(nick, ',')))
 		*p = '\0';
 
-	if(IsOperSpy(source_p) && *nick == '!')
-	{
-		operspy = 1;
-		nick++;
-	}
-
 	target_p = find_named_person(nick);
 	if(target_p != NULL)
-	{
-		if(operspy)
-		{
-			char buffer[BUFSIZE];
-
-			snprintf(buffer, sizeof(buffer), "%s!%s@%s %s",
-				target_p->name, target_p->username,
-				target_p->host, target_p->servptr->name);
-			report_operspy(source_p, "WHOIS", buffer);
-		}
-
-		single_whois(source_p, target_p, operspy);
-	}
+		single_whois(source_p, target_p);
 	else
 		sendto_one_numeric(source_p, ERR_NOSUCHNICK,
 				   form_str(ERR_NOSUCHNICK),
@@ -223,7 +204,7 @@ do_whois(struct Client *client_p, struct Client *source_p, int parc, const char 
  * 		  writing results to source_p
  */
 static void
-single_whois(struct Client *source_p, struct Client *target_p, int operspy)
+single_whois(struct Client *source_p, struct Client *target_p)
 {
 	char buf[BUFSIZE];
 	hook_data_client hdata;
@@ -271,14 +252,13 @@ single_whois(struct Client *source_p, struct Client *target_p, int operspy)
 			hdata_vis.chptr = chptr;
 			hdata_vis.clientms = ms;
 			hdata_vis.targetms = mt;
-			hdata_vis.approved = ms != NULL || PubChannel(chptr);
+			hdata_vis.approved = ms != NULL || PubChannel(chptr) || IsOper(source_p);
 
 			call_hook(doing_whois_channel_visibility_hook, &hdata_vis);
 
-			if(hdata_vis.approved || operspy)
+			if(hdata_vis.approved)
 			{
-				send_multiline_item(source_p, "%s%s%s",
-						hdata_vis.approved ? "" : "!",
+				send_multiline_item(source_p, "%s%s",
 						find_channel_status(mt, 1),
 						chptr->chname);
 			}

@@ -2609,7 +2609,6 @@ static struct ConfEntry conf_log_table[] =
 	{ "fname_serverlog", 	CF_QSTRING, NULL, PATH_MAX, &ConfigFileEntry.fname_serverlog	},
 	{ "fname_killlog", 	CF_QSTRING, NULL, PATH_MAX, &ConfigFileEntry.fname_killlog	},
 	{ "fname_klinelog", 	CF_QSTRING, NULL, PATH_MAX, &ConfigFileEntry.fname_klinelog	},
-	{ "fname_operspylog", 	CF_QSTRING, NULL, PATH_MAX, &ConfigFileEntry.fname_operspylog	},
 	{ "fname_ioerrorlog", 	CF_QSTRING, NULL, PATH_MAX, &ConfigFileEntry.fname_ioerrorlog },
 	{ "\0",			0,	    NULL, 0,          NULL }
 };
@@ -2727,8 +2726,6 @@ static struct ConfEntry conf_general_table[] =
 	{ "max_nick_changes",	CF_INT,   NULL, 0, &ConfigFileEntry.max_nick_changes	},
 	{ "max_targets",	CF_INT,   NULL, 0, &ConfigFileEntry.max_targets		},
 	{ "min_nonwildcard",	CF_INT,   NULL, 0, &ConfigFileEntry.min_nonwildcard	},
-	{ "operspy_admin_only",	CF_YESNO, NULL, 0, &ConfigFileEntry.operspy_admin_only	},
-	{ "operspy_dont_care_user_info", CF_YESNO, NULL, 0, &ConfigFileEntry.operspy_dont_care_user_info },
 	{ "pace_wait",		CF_TIME,  NULL, 0, &ConfigFileEntry.pace_wait		},
 	{ "pace_wait_simple",	CF_TIME,  NULL, 0, &ConfigFileEntry.pace_wait_simple	},
 	{ "reject_after_count",	CF_INT,   NULL, 0, &ConfigFileEntry.reject_after_count	},

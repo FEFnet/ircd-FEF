@@ -68,7 +68,7 @@ static void m_who(struct MsgBuf *, struct Client *, struct Client *, int, const 
 static void do_who_on_channel(struct Client *source_p, struct Channel *chptr,
 			      int server_oper, int member,
 			      struct who_format *fmt);
-static void who_global(struct Client *source_p, const char *mask, int server_oper, int operspy, struct who_format *fmt);
+static void who_global(struct Client *source_p, const char *mask, int server_oper, struct who_format *fmt);
 static void do_who(struct Client *source_p,
 		   struct Client *target_p, struct membership *msptr,
 		   struct who_format *fmt);
@@ -116,7 +116,6 @@ m_who(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_p,
 	struct Channel *chptr = NULL;
 	int server_oper = parc > 2 ? (*parv[2] == 'o') : 0;	/* Show OPERS only */
 	int member;
-	int operspy = 0;
 	struct who_format fmt;
 	const char *s;
 	char maskcopy[512];
@@ -177,24 +176,11 @@ m_who(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_p,
 		return;
 	}
 
-	if(IsOperSpy(source_p) && *mask == '!')
-	{
-		mask++;
-		operspy = 1;
-
-		if(EmptyString(mask))
-		{
-			sendto_one(source_p, form_str(RPL_ENDOFWHO),
-					me.name, source_p->name, parv[1]);
-			return;
-		}
-	}
-
 	/* '/who #some_channel' */
 	if(IsChannelName(mask))
 	{
 		/* List all users on a given channel */
-		chptr = find_channel(parv[1] + operspy);
+		chptr = find_channel(parv[1]);
 
 		if(chptr != NULL)
 		{
@@ -207,17 +193,14 @@ m_who(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_p,
 				return;
 			}
 
-			if(operspy)
-				report_operspy(source_p, "WHO", chptr->chname);
-
-			if(IsMember(source_p, chptr) || operspy)
+			if(IsMember(source_p, chptr) || IsOper(source_p))
 				do_who_on_channel(source_p, chptr, server_oper, true, &fmt);
 			else if(!SecretChannel(chptr))
 				do_who_on_channel(source_p, chptr, server_oper, false, &fmt);
 		}
 
 		sendto_one(source_p, form_str(RPL_ENDOFWHO),
-			   me.name, source_p->name, parv[1] + operspy);
+			   me.name, source_p->name, parv[1]);
 		return;
 	}
 
@@ -274,19 +257,14 @@ m_who(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_p,
 			last_used = rb_current_time();
 	}
 
-	/* Note: operspy_dont_care_user_info does not apply to
-	 * who on channels */
-	if(IsOperSpy(source_p) && ConfigFileEntry.operspy_dont_care_user_info)
-		operspy = 1;
-
 	/* '/who 0' for a global list.  this forces clients to actually
 	 * request a full list.  I presume its because of too many typos
 	 * with "/who" ;) --fl
 	 */
 	if((*(mask + 1) == '\0') && (*mask == '0'))
-		who_global(source_p, NULL, server_oper, 0, &fmt);
+		who_global(source_p, NULL, server_oper, &fmt);
 	else
-		who_global(source_p, mask, server_oper, operspy, &fmt);
+		who_global(source_p, mask, server_oper, &fmt);
 
 	sendto_one(source_p, form_str(RPL_ENDOFWHO),
 		   me.name, source_p->name, mask);
@@ -346,7 +324,6 @@ who_common_channel(struct Client *source_p, struct Channel *chptr,
  * inputs	- pointer to client requesting who
  *		- char * mask to match
  *		- int if oper on a server or not
- *		- int if operspy or not
  *		- format options
  * output	- NONE
  * side effects - do a global scan of all clients looking for match
@@ -355,7 +332,7 @@ who_common_channel(struct Client *source_p, struct Channel *chptr,
  *		  and will be left cleared on return
  */
 static void
-who_global(struct Client *source_p, const char *mask, int server_oper, int operspy, struct who_format *fmt)
+who_global(struct Client *source_p, const char *mask, int server_oper, struct who_format *fmt)
 {
 	struct membership *msptr;
 	struct Client *target_p;
@@ -363,9 +340,8 @@ who_global(struct Client *source_p, const char *mask, int server_oper, int opers
 	int maxmatches = 500;
 
 	/* first, list all matching INvisible clients on common channels
-	 * if this is not an operspy who
 	 */
-	if(!operspy)
+	if(!IsOper(source_p))
 	{
 		RB_DLINK_FOREACH(lp, source_p->user->channel.head)
 		{
@@ -374,15 +350,11 @@ who_global(struct Client *source_p, const char *mask, int server_oper, int opers
 		}
 	}
 	else
-	{
 		maxmatches = INT_MAX;
-		if (!ConfigFileEntry.operspy_dont_care_user_info)
-			report_operspy(source_p, "WHO", mask);
-	}
 
 	/* second, list all matching visible clients and clear all marks
 	 * on invisible clients
-	 * if this is an operspy who, list all matching clients, no need
+	 * if this is an oper who, list all matching clients, no need
 	 * to clear marks
 	 */
 	RB_DLINK_FOREACH(ptr, global_client_list.head)
@@ -391,7 +363,7 @@ who_global(struct Client *source_p, const char *mask, int server_oper, int opers
 		if(!IsPerson(target_p))
 			continue;
 
-		if(IsInvisible(target_p) && !operspy)
+		if(IsInvisible(target_p) && !IsOper(source_p))
 		{
 			ClearMark(target_p);
 			continue;

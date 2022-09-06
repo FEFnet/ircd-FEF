@@ -232,22 +232,8 @@ m_chantrace(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *sou
 	const char *sockhost;
 	const char *name;
 	rb_dlink_node *ptr;
-	int operspy = 0;
 
 	name = parv[1];
-
-	if(IsOperSpy(source_p) && parv[1][0] == '!')
-	{
-		name++;
-		operspy = 1;
-
-		if(EmptyString(name))
-		{
-			sendto_one(source_p, form_str(ERR_NEEDMOREPARAMS),
-					me.name, source_p->name, "CHANTRACE");
-			return;
-		}
-	}
 
 	if((chptr = find_channel(name)) == NULL)
 	{
@@ -256,11 +242,7 @@ m_chantrace(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *sou
 		return;
 	}
 
-	/* dont report operspys for nonexistant channels. */
-	if(operspy)
-		report_operspy(source_p, "CHANTRACE", chptr->chname);
-
-	if(!operspy && !IsMember(client_p, chptr))
+	if(!IsOper(source_p) && !IsMember(client_p, chptr))
 	{
 		sendto_one_numeric(source_p, ERR_NOTONCHANNEL, form_str(ERR_NOTONCHANNEL),
 				chptr->chname);

@@ -20,4 +20,3 @@ Server notice masks: (? designates that the snomask is provided
        +u     - Client connections without auth{} block
        +x     - New server introduction and split messages
        +y     - Juped channel join attempts, etc
-       +Z     - Operspy usage

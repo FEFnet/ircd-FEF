@@ -106,11 +106,6 @@ struct InfoStruct
 static struct InfoStruct info_table[] = {
 
 	{
-		"opers_see_all_users",
-		"Farconnect notices available or operspy accountability limited",
-		INFO_BOOLEAN(&opers_see_all_users)
-	},
-	{
 		"max_connections",
 		"Max number connections",
 		INFO_DECIMAL(&maxconnections),
@@ -282,11 +277,6 @@ static struct InfoStruct info_table[] = {
 		INFO_STRING(&ConfigFileEntry.fname_klinelog),
 	},
 	{
-		"fname_operspylog",
-		"Oper spy log file",
-		INFO_STRING(&ConfigFileEntry.fname_operspylog),
-	},
-	{
 		"fname_ioerrorlog",
 		"IO error log file",
 		INFO_STRING(&ConfigFileEntry.fname_ioerrorlog),
@@ -365,16 +355,6 @@ static struct InfoStruct info_table[] = {
 		"non_redundant_klines",
 		"Check for and disallow redundant K-lines",
 		INFO_INTBOOL(&ConfigFileEntry.non_redundant_klines),
-	},
-	{
-		"operspy_admin_only",
-		"Send +Z operspy notices to admins only",
-		INFO_INTBOOL(&ConfigFileEntry.operspy_admin_only),
-	},
-	{
-		"operspy_dont_care_user_info",
-		"Remove accountability and some '!' requirement from non-channel operspy",
-		INFO_INTBOOL(&ConfigFileEntry.operspy_dont_care_user_info),
 	},
 	{
 		"pace_wait",

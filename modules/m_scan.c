@@ -185,28 +185,6 @@ scan_umodes(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *sou
 			return;
 		}
 	}
-	if (target_list == &global_client_list && list_users)
-	{
-		if (IsOperSpy(source_p))
-		{
-			if (!ConfigFileEntry.operspy_dont_care_user_info)
-			{
-				rb_strlcpy(buf, "UMODES", sizeof buf);
-				for (i = 2; i < parc; i++)
-				{
-					rb_strlcat(buf, " ", sizeof buf);
-					rb_strlcat(buf, parv[i], sizeof buf);
-				}
-				report_operspy(source_p, "SCAN", buf);
-			}
-		}
-		else
-		{
-			sendto_one(source_p, form_str(ERR_NOPRIVS),
-				   me.name, source_p->name, "oper_spy");
-			return;
-		}
-	}
 
 	RB_DLINK_FOREACH(tn, target_list->head)
 	{

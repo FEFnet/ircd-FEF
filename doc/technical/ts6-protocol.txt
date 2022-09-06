@@ -699,14 +699,6 @@ parameters: opername, privset
 Sets the source user's oper name and privset. Sent after the +o mode change, or
 during burst, to inform other servers of an oper's privileges.
 
-OPERSPY
-encap only
-encap target: *
-source: user
-parameters: command name, parameters
-
-Reports operspy usage.
-
 OPERWALL
 source: user
 parameters: message
