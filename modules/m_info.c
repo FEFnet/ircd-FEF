@@ -387,11 +387,6 @@ static struct InfoStruct info_table[] = {
 		INFO_DECIMAL(&ConfigFileEntry.pace_wait_simple),
 	},
 	{
-		"ping_cookie",
-		"Require ping cookies to connect",
-		INFO_INTBOOL(&ConfigFileEntry.ping_cookie),
-	},
-	{
 		"reject_after_count",
 		"Client rejection threshold setting",
 		INFO_DECIMAL(&ConfigFileEntry.reject_after_count),

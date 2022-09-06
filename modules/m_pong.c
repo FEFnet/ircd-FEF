@@ -102,7 +102,7 @@ mr_pong(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 {
 	if(parc == 2 && !EmptyString(parv[1]))
 	{
-		if(ConfigFileEntry.ping_cookie && source_p->flags & FLAGS_SENTUSER && source_p->name[0])
+		if(source_p->flags & FLAGS_SENTUSER && source_p->name[0])
 		{
 			uint32_t incoming_ping = strtoul(parv[1], NULL, 16);
 			if(incoming_ping)

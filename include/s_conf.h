@@ -211,7 +211,6 @@ struct config_file_entry
 	int min_nonwildcard;
 	int min_nonwildcard_simple;
 	int default_floodcount;
-	int ping_cookie;
 	int tkline_expire_notices;
 	int post_registration_delay;
 	int connect_timeout;
