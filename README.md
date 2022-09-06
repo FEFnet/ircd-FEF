@@ -3,6 +3,19 @@
 Rebased to solanum. The following text is from the solanum project, until I bother updating this better.
 
 (Note: Unlike Solanum, we support any system that follows The Single UNIX Specification 4 [POSIX.1-2008])
+
+# Brief history
+
+The FEFnet ircd was originally created by Runt based on the 2.8.21+CS ircd by Comstud.
+
+Later on, JailBird came in and transitioned it to 2.8.21+digi, and then later 2.8.21+digi+th (Taner).
+Both these original releases included a bunch of +CS patches, ircu (UnderNet) patches, DALnet patches,
+and homegrown patches.
+
+As time went by, the patches were rebased on top of hybrid, ratbox, charybdis, and now solanum. During this,
+most of the functionality that we patched in got incorporated into our new upstream code bases. Because of
+this, these days the FEFnet ircd mainly removes things rather than adds them, as well as changes default
+configs.
 ---
 Solanum is an IRCv3 server designed to be highly scalable.  It implements IRCv3.1 and some parts of IRCv3.2.
 
