@@ -547,11 +547,6 @@ static struct InfoStruct info_table[] = {
 		INFO_INTBOOL_YN(&ConfigChannel.use_knock),
 	},
 	{
-		"resv_forcepart",
-		"Force-part local users on channel RESV",
-		INFO_INTBOOL_YN(&ConfigChannel.resv_forcepart),
-	},
-	{
 		"hide_opers",
 		"Hide all opers from unprivileged users",
 		INFO_INTBOOL_YN(&ConfigFileEntry.hide_opers),

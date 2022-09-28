@@ -360,7 +360,6 @@ channel {
 	burst_topicwho = yes;
 	kick_on_split_riding = no;
 	only_ascii_channels = no;
-	resv_forcepart = yes;
 	channel_target_change = yes;
 	disable_local_channels = no;
 	autochanmodes = "+nt";

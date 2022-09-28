@@ -1309,9 +1309,6 @@ resv_chan_forcepart(const char *name, const char *reason, int temp_time)
 	struct membership *msptr;
 	struct Client *target_p;
 
-	if(!ConfigChannel.resv_forcepart)
-		return;
-
 	/* for each user on our server in the channel list
 	 * send them a PART, and notify opers.
 	 */

@@ -751,7 +751,6 @@ set_default_conf(void)
 	ConfigChannel.default_split_server_count = 10;
 	ConfigChannel.no_join_on_split = false;
 	ConfigChannel.no_create_on_split = true;
-	ConfigChannel.resv_forcepart = true;
 	ConfigChannel.channel_target_change = true;
 	ConfigChannel.disable_local_channels = false;
 	ConfigChannel.displayed_usercount = 3;

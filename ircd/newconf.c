@@ -2782,7 +2782,6 @@ static struct ConfEntry conf_channel_table[] =
 	{ "use_invex",		CF_YESNO, NULL, 0, &ConfigChannel.use_invex		},
 	{ "use_forward",	CF_YESNO, NULL, 0, &ConfigChannel.use_forward		},
 	{ "use_knock",		CF_YESNO, NULL, 0, &ConfigChannel.use_knock		},
-	{ "resv_forcepart",     CF_YESNO, NULL, 0, &ConfigChannel.resv_forcepart	},
 	{ "channel_target_change", CF_YESNO, NULL, 0, &ConfigChannel.channel_target_change	},
 	{ "disable_local_channels", CF_YESNO, NULL, 0, &ConfigChannel.disable_local_channels },
 	{ "autochanmodes",	CF_QSTRING, conf_set_channel_autochanmodes, 0, NULL	},
