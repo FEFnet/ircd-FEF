@@ -84,7 +84,7 @@ mo_resv(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 	const char *target_server = NULL;
 	int temp_time;
 	int loc = 1;
-	int propagated = ConfigFileEntry.use_propagated_bans;
+	int propagated = 1;
 
 	if(!IsOperResv(source_p))
 	{

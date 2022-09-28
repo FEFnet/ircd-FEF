@@ -222,7 +222,6 @@ struct config_file_entry
 	int resv_fnc;
 	int default_umodes;
 	int global_snotices;
-	int use_propagated_bans;
 	int max_ratelimit_tokens;
 	int away_interval;
 	int tls_ciphers_oper_only;

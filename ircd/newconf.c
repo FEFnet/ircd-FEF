@@ -2743,7 +2743,6 @@ static struct ConfEntry conf_general_table[] =
 	{ "ts_max_delta",	CF_TIME,  NULL, 0, &ConfigFileEntry.ts_max_delta	},
 	{ "ts_warn_delta",	CF_TIME,  NULL, 0, &ConfigFileEntry.ts_warn_delta	},
 	{ "warn_no_nline",	CF_YESNO, NULL, 0, &ConfigFileEntry.warn_no_nline	},
-	{ "use_propagated_bans",CF_YESNO, NULL, 0, &ConfigFileEntry.use_propagated_bans	},
 	{ "client_flood_max_lines",	CF_INT,   NULL, 0, &ConfigFileEntry.client_flood_max_lines	},
 	{ "client_flood_burst_rate",	CF_INT,   NULL, 0, &ConfigFileEntry.client_flood_burst_rate	},
 	{ "client_flood_burst_max",	CF_INT,   NULL, 0, &ConfigFileEntry.client_flood_burst_max	},

@@ -457,11 +457,6 @@ static struct InfoStruct info_table[] = {
 		INFO_INTBOOL(&ConfigFileEntry.warn_no_nline),
 	},
 	{
-		"use_propagated_bans",
-		"KLINE sets fully propagated bans",
-		INFO_INTBOOL(&ConfigFileEntry.use_propagated_bans),
-	},
-	{
 		"max_ratelimit_tokens",
 		"The maximum number of tokens that can be accumulated for executing rate-limited commands",
 		INFO_DECIMAL(&ConfigFileEntry.max_ratelimit_tokens),

@@ -106,7 +106,7 @@ mo_xline(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source
 	const char *target_server = NULL;
 	int temp_time;
 	int loc = 1;
-	bool propagated = ConfigFileEntry.use_propagated_bans;
+	bool propagated = true;
 
 	if(!IsOperXline(source_p))
 	{

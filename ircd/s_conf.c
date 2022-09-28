@@ -727,7 +727,6 @@ set_default_conf(void)
 	ConfigFileEntry.collision_fnc = true;
 	ConfigFileEntry.resv_fnc = true;
 	ConfigFileEntry.global_snotices = true;
-	ConfigFileEntry.use_propagated_bans = true;
 	ConfigFileEntry.max_ratelimit_tokens = 30;
 	ConfigFileEntry.away_interval = 30;
 	ConfigFileEntry.tls_ciphers_oper_only = false;

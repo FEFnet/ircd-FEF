@@ -119,7 +119,7 @@ mo_kline(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source
 	struct ConfItem *aconf;
 	int tkline_time = 0;
 	int loc = 1;
-	bool propagated = ConfigFileEntry.use_propagated_bans;
+	bool propagated = true;
 
 	if(!IsOperK(source_p))
 	{
