@@ -572,11 +572,6 @@ static struct InfoStruct info_table[] = {
 		INFO_INTBOOL_YN(&ConfigFileEntry.hide_opers_in_whois),
 	},
 	{
-		"disable_hidden",
-		"Prevent servers from hiding themselves from a flattened /links",
-		INFO_INTBOOL_YN(&ConfigServerHide.disable_hidden),
-	},
-	{
 		"flatten_links",
 		"Flatten /links list",
 		INFO_INTBOOL_YN(&ConfigServerHide.flatten_links),

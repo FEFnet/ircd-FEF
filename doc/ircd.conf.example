@@ -373,7 +373,6 @@ serverhide {
 	flatten_links = yes;
 	links_delay = 5 minutes;
 	hidden = no;
-	disable_hidden = no;
 };
 
 /* These are the DNSBL settings.

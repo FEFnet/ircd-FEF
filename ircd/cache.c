@@ -180,7 +180,7 @@ cache_links(void *unused)
 
 		/* skip ourselves (done in /links) and hidden servers */
 		if(IsMe(target_p) ||
-		   (IsHidden(target_p) && !ConfigServerHide.disable_hidden))
+		   (IsHidden(target_p)))
 			continue;
 
 		/* if the below is ever modified, change LINKSLINELEN */

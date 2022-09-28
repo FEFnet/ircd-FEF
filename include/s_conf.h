@@ -282,7 +282,6 @@ struct config_server_hide
 	int flatten_links;
 	int links_delay;
 	int hidden;
-	int disable_hidden;
 };
 
 struct server_info

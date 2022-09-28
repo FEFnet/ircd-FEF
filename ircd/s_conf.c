@@ -763,7 +763,6 @@ set_default_conf(void)
 	ConfigServerHide.flatten_links = 0;
 	ConfigServerHide.links_delay = 300;
 	ConfigServerHide.hidden = 0;
-	ConfigServerHide.disable_hidden = 0;
 
 	ConfigFileEntry.min_nonwildcard = 4;
 	ConfigFileEntry.min_nonwildcard_simple = 3;

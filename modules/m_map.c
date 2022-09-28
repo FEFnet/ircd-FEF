@@ -190,7 +190,7 @@ flattened_map(struct Client *client_p)
 			continue;
 
 		/* if we're hidden, go on to the next leaf */
-		if(!ConfigServerHide.disable_hidden && IsHidden(target_p))
+		if(IsHidden(target_p))
 			continue;
 
 		if (cnt == rb_dlink_list_length(&global_serv_list))

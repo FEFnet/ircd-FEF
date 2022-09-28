@@ -140,8 +140,7 @@ scache_send_flattened_links(struct Client *source_p)
 	{
 		if (!irccmp(scache_ptr->name, me.name))
 			show = FALSE;
-		else if (scache_ptr->flags & SC_HIDDEN &&
-				!ConfigServerHide.disable_hidden)
+		else if (scache_ptr->flags & SC_HIDDEN)
 			show = FALSE;
 		else if (scache_ptr->flags & SC_ONLINE)
 			show = scache_ptr->known_since < rb_current_time() - ConfigServerHide.links_delay;
