@@ -282,11 +282,6 @@ static struct InfoStruct info_table[] = {
 		INFO_STRING(&ConfigFileEntry.fname_ioerrorlog),
 	},
 	{
-		"global_snotices",
-		"Send out certain server notices globally",
-		INFO_INTBOOL_YN(&ConfigFileEntry.global_snotices),
-	},
-	{
 		"hide_error_messages",
 		"Hide ERROR messages coming from servers",
 		INFO_YESNOMASK(&ConfigFileEntry.hide_error_messages),

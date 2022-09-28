@@ -220,7 +220,6 @@ struct config_file_entry
 	int collision_fnc;
 	int resv_fnc;
 	int default_umodes;
-	int global_snotices;
 	int max_ratelimit_tokens;
 	int away_interval;
 	int tls_ciphers_oper_only;

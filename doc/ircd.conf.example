@@ -569,7 +569,6 @@ general {
 	client_exit = yes;
 	collision_fnc = yes;
 	resv_fnc = yes;
-	global_snotices = yes;
 	dline_with_reason = yes;
 	kline_with_reason = yes;
 	hide_tkdline_duration = no;

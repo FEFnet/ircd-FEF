@@ -1310,7 +1310,7 @@ sendto_realops_snomask(int flags, int level, const char *pattern, ...)
 
 	/* Be very sure not to do things like "Trying to send to myself"
 	 * L_NETWIDE, otherwise infinite recursion may result! -- jilles */
-	if (level & L_NETWIDE && ConfigFileEntry.global_snotices)
+	if (level & L_NETWIDE)
 	{
 		snobuf = construct_snobuf(flags);
 		if (snobuf[1] != '\0')
