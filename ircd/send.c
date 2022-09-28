@@ -599,23 +599,22 @@ sendto_channel_opmod(struct Client *one, struct Client *source_p,
 	build_msgbuf_tags(&msgbuf, source_p);
 
 	current_serial++;
-	const char *statusmsg_prefix = (ConfigChannel.opmod_send_statusmsg ? "@" : "");
 
 	if(IsServer(source_p)) {
 		msgbuf_cache_initf(&msgbuf_cache, &msgbuf, &strings,
-			       ":%s %s %s%s :",
-			       source_p->name, command, statusmsg_prefix, chptr->chname);
+			       ":%s %s @%s :",
+			       source_p->name, command, chptr->chname);
 	} else {
 		msgbuf_cache_initf(&msgbuf_cache, &msgbuf, &strings,
-			       ":%s!%s@%s %s %s%s :",
+			       ":%s!%s@%s %s @%s :",
 			       source_p->name, source_p->username,
-			       source_p->host, command, statusmsg_prefix, chptr->chname);
+			       source_p->host, command, chptr->chname);
 	}
 
 	if (chptr->mode.mode & MODE_MODERATED) {
 		linebuf_put_msgf(&rb_linebuf_old, &strings,
-			       ":%s %s %s%s :",
-			       use_id(source_p), command, statusmsg_prefix, chptr->chname, text);
+			       ":%s %s @%s :",
+			       use_id(source_p), command, chptr->chname, text);
 	} else {
 		linebuf_put_msgf(&rb_linebuf_old, &strings,
 			       ":%s NOTICE @%s :<%s:%s> ",

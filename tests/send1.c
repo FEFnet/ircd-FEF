@@ -1218,7 +1218,6 @@ static void sendto_channel_opmod__local(void)
 static void sendto_channel_opmod_statusmsg__local(void)
 {
 	standard_init();
-	ConfigChannel.opmod_send_statusmsg = true;
 
 	// This function does not support TS5...
 	standard_ids();
@@ -1276,7 +1275,6 @@ static void sendto_channel_opmod_statusmsg__local(void)
 	is_client_sendq(":" TEST_ME_ID "90004 TEST =" TEST_CHANNEL " :Hello World!" CRLF, server, MSG);
 	is_client_sendq_empty(server2, "No users to receive message; " MSG);
 
-	ConfigChannel.opmod_send_statusmsg = false;
 	standard_free();
 }
 
@@ -1411,7 +1409,6 @@ static void sendto_channel_opmod__remote(void)
 static void sendto_channel_opmod_statusmsg__remote(void)
 {
 	standard_init();
-	ConfigChannel.opmod_send_statusmsg = true;
 
 	// This function does not support TS5...
 	standard_ids();
@@ -1461,7 +1458,6 @@ static void sendto_channel_opmod_statusmsg__remote(void)
 	is_client_sendq(":" TEST_SERVER2_ID "90205 TEST =" TEST_CHANNEL " :Hello World!" CRLF, server, MSG);
 	is_client_sendq_empty(server2, "Message source; " MSG);
 
-	ConfigChannel.opmod_send_statusmsg = false;
 	standard_free();
 }
 

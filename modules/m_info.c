@@ -552,11 +552,6 @@ static struct InfoStruct info_table[] = {
 		INFO_INTBOOL_YN(&ConfigChannel.resv_forcepart),
 	},
 	{
-		"opmod_send_statusmsg",
-		"Send messages to @#channel if affected by +z",
-		INFO_INTBOOL_YN(&ConfigChannel.opmod_send_statusmsg),
-	},
-	{
 		"hide_opers",
 		"Hide all opers from unprivileged users",
 		INFO_INTBOOL_YN(&ConfigFileEntry.hide_opers),

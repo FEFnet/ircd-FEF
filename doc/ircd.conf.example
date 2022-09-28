@@ -366,7 +366,6 @@ channel {
 	autochanmodes = "+nt";
 	displayed_usercount = 3;
 	strip_topic_colors = no;
-	opmod_send_statusmsg = no;
 };
 
 serverhide {
