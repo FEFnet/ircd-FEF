@@ -249,28 +249,25 @@ apply_dline(struct Client *source_p, const char *dlhost, int tdline_time, char *
 		}
 	}
 
-	if(ConfigFileEntry.non_redundant_klines)
+	if((aconf = find_dline((struct sockaddr *) &daddr, t)) != NULL)
 	{
-		if((aconf = find_dline((struct sockaddr *) &daddr, t)) != NULL)
-		{
-			int bx;
-			int masktype = parse_netmask_strict(aconf->host, NULL, &bx);
+		int bx;
+		int masktype = parse_netmask_strict(aconf->host, NULL, &bx);
 
-			if (masktype != HM_ERROR && b >= bx)
-			{
-				creason = aconf->passwd ? aconf->passwd : "<No Reason>";
-				if(IsConfExemptKline(aconf))
-					sendto_one(source_p,
-						   ":%s NOTICE %s :[%s] is (E)d-lined by [%s] - %s",
-						   me.name, source_p->name, dlhost, aconf->host,
-						   creason);
-				else
-					sendto_one(source_p,
-						   ":%s NOTICE %s :[%s] already D-lined by [%s] - %s",
-						   me.name, source_p->name, dlhost, aconf->host,
-						   creason);
-				return;
-			}
+		if (masktype != HM_ERROR && b >= bx)
+		{
+			creason = aconf->passwd ? aconf->passwd : "<No Reason>";
+			if(IsConfExemptKline(aconf))
+				sendto_one(source_p,
+					   ":%s NOTICE %s :[%s] is (E)d-lined by [%s] - %s",
+					   me.name, source_p->name, dlhost, aconf->host,
+					   creason);
+			else
+				sendto_one(source_p,
+					   ":%s NOTICE %s :[%s] already D-lined by [%s] - %s",
+					   me.name, source_p->name, dlhost, aconf->host,
+					   creason);
+			return;
 		}
 	}
 

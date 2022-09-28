@@ -699,7 +699,6 @@ set_default_conf(void)
 	ConfigFileEntry.dline_with_reason = true;
 	ConfigFileEntry.kline_with_reason = true;
 	ConfigFileEntry.warn_no_nline = true;
-	ConfigFileEntry.non_redundant_klines = true;
 	ConfigFileEntry.stats_e_disabled = false;
 	ConfigFileEntry.stats_o_oper_only = false;
 	ConfigFileEntry.stats_k_oper_only = 1;	/* masked */

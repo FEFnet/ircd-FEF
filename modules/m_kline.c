@@ -732,7 +732,7 @@ already_placed_kline(struct Client *source_p, const char *luser, const char *lho
 	int t, bits;
 
 	aconf = find_exact_conf_by_address(lhost, CONF_KILL, luser);
-	if(aconf == NULL && ConfigFileEntry.non_redundant_klines)
+	if(aconf == NULL)
 	{
 		bits = 0;
 		t = parse_netmask_strict(lhost, &iphost, &bits);

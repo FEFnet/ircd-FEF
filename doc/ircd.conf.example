@@ -585,7 +585,6 @@ general {
 	illegal_name_short_client_message = "Invalid username";
 	identify_service = "NickServ@services.int";
 	identify_command = "IDENTIFY";
-	non_redundant_klines = yes;
 	warn_no_nline = yes;
 	stats_e_disabled = no;
 	stats_c_oper_only = no;

@@ -184,7 +184,6 @@ struct config_file_entry
 	int kline_with_reason;
 	int hide_tkdline_duration;
 	int warn_no_nline;
-	int non_redundant_klines;
 	int stats_e_disabled;
 	int stats_c_oper_only;
 	int stats_y_oper_only;

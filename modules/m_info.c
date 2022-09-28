@@ -352,11 +352,6 @@ static struct InfoStruct info_table[] = {
 		INFO_STRING(&ServerInfo.network_name),
 	},
 	{
-		"non_redundant_klines",
-		"Check for and disallow redundant K-lines",
-		INFO_INTBOOL(&ConfigFileEntry.non_redundant_klines),
-	},
-	{
 		"pace_wait",
 		"Minimum delay between uses of certain commands",
 		INFO_DECIMAL(&ConfigFileEntry.pace_wait),
