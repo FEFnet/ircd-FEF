@@ -117,9 +117,6 @@ m_topic(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 			sprintf(topic_info, "%s!%s@%s",
 					source_p->name, source_p->username, source_p->host);
 
-			if (ConfigChannel.strip_topic_colors)
-				strip_colour(topic);
-
 			set_channel_topic(chptr, topic, topic_info, rb_current_time());
 
 			sendto_server(client_p, chptr, CAP_TS6, NOCAPS,

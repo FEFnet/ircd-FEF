@@ -365,7 +365,6 @@ channel {
 	disable_local_channels = no;
 	autochanmodes = "+nt";
 	displayed_usercount = 3;
-	strip_topic_colors = no;
 };
 
 serverhide {
