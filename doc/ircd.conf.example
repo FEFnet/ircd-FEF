@@ -357,7 +357,6 @@ channel {
 	default_split_server_count = 0;
 	no_create_on_split = no;
 	no_join_on_split = no;
-	burst_topicwho = yes;
 	kick_on_split_riding = no;
 	only_ascii_channels = no;
 	channel_target_change = yes;

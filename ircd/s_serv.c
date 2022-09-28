@@ -699,10 +699,9 @@ burst_TS6(struct Client *client_p)
 			burst_modes_TS6(client_p, chptr, &chptr->quietlist, 'q');
 
 		if(IsCapable(client_p, CAP_TB) && chptr->topic != NULL)
-			sendto_one(client_p, ":%s TB %s %ld %s%s:%s",
+			sendto_one(client_p, ":%s TB %s %ld %s :%s",
 				   me.id, chptr->chname, (long) chptr->topic_time,
-				   ConfigChannel.burst_topicwho ? chptr->topic_info : "",
-				   ConfigChannel.burst_topicwho ? " " : "",
+				   chptr->topic_info,
 				   chptr->topic);
 
 		if(IsCapable(client_p, CAP_MLOCK))

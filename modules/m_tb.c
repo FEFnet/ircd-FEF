@@ -116,10 +116,10 @@ ms_tb(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_p,
 		sendto_channel_local(fakesource_p, ALL_MEMBERS, chptr, ":%s TOPIC %s :%s",
 				     fakesource_p->name, chptr->chname, newtopic);
 		sendto_server(client_p, chptr, CAP_TB|CAP_TS6, NOCAPS,
-			      ":%s TB %s %ld %s%s:%s",
+			      ":%s TB %s %ld %s :%s",
 			      use_id(source_p), chptr->chname, (long) chptr->topic_time,
-			      ConfigChannel.burst_topicwho ? chptr->topic_info : "",
-			      ConfigChannel.burst_topicwho ? " " : "", chptr->topic);
+			      chptr->topic_info,
+			      chptr->topic);
 	}
 }
 
