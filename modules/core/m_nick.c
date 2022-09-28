@@ -797,7 +797,7 @@ perform_nick_collides(struct Client *source_p, struct Client *client_p,
 	int use_save;
 	const char *action;
 
-	use_save = ConfigFileEntry.collision_fnc && can_save(target_p) &&
+	use_save = can_save(target_p) &&
 		uid != NULL && can_save(source_p);
 	action = use_save ? "saved" : "killed";
 
@@ -912,7 +912,7 @@ perform_nickchange_collides(struct Client *source_p, struct Client *client_p,
 	int use_save;
 	const char *action;
 
-	use_save = ConfigFileEntry.collision_fnc && can_save(target_p) &&
+	use_save = can_save(target_p) &&
 		can_save(source_p);
 	action = use_save ? "saved" : "killed";
 

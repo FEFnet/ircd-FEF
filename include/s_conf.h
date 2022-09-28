@@ -217,8 +217,6 @@ struct config_file_entry
 	int throttle_count;
 	int throttle_duration;
 	int target_change;
-	int collision_fnc;
-	int resv_fnc;
 	int default_umodes;
 	int max_ratelimit_tokens;
 	int away_interval;

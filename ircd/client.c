@@ -749,9 +749,6 @@ resv_nick_fnc(const char *mask, const char *reason, int temp_time)
 	char *nick;
 	char note[NICKLEN+10];
 
-	if (!ConfigFileEntry.resv_fnc)
-		return;
-
 	RB_DLINK_FOREACH_SAFE(ptr, next_ptr, lclient_list.head)
 	{
 		client_p = ptr->data;
