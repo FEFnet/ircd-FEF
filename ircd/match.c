@@ -623,7 +623,7 @@ int ircncmp(const char *s1, const char *s2, int n)
 
 void matchset_for_client(struct Client *who, struct matchset *m)
 {
-	bool hide_ip = IsIPSpoof(who) || (!ConfigChannel.ip_bans_through_vhost && IsDynSpoof(who));
+	bool hide_ip = IsIPSpoof(who);
 	unsigned hostn = 0;
 	unsigned ipn = 0;
 
