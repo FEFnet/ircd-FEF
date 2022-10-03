@@ -113,8 +113,7 @@ confopts(void)
 	result[0] = '\0';
 	p = result;
 
-	if(ConfigChannel.use_except)
-		*p++ = 'e';
+	*p++ = 'e';
 
 	if(ConfigChannel.use_invex)
 		*p++ = 'I';

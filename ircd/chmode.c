@@ -729,19 +729,11 @@ chm_ban(struct Client *source_p, struct Channel *chptr,
 		break;
 
 	case CHFL_EXCEPTION:
-		/* if +e is disabled, allow all but +e locally */
-		if (!ConfigChannel.use_except && MyClient(source_p) && dir == MODE_ADD)
-			return;
-
 		list = &chptr->exceptlist;
 		errorval = SM_ERR_RPL_E;
 		rpl_list_p = form_str(RPL_EXCEPTLIST);
 		rpl_endlist_p = form_str(RPL_ENDOFEXCEPTLIST);
-
-		if(ConfigChannel.use_except || (dir == MODE_DEL))
-			mems = ONLY_CHANOPS;
-		else
-			mems = ONLY_SERVERS;
+		mems = ONLY_CHANOPS;
 		break;
 
 	case CHFL_INVEX:

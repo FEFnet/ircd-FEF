@@ -582,7 +582,7 @@ is_banned_list(struct Channel *chptr, rb_dlink_list *list,
 		actualBan = NULL;
 	}
 
-	if ((actualBan != NULL) && ConfigChannel.use_except)
+	if (actualBan != NULL)
 	{
 		RB_DLINK_FOREACH(ptr, chptr->exceptlist.head)
 		{
