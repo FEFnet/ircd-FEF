@@ -29,8 +29,6 @@ h_can_join(void *data_)
 	
 	if(data->approved != ERR_NEEDREGGEDNICK)
 		return;
-	if(!ConfigChannel.use_invex)
-		return;
 
 	matchset_for_client(source_p, &ms);
 

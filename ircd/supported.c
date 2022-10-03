@@ -238,8 +238,7 @@ isupport_chanmodes(const void *ptr)
 {
 	static char result[300];
 
-	snprintf(result, sizeof result, "e%sbq,k,flj,%s",
-			ConfigChannel.use_invex ? "I" : "",
+	snprintf(result, sizeof result, "eIbq,k,flj,%s",
 			cflagsbuf);
 	return result;
 }
@@ -258,8 +257,7 @@ isupport_maxlist(const void *ptr)
 {
 	static char result[30];
 
-	snprintf(result, sizeof result, "bqe%s:%i",
-			ConfigChannel.use_invex ? "I" : "",
+	snprintf(result, sizeof result, "bqeI:%i",
 			ConfigChannel.max_bans);
 	return result;
 }
@@ -307,7 +305,7 @@ init_isupport(void)
 
 	add_isupport("CHANTYPES", isupport_string, allowed_chantypes);
 	add_isupport("EXCEPTS", isupport_boolean, NULL);
-	add_isupport("INVEX", isupport_boolean, &ConfigChannel.use_invex);
+	add_isupport("INVEX", isupport_boolean, NULL);
 	add_isupport("CHANMODES", isupport_chanmodes, NULL);
 	add_isupport("CHANLIMIT", isupport_chanlimit, NULL);
 	add_isupport("PREFIX", isupport_string, "(ov)@+");

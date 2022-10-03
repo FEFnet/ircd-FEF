@@ -737,19 +737,11 @@ chm_ban(struct Client *source_p, struct Channel *chptr,
 		break;
 
 	case CHFL_INVEX:
-		/* if +I is disabled, allow all but +I locally */
-		if (!ConfigChannel.use_invex && MyClient(source_p) && dir == MODE_ADD)
-			return;
-
 		list = &chptr->invexlist;
 		errorval = SM_ERR_RPL_I;
 		rpl_list_p = form_str(RPL_INVITELIST);
 		rpl_endlist_p = form_str(RPL_ENDOFINVITELIST);
-
-		if(ConfigChannel.use_invex || (dir == MODE_DEL))
-			mems = ONLY_CHANOPS;
-		else
-			mems = ONLY_SERVERS;
+		mems = ONLY_CHANOPS;
 		break;
 
 	case CHFL_QUIET:

@@ -735,8 +735,6 @@ can_join(struct Client *source_p, struct Channel *chptr, const char *key, const 
 		}
 		if(invite == NULL)
 		{
-			if(!ConfigChannel.use_invex)
-				moduledata.approved = ERR_INVITEONLYCHAN;
 			RB_DLINK_FOREACH(ptr, chptr->invexlist.head)
 			{
 				invex = ptr->data;

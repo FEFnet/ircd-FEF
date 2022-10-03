@@ -527,11 +527,6 @@ static struct InfoStruct info_table[] = {
 		INFO_INTBOOL_YN(&ConfigChannel.only_ascii_channels),
 	},
 	{
-		"use_invex",
-		"Enable chanmode +I (invite exceptions)",
-		INFO_INTBOOL_YN(&ConfigChannel.use_invex),
-	},
-	{
 		"hide_opers",
 		"Hide all opers from unprivileged users",
 		INFO_INTBOOL_YN(&ConfigFileEntry.hide_opers),

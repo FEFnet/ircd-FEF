@@ -733,7 +733,6 @@ set_default_conf(void)
 	ConfigFileEntry.oper_only_umodes = UMODE_SERVNOTICE;
 	ConfigFileEntry.oper_snomask = SNO_GENERAL;
 
-	ConfigChannel.use_invex = true;
 	ConfigChannel.knock_delay = 300;
 	ConfigChannel.knock_delay_channel = 60;
 	ConfigChannel.max_chans_per_user = 15;

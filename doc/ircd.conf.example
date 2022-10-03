@@ -343,7 +343,6 @@ exempt {
 };
 
 channel {
-	use_invex = yes;
 	knock_delay = 5 minutes;
 	knock_delay_channel = 1 minute;
 	max_chans_per_user = 15;

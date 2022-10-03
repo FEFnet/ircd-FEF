@@ -250,7 +250,6 @@ struct config_file_entry
 
 struct config_channel_entry
 {
-	int use_invex;
 	int knock_delay;
 	int knock_delay_channel;
 	int max_bans;

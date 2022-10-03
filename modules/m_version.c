@@ -114,10 +114,7 @@ confopts(void)
 	p = result;
 
 	*p++ = 'e';
-
-	if(ConfigChannel.use_invex)
-		*p++ = 'I';
-
+	*p++ = 'I';
 	*p++ = 'K';
 	*p++ = 'M';
 	*p++ = 'p';
