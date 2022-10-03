@@ -253,7 +253,6 @@ struct config_channel_entry
 	int use_except;
 	int use_invex;
 	int use_forward;
-	int use_knock;
 	int knock_delay;
 	int knock_delay_channel;
 	int max_bans;

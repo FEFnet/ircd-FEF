@@ -542,11 +542,6 @@ static struct InfoStruct info_table[] = {
 		INFO_INTBOOL_YN(&ConfigChannel.use_forward),
 	},
 	{
-		"use_knock",
-		"Enable /KNOCK",
-		INFO_INTBOOL_YN(&ConfigChannel.use_knock),
-	},
-	{
 		"hide_opers",
 		"Hide all opers from unprivileged users",
 		INFO_INTBOOL_YN(&ConfigFileEntry.hide_opers),

@@ -49,7 +49,7 @@ struct Message knock_msgtab = {
 static int
 _modinit(void)
 {
-	add_isupport("KNOCK", isupport_boolean, &ConfigChannel.use_knock);
+	add_isupport("KNOCK", isupport_boolean, "");
 	return 0;
 }
 
@@ -81,13 +81,6 @@ m_knock(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 {
 	struct Channel *chptr;
 	char *p, *name;
-
-	if(MyClient(source_p) && ConfigChannel.use_knock == 0)
-	{
-		sendto_one(source_p, form_str(ERR_KNOCKDISABLED),
-			   me.name, source_p->name);
-		return;
-	}
 
 	name = LOCAL_COPY(parv[1]);
 
@@ -166,11 +159,10 @@ m_knock(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 
 	chptr->last_knock = rb_current_time();
 
-	if(ConfigChannel.use_knock)
-		sendto_channel_local(source_p, (chptr->mode.mode & MODE_FREEINVITE) ? ALL_MEMBERS : ONLY_CHANOPS,
-				     chptr, form_str(RPL_KNOCK),
-				     me.name, name, name, source_p->name,
-				     source_p->username, source_p->host);
+	sendto_channel_local(source_p, (chptr->mode.mode & MODE_FREEINVITE) ? ALL_MEMBERS : ONLY_CHANOPS,
+			     chptr, form_str(RPL_KNOCK),
+			     me.name, name, name, source_p->name,
+			     source_p->username, source_p->host);
 
 	sendto_server(client_p, chptr, CAP_KNOCK|CAP_TS6, NOCAPS,
 		      ":%s KNOCK %s", use_id(source_p), name);

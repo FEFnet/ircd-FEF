@@ -335,7 +335,6 @@
 #define ERR_TOOMANYKNOCK     712
 #define ERR_CHANOPEN         713
 #define ERR_KNOCKONCHAN      714
-#define ERR_KNOCKDISABLED    715
 
 #define ERR_TARGUMODEG       716
 #define RPL_TARGNOTIFY       717

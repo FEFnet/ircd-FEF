@@ -119,9 +119,7 @@ confopts(void)
 	if(ConfigChannel.use_invex)
 		*p++ = 'I';
 
-	if(ConfigChannel.use_knock)
-		*p++ = 'K';
-
+	*p++ = 'K';
 	*p++ = 'M';
 	*p++ = 'p';
 	*p++ = 'S';
