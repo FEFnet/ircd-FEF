@@ -238,10 +238,9 @@ isupport_chanmodes(const void *ptr)
 {
 	static char result[300];
 
-	snprintf(result, sizeof result, "%s%sbq,k,%slj,%s",
+	snprintf(result, sizeof result, "%s%sbq,k,flj,%s",
 			ConfigChannel.use_except ? "e" : "",
 			ConfigChannel.use_invex ? "I" : "",
-			ConfigChannel.use_forward ? "f" : "",
 			cflagsbuf);
 	return result;
 }

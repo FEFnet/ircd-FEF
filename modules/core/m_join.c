@@ -99,8 +99,8 @@ check_forward(struct Client *source_p, struct Channel *chptr,
 	if ((*err = can_join(source_p, chptr, key, &next)) == 0)
 		return chptr;
 
-	/* User is +Q, or forwarding disabled */
-	if (IsNoForward(source_p) || !ConfigChannel.use_forward)
+	/* User is +Q */
+	if (IsNoForward(source_p))
 		return NULL;
 
 	while (depth < 16)
@@ -1159,8 +1159,7 @@ set_final_mode(char *mbuf, char *parabuf, struct Mode *mode, struct Mode *oldmod
 		len = sprintf(pbuf, "%d:%d ", mode->join_num, mode->join_time);
 		pbuf += len;
 	}
-	if(mode->forward[0] && strcmp(oldmode->forward, mode->forward) &&
-			ConfigChannel.use_forward)
+	if(mode->forward[0] && strcmp(oldmode->forward, mode->forward))
 	{
 		if(dir != MODE_ADD)
 		{

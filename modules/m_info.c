@@ -537,11 +537,6 @@ static struct InfoStruct info_table[] = {
 		INFO_INTBOOL_YN(&ConfigChannel.use_invex),
 	},
 	{
-		"use_forward",
-		"Enable chanmode +f (channel forwarding)",
-		INFO_INTBOOL_YN(&ConfigChannel.use_forward),
-	},
-	{
 		"hide_opers",
 		"Hide all opers from unprivileged users",
 		INFO_INTBOOL_YN(&ConfigFileEntry.hide_opers),

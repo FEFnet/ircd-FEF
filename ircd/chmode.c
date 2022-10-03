@@ -105,8 +105,7 @@ construct_cflags_strings(void)
 		{
 		    case MODE_FREETARGET:
 		    case MODE_DISFORWARD:
-			if(ConfigChannel.use_forward)
-				*ptr++ = (char) i;
+			*ptr++ = (char) i;
 			break;
 		    default:
 			if(chmode_flags[i] != 0)
@@ -570,11 +569,6 @@ chm_simple(struct Client *source_p, struct Channel *chptr,
 	/* setting + */
 	if((dir == MODE_ADD) && !(chptr->mode.mode & mode_type))
 	{
-		/* if +f is disabled, ignore an attempt to set +QF locally */
-		if(!ConfigChannel.use_forward && MyClient(source_p) &&
-				(c == 'Q' || c == 'F'))
-			return;
-
 		chptr->mode.mode |= mode_type;
 
 		mode_changes[mode_count].letter = c;
@@ -876,8 +870,7 @@ chm_ban(struct Client *source_p, struct Channel *chptr,
 			/* For simplicity and future flexibility, do not
 			 * allow '$' in forwarding targets.
 			 */
-			if (!ConfigChannel.use_forward ||
-					strchr(forward, '$') != NULL)
+			if (strchr(forward, '$') != NULL)
 			{
 				sendto_one_numeric(source_p, ERR_INVALIDBAN,
 						form_str(ERR_INVALIDBAN),
@@ -1150,10 +1143,6 @@ void
 chm_forward(struct Client *source_p, struct Channel *chptr,
 	int alevel, const char *arg, int *errors, int dir, char c, long mode_type)
 {
-	/* if +f is disabled, ignore local attempts to set it */
-	if (!ConfigChannel.use_forward && MyClient(source_p) && dir == MODE_ADD)
-		return;
-
 	if (dir == MODE_QUERY)
 	{
 		if (!(*errors & SM_ERR_RPL_F))
@@ -1192,8 +1181,7 @@ chm_forward(struct Client *source_p, struct Channel *chptr,
 
 		mode_changes[mode_count].letter = c;
 		mode_changes[mode_count].dir = MODE_ADD;
-		mode_changes[mode_count].mems =
-			ConfigChannel.use_forward ? ALL_MEMBERS : ONLY_SERVERS;
+		mode_changes[mode_count].mems = ALL_MEMBERS;
 		mode_changes[mode_count].id = NULL;
 		mode_changes[mode_count++].arg = arg;
 	}
