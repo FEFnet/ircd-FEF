@@ -9,7 +9,7 @@ Modules
 createauthonly.c - Only allow authenticated (identified) users to create
                    channels.
 
-ip_cloaking.c  - Cloak (spoof) the host for users that have umode +h.
+ip_cloaking_4.0.c - Cloak (spoof) the host for users that have umode +x.
 
 m_adminwall.c  - Sends a message to all admins network-wide (umode +a)
                  Syntax: ADMINWALL :<message>

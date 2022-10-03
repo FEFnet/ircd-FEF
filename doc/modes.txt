@@ -4,6 +4,6 @@ Standard channel modes are listed in help/opers/cmode
 
 The sgml docs have more detailed descriptions.
 
-User mode +x (hide hostname) is provided by contrib/ip_cloaking.so
+User mode +x (hide hostname) is provided by contrib/ip_cloaking_4.0.so
 Server notice mask +F (far connects) is provided by contrib/sno_farconnect.so
 Information on the caller ID system can be found in doc/features/modeg.txt

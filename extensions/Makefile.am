@@ -31,9 +31,6 @@ extension_LTLIBRARIES =		\
   helpops.la			\
   hurt.la			\
   invite_notify.la		\
-  ip_cloaking.la		\
-  ip_cloaking_old.la		\
-  ip_cloaking_3.0.la		\
   ip_cloaking_4.0.la		\
   override.la			\
   override_kick_immunity.la	\
