@@ -359,7 +359,6 @@ channel {
 	no_join_on_split = no;
 	kick_on_split_riding = no;
 	only_ascii_channels = no;
-	channel_target_change = yes;
 	disable_local_channels = no;
 	autochanmodes = "+nt";
 	displayed_usercount = 3;

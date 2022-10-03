@@ -76,9 +76,6 @@ add_channel_target(struct Client *source_p, struct Channel *chptr)
 {
 	uint32_t hashv;
 
-	if(!ConfigChannel.channel_target_change)
-		return 1;
-
 	hashv = fnv_hash_upper((const unsigned char *)chptr->chname, 32);
 	return add_hashed_target(source_p, hashv);
 }
