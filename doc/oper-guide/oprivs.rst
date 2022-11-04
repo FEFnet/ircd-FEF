@@ -70,8 +70,7 @@ oper:remoteban, set remote bans
 This grants the ability to use the ON argument on ``DLINE``/``KLINE``/``XLINE``/``RESV``
 and ``UNDLINE``/``UNKLINE``/``UNXLINE``/``UNRESV`` to set and unset bans on other
 servers, and the server argument on ``REHASH``. This is only allowed if the
-oper may perform the action locally, and if the remote server has a
-shared{} block.
+oper may perform the action locally.
 
 oper:resv, channel control
 --------------------------

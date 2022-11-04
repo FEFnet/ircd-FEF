@@ -233,8 +233,7 @@ If a reason is specified, it will be sent to the client when they are
 disconnected, and whenever a connection is attempted which is banned.
 
 If the ON part is specified, the ``K:line`` is set on servers matching the
-given mask (provided a matching ``shared{}`` block exists there). Otherwise,
-the ``K:Line`` will be propagated across the network.
+given mask. Otherwise, the ``K:Line`` will be propagated across the network.
 
 UNKLINE
 -------
@@ -265,8 +264,7 @@ The reason is never sent to users. Instead, they will be exited with
 "Bad user info".
 
 If the ON part is specified, the ``X:line`` is set on servers matching the
-given mask (provided a matching ``shared{}`` block exists there). Otherwise,
-the ``X:line`` will be propagated across the network.
+given mask. Otherwise, the ``X:line`` will be propagated across the network.
 
 UNXLINE
 -------
@@ -303,8 +301,7 @@ oper-only.
 The reason is never sent to users.
 
 If the ON part is specified, the resv is set on servers matching the
-given mask (provided a matching ``shared{}`` block exists there). Otherwise,
-the resv will be propagated across the network.
+given mask. Otherwise, the resv will be propagated across the network.
 
 UNRESV
 ------
@@ -341,9 +338,7 @@ attempted which is banned.
 somebody is flooding connections.
 
 If the ON part is specified, the ``D:line`` is set on servers matching the
-given mask (provided a matching ``shared{}`` block exists there, which is
-not the case by default). Otherwise, the D:Line will be set on the local
-server only.
+given mask. Otherwise, the D:Line will be set on the local server only.
 
 Only ``exempt{}`` blocks exempt from ``D:lines``. Being a server or having
 ``kline_exempt`` in ``auth{}`` does *not* exempt (different from ``K/G/X:lines``).
@@ -698,7 +693,7 @@ u
     Show server uptime
 
 U
-    Show shared (c) and service (s) blocks
+    Show service (s) blocks
 
 v
     Show connected servers and brief status

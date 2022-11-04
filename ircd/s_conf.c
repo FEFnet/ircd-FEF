@@ -1470,7 +1470,7 @@ clear_out_old_conf(void)
 	/* clean out listeners */
 	close_listeners();
 
-	/* auth{}, quarantine{}, shared{}, connect{}, kill{}, deny{}, exempt{}
+	/* auth{}, quarantine{}, connect{}, kill{}, deny{}, exempt{}
 	 * and gecos{} blocks are freed above too
 	 */
 

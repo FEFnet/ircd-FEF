@@ -624,88 +624,6 @@ target
     is interpreted on the target server only so you may need to use
     nick@server instead).
 
-shared {} block
----------------
-
-::
-   
-    shared {
-    	oper = "user@host", "server";
-    	flags = list;
-    };
-
-The shared block specifies opers allowed to perform certain actions on
-our server remotely. These are ordered top down. The first one matching
-will determine the oper's access. If access is denied, the command will
-be silently ignored.
-
-The letters in parentheses denote the flags in ``/stats U``.
-
-**shared {} variables**
-
-oper
-    The user@host the oper must have, and the server they must be on.
-    This may contain wildcards.
-
-flags
-    The list of what to allow, all the oper lines above this (up to
-    another flags entry) will receive these flags. They are listed
-    below.
-
-**shared {} flags**
-
-kline (K)
-    Permanent and temporary ``K:lines``
-
-tkline (k)
-    Temporary ``K:lines``
-
-unkline (U)
-    ``K:line`` removals
-
-xline (X)
-    Permanent and temporary ``X:lines``
-
-txline (x)
-    Temporary ``X:lines``
-
-unxline (Y)
-    ``X:line`` removals
-
-resv (Q)
-    Permanently and temporarily reserved nicks/channels
-
-tresv (q)
-    Temporarily reserved nicks/channels
-
-unresv (R)
-    ``RESV`` removals
-
-all
-    All of the above; this does not include locops, rehash, dline,
-    tdline or undline.
-
-locops (L)
-    ``LOCOPS`` messages (accepting this from \* makes ``LOCOPS`` rather similar
-    to ``OPERWALL`` which is not useful); unlike the other flags, this can
-    only be accepted from \*@\* although it can be restricted based on
-    source server.
-
-rehash (H)
-    ``REHASH`` commands; all options can be used
-
-dline (D)
-    Permanent and temporary ``D:lines``
-
-tdline (d)
-    Temporary ``D:lines``
-
-undline (E)
-    ``D:line`` removals
-
-none
-    Allow nothing to be done
-
 service {} block
 ----------------
 
@@ -717,9 +635,7 @@ service {} block
 
 The service block specifies privileged servers (services). These servers
 have extra privileges such as setting login names on users and
-introducing clients with umode ``+S`` (unkickable, hide channels, etc). This
-does not allow them to set bans, you need a separate shared{} block for
-that.
+introducing clients with umode ``+S`` (unkickable, hide channels, etc).
 
 Do not place normal servers here.
 
