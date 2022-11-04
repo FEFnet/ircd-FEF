@@ -201,7 +201,7 @@ mo_kline(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source
 		propagated = false;
 	}
 	/* if we have cluster servers, send it to them.. */
-	else if(!propagated && rb_dlink_list_length(&cluster_conf_list) > 0)
+	else if(!propagated)
 		cluster_generic(source_p, "KLINE",
 				(tkline_time > 0) ? SHARED_TKLINE : SHARED_PKLINE, CAP_KLN,
 				"%lu %s %s :%s", tkline_time, user, host, reason);
@@ -433,8 +433,7 @@ mo_unkline(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *sour
 	aconf = find_exact_conf_by_address(host, CONF_KILL, user);
 
 	/* No clustering for removing a propagated kline */
-	if(propagated && (aconf == NULL || !aconf->lifetime) &&
-			rb_dlink_list_length(&cluster_conf_list) > 0)
+	if(propagated && (aconf == NULL || !aconf->lifetime))
 		cluster_generic(source_p, "UNKLINE", SHARED_UNKLINE, CAP_UNKLN,
 				"%s %s", user, host);
 

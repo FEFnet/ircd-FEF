@@ -45,7 +45,6 @@
 struct Client;
 struct ConfItem;
 
-extern rb_dlink_list cluster_conf_list;
 extern rb_dlink_list oper_conf_list;
 extern rb_dlink_list server_conf_list;
 extern rb_dlink_list xline_conf_list;
@@ -70,17 +69,7 @@ typedef struct
 void add_tgchange(const char *host);
 tgchange *find_tgchange(const char *host);
 
-/* cluster confs */
-struct remote_conf
-{
-	char *username;
-	char *host;
-	char *server;
-	int flags;
-	rb_dlink_node node;
-};
-
-/* flags used in shared/cluster */
+/* flags used in shared */
 #define SHARED_TKLINE	0x00001
 #define SHARED_PKLINE	0x00002
 #define SHARED_UNKLINE	0x00004
@@ -128,9 +117,6 @@ struct oper_conf
 #endif
 #endif
 };
-
-extern struct remote_conf *make_remote_conf(void);
-extern void free_remote_conf(struct remote_conf *);
 
 extern void propagate_generic(struct Client *source_p, const char *command,
 		const char *target, int cap, const char *format, ...);

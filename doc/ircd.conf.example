@@ -322,11 +322,6 @@ service {
 	name = "services.int";
 };
 
-cluster {
-	name = "*";
-	flags = kline, tkline, unkline, xline, txline, unxline, resv, tresv, unresv;
-};
-
 secure {
 	ip = "127.0.0.1";
 };

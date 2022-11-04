@@ -163,7 +163,7 @@ mo_xline(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source
 		/* Set as local-only. */
 		propagated = false;
 	}
-	else if(!propagated && rb_dlink_list_length(&cluster_conf_list) > 0)
+	else if(!propagated)
 		cluster_xline(source_p, temp_time, name, reason);
 
 	if((aconf = find_xline_mask(name)) != NULL)
@@ -351,32 +351,21 @@ propagate_xline(struct Client *source_p, const char *target,
 static void
 cluster_xline(struct Client *source_p, int temp_time, const char *name, const char *reason)
 {
-	struct remote_conf *shared_p;
-	rb_dlink_node *ptr;
-
-	RB_DLINK_FOREACH(ptr, cluster_conf_list.head)
+	/* old protocol cant handle temps, and we dont really want
+	 * to convert them to perm.. --fl
+	 */
+	if(!temp_time)
 	{
-		shared_p = ptr->data;
-
-		/* old protocol cant handle temps, and we dont really want
-		 * to convert them to perm.. --fl
-		 */
-		if(!temp_time)
-		{
-			if(!(shared_p->flags & SHARED_PXLINE))
-				continue;
-
-			sendto_match_servs(source_p, shared_p->server, CAP_CLUSTER, NOCAPS,
-					   "XLINE %s %s 2 :%s", shared_p->server, name, reason);
-			sendto_match_servs(source_p, shared_p->server, CAP_ENCAP, CAP_CLUSTER,
-					   "ENCAP %s XLINE 0 %s 2 :%s",
-					   shared_p->server, name, reason);
-		}
-		else if(shared_p->flags & SHARED_TXLINE)
-			sendto_match_servs(source_p, shared_p->server, CAP_ENCAP, NOCAPS,
-					   "ENCAP %s XLINE %d %s 2 :%s",
-					   shared_p->server, temp_time, name, reason);
+		sendto_server(source_p, NULL, CAP_CLUSTER, NOCAPS,
+				   "XLINE * %s 2 :%s", name, reason);
+		sendto_server(source_p, NULL, CAP_ENCAP, CAP_CLUSTER,
+				   "ENCAP * XLINE 0 %s 2 :%s",
+				   name, reason);
 	}
+	else
+		sendto_server(source_p, NULL, CAP_ENCAP, NOCAPS,
+				   "ENCAP * XLINE %d %s 2 :%s",
+				   temp_time, name, reason);
 }
 
 /* mo_unxline()
@@ -413,7 +402,6 @@ mo_unxline(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *sour
 
 		propagated = false;
 	}
-	/* cluster{} moved to remove_xline */
 
 	remove_xline(source_p, parv[1], propagated);
 }
@@ -501,7 +489,7 @@ remove_xline(struct Client *source_p, const char *name, bool propagated)
 				deactivate_conf(aconf, now);
 				return;
 			}
-			else if(propagated && rb_dlink_list_length(&cluster_conf_list))
+			else if(propagated)
 				cluster_generic(source_p, "UNXLINE", SHARED_UNXLINE, CAP_CLUSTER, "%s", name);
 			if(!aconf->hold)
 			{
@@ -529,7 +517,7 @@ remove_xline(struct Client *source_p, const char *name, bool propagated)
 		}
 	}
 
-	if(propagated && rb_dlink_list_length(&cluster_conf_list))
+	if(propagated)
 		cluster_generic(source_p, "UNXLINE", SHARED_UNXLINE, CAP_CLUSTER, "%s", name);
 
 	sendto_one_notice(source_p, ":No X-Line for %s", name);

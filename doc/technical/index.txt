@@ -1,7 +1,6 @@
 Technical Documentation for Charybdis
 
 capab.txt                 - Description of server capabilities
-cluster.txt               - Technical description of the cluster system
 euid.txt                  - Description of TS6 EUIDs
 event.txt                 - Outline of the event system
 hooks.txt                 - Internal IRC daemon hoks

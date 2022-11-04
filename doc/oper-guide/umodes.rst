@@ -54,7 +54,7 @@ Invisible users do not show up in ``WHO`` and ``NAMES`` unless you can see them.
 ----------------------
 
 ``LOCOPS`` is a version of ``OPERWALL`` that is sent to opers on a single server
-only. With cluster{} and shared{} blocks they can optionally be
+only. With shared{} blocks they can optionally be
 propagated further.
 
 Unlike ``OPERWALL``, any oper can send and receive ``LOCOPS``.

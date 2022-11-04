@@ -73,9 +73,6 @@ servers, and the server argument on ``REHASH``. This is only allowed if the
 oper may perform the action locally, and if the remote server has a
 shared{} block.
 
-.. note:: If a cluster{} block is present, bans are sent remotely even
-          if the oper does not have oper:remoteban privilege.
-
 oper:resv, channel control
 --------------------------
 

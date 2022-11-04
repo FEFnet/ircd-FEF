@@ -234,8 +234,7 @@ disconnected, and whenever a connection is attempted which is banned.
 
 If the ON part is specified, the ``K:line`` is set on servers matching the
 given mask (provided a matching ``shared{}`` block exists there). Otherwise,
-if specified in a ``cluster{}`` block, the ``K:Line`` will be propagated across
-the network accordingly.
+the ``K:Line`` will be propagated across the network.
 
 UNKLINE
 -------
@@ -267,8 +266,7 @@ The reason is never sent to users. Instead, they will be exited with
 
 If the ON part is specified, the ``X:line`` is set on servers matching the
 given mask (provided a matching ``shared{}`` block exists there). Otherwise,
-if specified in a ``cluster{}`` block, the ``X:line`` will be propagated across
-the network accordingly.
+the ``X:line`` will be propagated across the network.
 
 UNXLINE
 -------
@@ -306,8 +304,7 @@ The reason is never sent to users.
 
 If the ON part is specified, the resv is set on servers matching the
 given mask (provided a matching ``shared{}`` block exists there). Otherwise,
-if specified in a ``cluster{}`` block, the resv will be propagated across
-the network accordingly.
+the resv will be propagated across the network.
 
 UNRESV
 ------
@@ -701,7 +698,7 @@ u
     Show server uptime
 
 U
-    Show shared (c), cluster (C) and service (s) blocks
+    Show shared (c) and service (s) blocks
 
 v
     Show connected servers and brief status

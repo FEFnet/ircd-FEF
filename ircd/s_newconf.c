@@ -52,7 +52,6 @@
 #include "logger.h"
 #include "dns.h"
 
-rb_dlink_list cluster_conf_list;
 rb_dlink_list oper_conf_list;
 rb_dlink_list server_conf_list;
 rb_dlink_list xline_conf_list;
@@ -85,12 +84,6 @@ clear_s_newconf(void)
 	struct server_conf *server_p;
 	rb_dlink_node *ptr;
 	rb_dlink_node *next_ptr;
-
-	RB_DLINK_FOREACH_SAFE(ptr, next_ptr, cluster_conf_list.head)
-	{
-		rb_dlinkDelete(ptr, &cluster_conf_list);
-		free_remote_conf(ptr->data);
-	}
 
 	RB_DLINK_FOREACH_SAFE(ptr, next_ptr, oper_conf_list.head)
 	{
@@ -144,26 +137,6 @@ clear_s_newconf_bans(void)
 	clear_resv_hash();
 }
 
-struct remote_conf *
-make_remote_conf(void)
-{
-	struct remote_conf *remote_p = rb_malloc(sizeof(struct remote_conf));
-	return remote_p;
-}
-
-void
-free_remote_conf(struct remote_conf *remote_p)
-{
-	s_assert(remote_p != NULL);
-	if(remote_p == NULL)
-		return;
-
-	rb_free(remote_p->username);
-	rb_free(remote_p->host);
-	rb_free(remote_p->server);
-	rb_free(remote_p);
-}
-
 void
 propagate_generic(struct Client *source_p, const char *command,
 		const char *target, int cap, const char *format, ...)
@@ -188,28 +161,18 @@ cluster_generic(struct Client *source_p, const char *command,
 		int cltype, int cap, const char *format, ...)
 {
 	char buffer[BUFSIZE];
-	struct remote_conf *shared_p;
 	va_list args;
-	rb_dlink_node *ptr;
 
 	va_start(args, format);
 	vsnprintf(buffer, sizeof(buffer), format, args);
 	va_end(args);
 
-	RB_DLINK_FOREACH(ptr, cluster_conf_list.head)
-	{
-		shared_p = ptr->data;
-
-		if(!(shared_p->flags & cltype))
-			continue;
-
-		sendto_match_servs(source_p, shared_p->server, cap, NOCAPS,
-				"%s %s %s",
-				command, shared_p->server, buffer);
-		sendto_match_servs(source_p, shared_p->server, CAP_ENCAP, cap,
-				"ENCAP %s %s %s",
-				shared_p->server, command, buffer);
-	}
+	sendto_server(source_p, NULL, cap, NOCAPS,
+			"%s * %s",
+			command, buffer);
+	sendto_server(source_p, NULL, CAP_ENCAP, cap,
+			"ENCAP %s * %s",
+			command, buffer);
 }
 
 struct oper_conf *

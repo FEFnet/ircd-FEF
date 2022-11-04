@@ -624,73 +624,6 @@ target
     is interpreted on the target server only so you may need to use
     nick@server instead).
 
-cluster {} block
-----------------
-
-::
-   
-    cluster {
-    	name = "text";
-    	flags = list;
-    };
-    
-The cluster block specifies servers we propagate things to
-automatically. This does not allow them to set bans, you need a separate
-shared{} block for that.
-
-Having overlapping cluster{} items will cause the command to be executed
-twice on the target servers. This is particularly undesirable for ban
-removals.
-
-The letters in parentheses denote the flags in ``/stats`` U.
-
-**cluster {} variables**
-
-name
-    The server name to share with, this may contain wildcards and may be
-    stacked.
-
-flags
-    The list of what to share, all the name lines above this (up to
-    another flags entry) will receive these flags. They are listed
-    below.
-
-**cluster {} flags**
-
-kline (K)
-    Permanent ``K:lines``
-
-tkline (k)
-    Temporary ``K:lines``
-
-unkline (U)
-    ``K:line`` removals
-
-xline (X)
-    Permanent ``X:lines``
-
-txline (x)
-    Temporary ``X:lines``
-
-unxline (Y)
-    ``X:line`` removals
-
-resv (Q)
-    Permanently reserved nicks/channels
-
-tresv (q)
-    Temporarily reserved nicks/channels
-
-unresv (R)
-    ``RESV`` removals
-
-locops (L)
-    ``LOCOPS`` messages (sharing this with \* makes ``LOCOPS`` rather similar to
-    ``OPERWALL`` which is not useful)
-
-all
-    All of the above
-
 shared {} block
 ---------------
 
@@ -718,9 +651,6 @@ flags
     The list of what to allow, all the oper lines above this (up to
     another flags entry) will receive these flags. They are listed
     below.
-
-    .. note:: While they have the same names, the flags have subtly
-              different meanings from those in the cluster{} block.
 
 **shared {} flags**
 

@@ -142,7 +142,7 @@ mo_resv(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 		if(match(target_server, me.name) == 0)
 			return;
 	}
-	else if(!propagated && rb_dlink_list_length(&cluster_conf_list) > 0)
+	else if(!propagated)
 		cluster_resv(source_p, temp_time, name, reason);
 
 	if(propagated && temp_time == 0)
@@ -383,35 +383,24 @@ propagate_resv(struct Client *source_p, const char *target,
 static void
 cluster_resv(struct Client *source_p, int temp_time, const char *name, const char *reason)
 {
-	struct remote_conf *shared_p;
-	rb_dlink_node *ptr;
-
-	RB_DLINK_FOREACH(ptr, cluster_conf_list.head)
+	/* old protocol cant handle temps, and we dont really want
+	 * to convert them to perm.. --fl
+	 */
+	if(!temp_time)
 	{
-		shared_p = ptr->data;
-
-		/* old protocol cant handle temps, and we dont really want
-		 * to convert them to perm.. --fl
-		 */
-		if(!temp_time)
-		{
-			if(!(shared_p->flags & SHARED_PRESV))
-				continue;
-
-			sendto_match_servs(source_p, shared_p->server,
-					   CAP_CLUSTER, NOCAPS,
-					   "RESV %s %s :%s", shared_p->server, name, reason);
-			sendto_match_servs(source_p, shared_p->server,
-					   CAP_ENCAP, CAP_CLUSTER,
-					   "ENCAP %s RESV 0 %s 0 :%s",
-					   shared_p->server, name, reason);
-		}
-		else if(shared_p->flags & SHARED_TRESV)
-			sendto_match_servs(source_p, shared_p->server,
-					   CAP_ENCAP, NOCAPS,
-					   "ENCAP %s RESV %d %s 0 :%s",
-					   shared_p->server, temp_time, name, reason);
+		sendto_server(source_p, NULL,
+				   CAP_CLUSTER, NOCAPS,
+				   "RESV * %s :%s", name, reason);
+		sendto_server(source_p, NULL,
+				   CAP_ENCAP, CAP_CLUSTER,
+				   "ENCAP * RESV 0 %s 0 :%s",
+				   name, reason);
 	}
+	else
+		sendto_server(source_p, NULL,
+				   CAP_ENCAP, NOCAPS,
+				   "ENCAP * RESV %d %s 0 :%s",
+				   temp_time, name, reason);
 }
 
 
@@ -446,11 +435,6 @@ mo_unresv(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *sourc
 
 		propagated = 0;
 	}
-#if 0
-	else if(rb_dlink_list_length(&cluster_conf_list) > 0)
-		cluster_generic(source_p, "UNRESV", SHARED_UNRESV, CAP_CLUSTER, "%s", parv[1]);
-#endif
-	/* cluster{} moved to remove_resv */
 
 	remove_resv(source_p, parv[1], propagated);
 }
@@ -497,7 +481,7 @@ remove_resv(struct Client *source_p, const char *name, int propagated)
 	{
 		if((aconf = hash_find_resv(name)) == NULL)
 		{
-			if(propagated && rb_dlink_list_length(&cluster_conf_list))
+			if(propagated)
 				cluster_generic(source_p, "UNRESV", SHARED_UNRESV, CAP_CLUSTER, "%s", name);
 
 			sendto_one_notice(source_p, ":No RESV for %s", name);
@@ -536,7 +520,7 @@ remove_resv(struct Client *source_p, const char *name, int propagated)
 			deactivate_conf(aconf, now);
 			return;
 		}
-		else if(propagated && rb_dlink_list_length(&cluster_conf_list) > 0)
+		else if(propagated)
 			cluster_generic(source_p, "UNRESV", SHARED_UNRESV, CAP_CLUSTER, "%s", name);
 
 		sendto_one_notice(source_p, ":RESV for [%s] is removed", name);
@@ -570,7 +554,7 @@ remove_resv(struct Client *source_p, const char *name, int propagated)
 
 		if(aconf == NULL)
 		{
-			if(propagated && rb_dlink_list_length(&cluster_conf_list))
+			if(propagated)
 				cluster_generic(source_p, "UNRESV", SHARED_UNRESV, CAP_CLUSTER, "%s", name);
 
 			sendto_one_notice(source_p, ":No RESV for %s", name);
@@ -609,7 +593,7 @@ remove_resv(struct Client *source_p, const char *name, int propagated)
 			deactivate_conf(aconf, now);
 			return;
 		}
-		else if(propagated && rb_dlink_list_length(&cluster_conf_list) > 0)
+		else if(propagated)
 			cluster_generic(source_p, "UNRESV", SHARED_UNRESV, CAP_CLUSTER, "%s", name);
 
 		sendto_one_notice(source_p, ":RESV for [%s] is removed", name);

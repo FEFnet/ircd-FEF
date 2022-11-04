@@ -49,12 +49,10 @@ static struct ConfItem *yy_aconf = NULL;
 
 static struct Class *yy_class = NULL;
 
-static struct remote_conf *yy_shared = NULL;
 static struct server_conf *yy_server = NULL;
 
 static rb_dlink_list yy_aconf_list;
 static rb_dlink_list yy_oper_list;
-static rb_dlink_list yy_cluster_list;
 static struct oper_conf *yy_oper = NULL;
 
 static struct alias_entry *yy_alias = NULL;
@@ -364,21 +362,6 @@ static struct mode_table connect_table[] = {
 	{ "ssl",	SERVER_SSL		},
 	{ "no-export",	SERVER_NO_EXPORT	},
 	{ NULL,		0			},
-};
-
-static struct mode_table cluster_table[] = {
-	{ "kline",	SHARED_PKLINE	},
-	{ "tkline",	SHARED_TKLINE	},
-	{ "unkline",	SHARED_UNKLINE	},
-	{ "locops",	SHARED_LOCOPS	},
-	{ "xline",	SHARED_PXLINE	},
-	{ "txline",	SHARED_TXLINE	},
-	{ "unxline",	SHARED_UNXLINE	},
-	{ "resv",	SHARED_PRESV	},
-	{ "tresv",	SHARED_TRESV	},
-	{ "unresv",	SHARED_UNRESV	},
-	{ "all",	CLUSTER_ALL	},
-	{NULL, 0}
 };
 /* *INDENT-ON* */
 
@@ -1495,62 +1478,6 @@ conf_set_secure_ip(void *data)
 	yy_tmp->host = rb_strdup(data);
 	yy_tmp->status = CONF_SECURE;
 	add_conf_by_address(yy_tmp->host, CONF_SECURE, NULL, NULL, yy_tmp);
-}
-
-static int
-conf_cleanup_cluster(struct TopConf *tc)
-{
-	rb_dlink_node *ptr, *next_ptr;
-
-	RB_DLINK_FOREACH_SAFE(ptr, next_ptr, yy_cluster_list.head)
-	{
-		free_remote_conf(ptr->data);
-		rb_dlinkDestroy(ptr, &yy_cluster_list);
-	}
-
-	if(yy_shared != NULL)
-	{
-		free_remote_conf(yy_shared);
-		yy_shared = NULL;
-	}
-
-	return 0;
-}
-
-static void
-conf_set_cluster_name(void *data)
-{
-	if(yy_shared != NULL)
-		free_remote_conf(yy_shared);
-
-	yy_shared = make_remote_conf();
-	yy_shared->server = rb_strdup(data);
-	rb_dlinkAddAlloc(yy_shared, &yy_cluster_list);
-
-	yy_shared = NULL;
-}
-
-static void
-conf_set_cluster_flags(void *data)
-{
-	conf_parm_t *args = data;
-	int flags = 0;
-	rb_dlink_node *ptr, *next_ptr;
-
-	if(yy_shared != NULL)
-		free_remote_conf(yy_shared);
-
-	set_modes_from_table(&flags, "flag", cluster_table, args);
-
-	RB_DLINK_FOREACH_SAFE(ptr, next_ptr, yy_cluster_list.head)
-	{
-		yy_shared = ptr->data;
-		yy_shared->flags = flags;
-		rb_dlinkAddTail(yy_shared, &yy_shared->node, &cluster_conf_list);
-		rb_dlinkDestroy(ptr, &yy_cluster_list);
-	}
-
-	yy_shared = NULL;
 }
 
 static void
@@ -2825,10 +2752,6 @@ newconf_init()
 
 	add_top_conf("secure", NULL, NULL, NULL);
 	add_conf_item("secure", "ip", CF_QSTRING, conf_set_secure_ip);
-
-	add_top_conf("cluster", conf_cleanup_cluster, conf_cleanup_cluster, NULL);
-	add_conf_item("cluster", "name", CF_QSTRING, conf_set_cluster_name);
-	add_conf_item("cluster", "flags", CF_STRING | CF_FLIST, conf_set_cluster_flags);
 
 	add_top_conf("general", NULL, NULL, conf_general_table);
 	add_top_conf("channel", NULL, NULL, conf_channel_table);
