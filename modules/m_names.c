@@ -119,7 +119,7 @@ m_names(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 static void
 names_global(struct Client *source_p)
 {
-	bool dont_show = false;
+	bool dont_show;
 	rb_dlink_node *ptr;
 	struct Client *target_p;
 	struct Channel *chptr = NULL;

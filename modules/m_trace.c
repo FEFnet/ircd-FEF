@@ -238,7 +238,7 @@ m_trace(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 		target_p = ptr->data;
 
 		/* dont show invisible users to remote opers */
-		if(IsInvisible(target_p) && dow && !MyConnect(source_p) && !SeesOper(target_p, source_p))
+		if(IsInvisible(target_p) && !MyConnect(source_p) && !SeesOper(target_p, source_p))
 			continue;
 
 		if(!doall && wilds && !match(tname, target_p->name))

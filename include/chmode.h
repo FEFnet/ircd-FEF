@@ -46,7 +46,7 @@ extern ChannelModeFunc chm_limit;
 extern ChannelModeFunc chm_op;
 extern ChannelModeFunc chm_voice;
 
-extern unsigned int cflag_add(char c, ChannelModeFunc function);
+extern unsigned int cflag_add(char c_, ChannelModeFunc function);
 extern void cflag_orphan(char c);
 extern void construct_cflags_strings(void);
 extern char cflagsbuf[256];

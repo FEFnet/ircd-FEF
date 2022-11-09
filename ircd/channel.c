@@ -274,7 +274,7 @@ remove_user_from_channel(struct membership *msptr)
 	if(client_p->servptr == &me)
 		rb_dlinkDelete(&msptr->locchannode, &chptr->locmembers);
 
-	if(!(chptr->mode.mode & MODE_PERMANENT) && rb_dlink_list_length(&chptr->members) <= 0)
+	if(!(chptr->mode.mode & MODE_PERMANENT) && rb_dlink_list_length(&chptr->members) == 0)
 		destroy_channel(chptr);
 
 	rb_bh_free(member_heap, msptr);
@@ -309,7 +309,7 @@ remove_user_from_channels(struct Client *client_p)
 		if(client_p->servptr == &me)
 			rb_dlinkDelete(&msptr->locchannode, &chptr->locmembers);
 
-		if(!(chptr->mode.mode & MODE_PERMANENT) && rb_dlink_list_length(&chptr->members) <= 0)
+		if(!(chptr->mode.mode & MODE_PERMANENT) && rb_dlink_list_length(&chptr->members) == 0)
 			destroy_channel(chptr);
 
 		rb_bh_free(member_heap, msptr);
@@ -1166,7 +1166,7 @@ channel_modes(struct Channel *chptr, struct Client *client_p)
 		*mbuf++ = 'j';
 
 		if(pbuf > buf2 || !IsClient(client_p) || IsMember(client_p, chptr))
-			pbuf += sprintf(pbuf, " %d:%d", chptr->mode.join_num,
+			pbuf += sprintf(pbuf, " %u:%u", chptr->mode.join_num,
 					   chptr->mode.join_time);
 	}
 

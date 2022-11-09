@@ -460,7 +460,7 @@ ms_join(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 	/* Lost the TS, other side wins, so remove modes on this side */
 	if(!keep_our_modes)
 	{
-		mbuf = set_final_mode(mbuf, parabuf, &mode, &chptr->mode);
+		set_final_mode(mbuf, parabuf, &mode, &chptr->mode);
 		chptr->mode = mode;
 		remove_our_modes(chptr, source_p);
 		RB_DLINK_FOREACH_SAFE(ptr, next_ptr, chptr->invites.head)
@@ -1156,7 +1156,7 @@ set_final_mode(char *mbuf, char *parabuf, struct Mode *mode, struct Mode *oldmod
 			dir = MODE_ADD;
 		}
 		*mbuf++ = 'j';
-		len = sprintf(pbuf, "%d:%d ", mode->join_num, mode->join_time);
+		len = sprintf(pbuf, "%u:%u ", mode->join_num, mode->join_time);
 		pbuf += len;
 	}
 	if(mode->forward[0] && strcmp(oldmode->forward, mode->forward))

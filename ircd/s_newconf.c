@@ -658,7 +658,7 @@ time_t
 valid_temp_time(const char *p)
 {
 	time_t result = 0;
-	long current = 0;
+	long current;
 
 	while (*p) {
 		char *endp;

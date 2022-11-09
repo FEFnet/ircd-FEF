@@ -45,7 +45,7 @@ static char buf[BUFSIZE];
 
 static void ms_kill(struct MsgBuf *, struct Client *, struct Client *, int, const char **);
 static void mo_kill(struct MsgBuf *, struct Client *, struct Client *, int, const char **);
-static void relay_kill(struct Client *, struct Client *, struct Client *,
+static void relay_kill(const struct Client *, struct Client *, struct Client *,
 		       const char *, const char *);
 
 struct Message kill_msgtab = {
@@ -280,7 +280,7 @@ ms_kill(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 }
 
 static void
-relay_kill(struct Client *one, struct Client *source_p,
+relay_kill(const struct Client *one, struct Client *source_p,
 	   struct Client *target_p, const char *inpath, const char *reason)
 {
 	struct Client *client_p;

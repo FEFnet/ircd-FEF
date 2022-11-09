@@ -173,12 +173,12 @@ read_opm_reply(rb_fde_t *F, void *data)
 
 		if(strncmp(proxy->note, readbuf, strlen(proxy->note)) == 0)
 		{
-			rb_dlink_node *ptr, *nptr;
+			rb_dlink_node *ptr2, *nptr;
 
 			/* Cancel outstanding lookups */
-			RB_DLINK_FOREACH_SAFE(ptr, nptr, lookup->scans.head)
+			RB_DLINK_FOREACH_SAFE(ptr2, nptr, lookup->scans.head)
 			{
-				struct opm_scan *scan = ptr->data;
+				struct opm_scan *scan = ptr2->data;
 
 				rb_close(scan->F);
 				rb_free(scan);

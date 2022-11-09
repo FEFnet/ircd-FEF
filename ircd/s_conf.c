@@ -468,7 +468,6 @@ attach_iline(struct Client *client_p, struct ConfItem *aconf)
 	rb_dlink_node *ptr;
 	int local_count = 0;
 	int global_count = 0;
-	int ident_count = 0;
 
 	if(IsConfExemptLimits(aconf))
 		return (attach_conf(client_p, aconf));

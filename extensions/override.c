@@ -138,7 +138,7 @@ check_umode_change(void *vdata)
 			update_session_deadline(source_p);
 		}
 	}
-	else if (changed && !(source_p->umodes & user_modes['p']))
+	else if (changed)
 	{
 		rb_dlink_node *n, *tn;
 

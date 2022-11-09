@@ -219,7 +219,7 @@ add_hook_prio(const char *name, hookfn fn, enum hook_priority priority)
  *   Removes a hook from an event in the hook table.
  */
 void
-remove_hook(const char *name, hookfn fn)
+remove_hook(const char *name, const hookfn fn)
 {
 	rb_dlink_node *ptr, *scratch;
 	int i;

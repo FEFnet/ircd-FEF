@@ -752,7 +752,7 @@ sendto_channel_local(struct Client *source_p, int type, struct Channel *chptr, c
  * Shared implementation of sendto_channel_local_with_capability and sendto_channel_local_with_capability_butone
  */
 static void
-_sendto_channel_local_with_capability_butone(struct Client *source_p, struct Client *one, int type,
+_sendto_channel_local_with_capability_butone(struct Client *source_p, const struct Client *one, int type,
 	int caps, int negcaps, struct Channel *chptr, const char *pattern, va_list * args)
 {
 	struct membership *msptr;
@@ -1005,7 +1005,7 @@ sendto_common_channels_local_butone(struct Client *user, int cap, int negcap, co
  * side effects - message is sent to matching clients
  */
 void
-sendto_match_butone(struct Client *one, struct Client *source_p,
+sendto_match_butone(const struct Client *one, struct Client *source_p,
 		    const char *mask, int what, const char *pattern, ...)
 {
 	static char buf[BUFSIZE];

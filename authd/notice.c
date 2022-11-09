@@ -76,9 +76,3 @@ stats_error(uint32_t cid, char letter, const char *fmt, ...)
 
 	rb_helper_write(authd_helper, "X %x %c %s", cid, letter, buf);
 }
-
-void
-stats_done(uint32_t cid, char letter)
-{
-	rb_helper_write(authd_helper, "Z %x %c", cid, letter);
-}

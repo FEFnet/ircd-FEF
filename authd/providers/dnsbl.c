@@ -565,26 +565,6 @@ add_conf_dnsbl_timeout(const char *key, int parc, const char **parv)
 	dnsbl_timeout = timeout;
 }
 
-#if 0
-static void
-dnsbl_stats(uint32_t rid, char letter)
-{
-	rb_dlink_node *ptr;
-
-	RB_DLINK_FOREACH(ptr, dnsbl_list.head)
-	{
-		struct dnsbl *bl = ptr->data;
-
-		if(bl->delete)
-			continue;
-
-		stats_result(rid, letter, "%s %hhu %u", bl->host, bl->iptype, bl->hits);
-	}
-
-	stats_done(rid, letter);
-}
-#endif
-
 struct auth_opts_handler dnsbl_options[] =
 {
 	{ "rbl", 4, add_conf_dnsbl },

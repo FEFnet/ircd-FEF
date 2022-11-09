@@ -121,7 +121,6 @@ scan_umodes(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *sou
 	rb_dlink_node *tn;
 	int i;
 	const char *sockhost;
-	char buf[512];
 
 	if (parc < 3)
 	{

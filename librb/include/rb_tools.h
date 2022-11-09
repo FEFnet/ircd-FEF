@@ -35,7 +35,6 @@ int rb_strncasecmp(const char *s1, const char *s2, size_t n);
 char *rb_strcasestr(const char *s, const char *find);
 size_t rb_strlcpy(char *dst, const char *src, size_t siz);
 size_t rb_strlcat(char *dst, const char *src, size_t siz);
-size_t rb_strnlen(const char *s, size_t count);
 int rb_snprintf_append(char *str, size_t len, const char *format, ...) AFP(3,4);
 int rb_snprintf_try_append(char *str, size_t len, const char *format, ...) AFP(3,4);
 
@@ -252,7 +251,7 @@ rb_dlinkDelete(rb_dlink_node *m, rb_dlink_list *list)
 }
 
 static inline rb_dlink_node *
-rb_dlinkFindDelete(void *data, rb_dlink_list *list)
+rb_dlinkFindDelete(const void *data, rb_dlink_list *list)
 {
 	rb_dlink_node *m;
 	assert(list != NULL);
@@ -304,7 +303,7 @@ rb_dlinkFindDestroy(void *data, rb_dlink_list *list)
  * side effects	- Look for ptr in the linked listed pointed to by link.
  */
 static inline rb_dlink_node *
-rb_dlinkFind(void *data, rb_dlink_list *list)
+rb_dlinkFind(const void *data, rb_dlink_list *list)
 {
 	rb_dlink_node *ptr;
 	assert(list != NULL);
@@ -364,9 +363,6 @@ typedef struct _rb_strf {
 } rb_strf_t;
 
 int rb_fsnprint(char *buf, size_t len, const rb_strf_t *strings);
-int rb_fsnprintf(char *buf, size_t len, const rb_strf_t *strings, const char *format, ...) AFP(4, 5);
 
-
-const char *rb_path_to_self(void);
 
 #endif /* __TOOLS_H__ */

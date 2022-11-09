@@ -154,24 +154,6 @@ find_conf_item(const struct TopConf *top, const char *name)
 	return NULL;
 }
 
-int
-remove_top_conf(char *name)
-{
-	struct TopConf *tc;
-	rb_dlink_node *ptr;
-
-	if((tc = find_top_conf(name)) == NULL)
-		return -1;
-
-	if((ptr = rb_dlinkFind(tc, &conf_items)) == NULL)
-		return -1;
-
-	rb_dlinkDestroy(ptr, &conf_items);
-	rb_free(tc);
-
-	return 0;
-}
-
 static void
 conf_set_serverinfo_name(void *data)
 {
@@ -2078,12 +2060,12 @@ static void
 conf_set_opm_listen_address_both(void *data, bool ipv6)
 {
 	struct rb_sockaddr_storage addr;
-	const char *confstr = (ipv6 ? "opm::listen_ipv6" : "opm::listen_ipv4");
+	const char *confstring = (ipv6 ? "opm::listen_ipv6" : "opm::listen_ipv4");
 	char *ip = data;
 
 	if(!rb_inet_pton_sock(ip, &addr))
 	{
-		conf_report_error("%s is an invalid address: %s", confstr, ip);
+		conf_report_error("%s is an invalid address: %s", confstring, ip);
 		return;
 	}
 
@@ -2091,13 +2073,13 @@ conf_set_opm_listen_address_both(void *data, bool ipv6)
 	{
 		if(GET_SS_FAMILY(&addr) != AF_INET6)
 		{
-			conf_report_error("%s is of the wrong address type: %s", confstr, ip);
+			conf_report_error("%s is of the wrong address type: %s", confstring, ip);
 			return;
 		}
 
 		if(yy_opm_address_ipv6 != NULL)
 		{
-			conf_report_error("%s overwrites previous address %s", confstr, ip);
+			conf_report_error("%s overwrites previous address %s", confstring, ip);
 			return;
 		}
 
@@ -2107,13 +2089,13 @@ conf_set_opm_listen_address_both(void *data, bool ipv6)
 	{
 		if(GET_SS_FAMILY(&addr) != AF_INET)
 		{
-			conf_report_error("%s is of the wrong address type: %s", confstr, ip);
+			conf_report_error("%s is of the wrong address type: %s", confstring, ip);
 			return;
 		}
 
 		if(yy_opm_address_ipv4 != NULL)
 		{
-			conf_report_error("%s overwrites previous address %s", confstr, ip);
+			conf_report_error("%s overwrites previous address %s", confstring, ip);
 			return;
 		}
 
@@ -2137,11 +2119,11 @@ static void
 conf_set_opm_listen_port_both(void *data, bool ipv6)
 {
 	int port = *((int *)data);
-	const char *confstr = (ipv6 ? "opm::port_ipv6" : "opm::port_ipv4");
+	const char *confstring = (ipv6 ? "opm::port_ipv6" : "opm::port_ipv4");
 
 	if(port > 65535 || port <= 0)
 	{
-		conf_report_error("%s is out of range: %d", confstr, port);
+		conf_report_error("%s is out of range: %d", confstring, port);
 		return;
 	}
 
@@ -2150,7 +2132,7 @@ conf_set_opm_listen_port_both(void *data, bool ipv6)
 		if(yy_opm_port_ipv4)
 		{
 			conf_report_error("%s overwrites existing port %hu",
-					confstr, yy_opm_port_ipv4);
+					confstring, yy_opm_port_ipv4);
 			return;
 		}
 
@@ -2161,7 +2143,7 @@ conf_set_opm_listen_port_both(void *data, bool ipv6)
 		if(yy_opm_port_ipv6)
 		{
 			conf_report_error("%s overwrites existing port %hu",
-					confstr, yy_opm_port_ipv6);
+					confstring, yy_opm_port_ipv6);
 			return;
 		}
 
@@ -2195,7 +2177,7 @@ conf_set_opm_scan_ports_all(void *data, const char *node, const char *type)
 	for (; args; args = args->next)
 	{
 		rb_dlink_node *ptr;
-		bool dup = false;
+		bool duplicate = false;
 
 		if(CF_TYPE(args->type) != CF_INT)
 		{
@@ -2217,12 +2199,12 @@ conf_set_opm_scan_ports_all(void *data, const char *node, const char *type)
 			if(scanner->port == args->v.number && strcmp(type, scanner->type) == 0)
 			{
 				conf_report_error("%s argument is duplicate", node);
-				dup = true;
+				duplicate = true;
 				break;
 			}
 		}
 
-		if(!dup)
+		if(!duplicate)
 		{
 			struct opm_scanner *scanner = rb_malloc(sizeof(struct opm_scanner));
 			scanner->port = args->v.number;
@@ -2468,28 +2450,6 @@ add_conf_item(const char *topconf, const char *name, int type, void (*func) (voi
 	cf->cf_arg = NULL;
 
 	rb_dlinkAddAlloc(cf, &tc->tc_items);
-
-	return 0;
-}
-
-int
-remove_conf_item(const char *topconf, const char *name)
-{
-	struct TopConf *tc;
-	struct ConfEntry *cf;
-	rb_dlink_node *ptr;
-
-	if((tc = find_top_conf(topconf)) == NULL)
-		return -1;
-
-	if((cf = find_conf_item(tc, name)) == NULL)
-		return -1;
-
-	if((ptr = rb_dlinkFind(cf, &tc->tc_items)) == NULL)
-		return -1;
-
-	rb_dlinkDestroy(ptr, &tc->tc_items);
-	rb_free(cf);
 
 	return 0;
 }

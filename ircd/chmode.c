@@ -392,7 +392,7 @@ pretty_mask(const char *idmask)
 		return mask_buf + old_mask_pos;
 	}
 
-	at = ex = NULL;
+	ex = NULL;
 	if((t = memchr(mask, '@', masklen)) != NULL)
 	{
 		at = t;
@@ -1296,10 +1296,10 @@ set_channel_mode(struct Client *client_p, struct Client *source_p,
 	int parn = 1;
 	int errors = 0;
 	int alevel;
-	const char *ml = parv[0];
+	const char *ml;
 	char c;
 	struct Client *fakesource_p;
-	int flags_list[3] = { ALL_MEMBERS, ONLY_CHANOPS, ONLY_OPERS };
+	const int flags_list[3] = { ALL_MEMBERS, ONLY_CHANOPS, ONLY_OPERS };
 	int mode_limit = 0;
 	int mode_limit_simple = 0;
 

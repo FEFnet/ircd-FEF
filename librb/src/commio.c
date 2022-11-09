@@ -498,16 +498,6 @@ rb_sctp_bindx(rb_fde_t *F, struct sockaddr_storage *addrs, size_t len)
 #endif
 }
 
-int
-rb_inet_get_proto(rb_fde_t *F)
-{
-#ifdef HAVE_LIBSCTP
-	if (F->type & RB_FD_SCTP)
-		return IPPROTO_SCTP;
-#endif
-	return IPPROTO_TCP;
-}
-
 static void rb_accept_tryaccept(rb_fde_t *F, void *data __attribute__((unused))) {
 	struct rb_sockaddr_storage st;
 	rb_fde_t *new_F;
@@ -1140,7 +1130,7 @@ rb_dump_fd(DUMPCB * cb, void *data)
 	{
 		bucket = &rb_fd_table[i];
 
-		if(rb_dlink_list_length(bucket) <= 0)
+		if(rb_dlink_list_length(bucket) == 0)
 			continue;
 
 		RB_DLINK_FOREACH(ptr, bucket->head)
@@ -1200,12 +1190,6 @@ rb_get_fd(rb_fde_t *F)
 	if(F == NULL)
 		return -1;
 	return (F->fd);
-}
-
-rb_fde_t *
-rb_get_fde(int fd)
-{
-	return rb_find_fd(fd);
 }
 
 ssize_t
@@ -1796,12 +1780,6 @@ static int (*io_supports_event) (void);
 static void (*io_init_event) (void);
 static char iotype[25];
 
-const char *
-rb_get_iotype(void)
-{
-	return iotype;
-}
-
 static int
 rb_unsupported_event(void)
 {
@@ -2069,7 +2047,7 @@ rb_recv_fd_buf(rb_fde_t *F, void *data, size_t datasize, rb_fde_t **xF, int nfds
 	struct cmsghdr *cmsg;
 	struct iovec iov[1];
 	struct stat st;
-	uint8_t stype = RB_FD_UNKNOWN;
+	uint8_t stype;
 	const char *desc;
 	int fd, len, x, rfds;
 

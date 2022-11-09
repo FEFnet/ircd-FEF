@@ -120,12 +120,12 @@ extern void rb_radixtree_foreach_start_from(rb_radixtree *dtree, rb_radixtree_it
  * rb_radixtree_foreach_cur() returns the current element of the iteration,
  * or NULL if there are no more elements.
  */
-extern void *rb_radixtree_foreach_cur(rb_radixtree *dtree, rb_radixtree_iteration_state *state);
+extern void *rb_radixtree_foreach_cur(const rb_radixtree *dtree, rb_radixtree_iteration_state *state);
 
 /*
  * rb_radixtree_foreach_next() moves to the next element.
  */
-extern void rb_radixtree_foreach_next(rb_radixtree *dtree, rb_radixtree_iteration_state *state);
+extern void rb_radixtree_foreach_next(const rb_radixtree *dtree, rb_radixtree_iteration_state *state);
 
 /*
  * rb_radixtree_add() adds a key->value entry to the patricia tree.
@@ -146,9 +146,6 @@ extern void *rb_radixtree_delete(rb_radixtree *dtree, const char *key);
 rb_radixtree_leaf *rb_radixtree_elem_add(rb_radixtree *dtree, const char *key, void *data);
 rb_radixtree_leaf *rb_radixtree_elem_find(rb_radixtree *dtree, const char *key, int fuzzy);
 void rb_radixtree_elem_delete(rb_radixtree *dtree, rb_radixtree_leaf *elem);
-const char *rb_radixtree_elem_get_key(rb_radixtree_leaf *elem);
-void rb_radixtree_elem_set_data(rb_radixtree_leaf *elem, void *data);
-void *rb_radixtree_elem_get_data(rb_radixtree_leaf *elem);
 
 unsigned int rb_radixtree_size(rb_radixtree *dict);
 void rb_radixtree_stats(rb_radixtree *dict, void (*cb)(const char *line, void *privdata), void *privdata);

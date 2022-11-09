@@ -1080,7 +1080,7 @@ rb_md5_crypt(const char *pw, const char *salt)
 
 	/* It stops at the first '$', max 8 chars */
 	for(ep = sp; *ep && *ep != '$' && ep < (sp + 8); ep++)
-		continue;
+		;
 
 	/* get the length of the true salt */
 	sl = ep - sp;

@@ -481,7 +481,7 @@ cleanup_bad_message(mod_ctl_t * ctl, mod_ctl_buf_t * ctlb)
 }
 
 static void
-ws_frame_unmask(char *msg, int length, uint8_t maskval[WEBSOCKET_MASK_LENGTH])
+ws_frame_unmask(char *msg, int length, const uint8_t maskval[WEBSOCKET_MASK_LENGTH])
 {
 	int i;
 
@@ -672,7 +672,7 @@ conn_mod_read_cb(rb_fde_t *fd, void *data)
 	memset(inbuf, 0, sizeof inbuf);
 
 	conn_t *conn = data;
-	int length = 0;
+	int length;
 	if (conn == NULL)
 		return;
 
@@ -764,7 +764,7 @@ conn_plain_read_cb(rb_fde_t *fd, void *data)
 	memset(inbuf, 0, sizeof inbuf);
 
 	conn_t *conn = data;
-	int length = 0;
+	int length;
 	if(conn == NULL)
 		return;
 
@@ -810,7 +810,7 @@ conn_plain_read_shutdown_cb(rb_fde_t *fd, void *data)
 {
 	char inbuf[READBUF_SIZE];
 	conn_t *conn = data;
-	int length = 0;
+	int length;
 
 	if(conn == NULL)
 		return;

@@ -1229,7 +1229,7 @@ recurse_remove_clients(struct Client *source_p, const char *comment)
 ** and its SQUITs have been sent except for the upstream one  -orabidoo
  */
 static void
-remove_dependents(struct Client *client_p,
+remove_dependents(const struct Client *client_p,
 		  struct Client *source_p,
 		  struct Client *from, const char *comment, const char *comment1)
 {
@@ -1919,8 +1919,7 @@ free_user(struct User *user, struct Client *client_p)
 			sendto_realops_snomask(SNO_GENERAL, L_ALL,
 					     "* %p user (%s!%s@%s) %p %p %p %lu %d *",
 					     client_p,
-					     client_p ? client_p->
-					     name : "<noname>",
+					     client_p->name,
 					     client_p->username,
 					     client_p->host,
 					     user,

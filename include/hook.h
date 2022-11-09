@@ -60,7 +60,7 @@ void init_hook(void);
 int register_hook(const char *name);
 void add_hook(const char *name, hookfn fn);
 void add_hook_prio(const char *name, hookfn fn, enum hook_priority priority);
-void remove_hook(const char *name, hookfn fn);
+void remove_hook(const char *name, const hookfn fn);
 void call_hook(int id, void *arg);
 
 typedef struct

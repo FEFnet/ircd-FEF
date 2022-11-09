@@ -245,12 +245,12 @@ capability_index_stats(void (*cb)(const char *line, void *privdata), void *privd
 		rb_dictionary_iter iter;
 		struct CapabilityEntry *entry;
 
-		snprintf(buf, sizeof buf, "'%s': allocated bits - %d", idx->name, (idx->highest_bit - 1));
+		snprintf(buf, sizeof buf, "'%s': allocated bits - %u", idx->name, (idx->highest_bit - 1));
 		cb(buf, privdata);
 
 		RB_DICTIONARY_FOREACH(entry, &iter, idx->cap_dict)
 		{
-			snprintf(buf, sizeof buf, "bit %d: '%s'", entry->value, entry->cap);
+			snprintf(buf, sizeof buf, "bit %u: '%s'", entry->value, entry->cap);
 			cb(buf, privdata);
 		}
 
@@ -259,6 +259,6 @@ capability_index_stats(void (*cb)(const char *line, void *privdata), void *privd
 		cb(buf, privdata);
 	}
 
-	snprintf(buf, sizeof buf, "%ld capability indexes", rb_dlink_list_length(&capability_indexes));
+	snprintf(buf, sizeof buf, "%lu capability indexes", rb_dlink_list_length(&capability_indexes));
 	cb(buf, privdata);
 }

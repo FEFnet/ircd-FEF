@@ -442,7 +442,7 @@ rb_radixtree_foreach_start(rb_radixtree *dtree, rb_radixtree_iteration_state *st
  *     - none
  */
 void *
-rb_radixtree_foreach_cur(rb_radixtree *dtree, rb_radixtree_iteration_state *state)
+rb_radixtree_foreach_cur(const rb_radixtree *dtree, rb_radixtree_iteration_state *state)
 {
 	if (dtree == NULL)
 		return NULL;
@@ -470,7 +470,7 @@ rb_radixtree_foreach_cur(rb_radixtree *dtree, rb_radixtree_iteration_state *stat
  *     - the static iterator, &state, is advanced to a new DTree node.
  */
 void
-rb_radixtree_foreach_next(rb_radixtree *dtree, rb_radixtree_iteration_state *state)
+rb_radixtree_foreach_next(const rb_radixtree *dtree, rb_radixtree_iteration_state *state)
 {
 	rb_radixtree_leaf *leaf;
 
@@ -954,30 +954,6 @@ rb_radixtree_retrieve(rb_radixtree *dtree, const char *key)
 	return NULL;
 }
 
-const char *
-rb_radixtree_elem_get_key(rb_radixtree_leaf *leaf)
-{
-	lrb_assert(leaf != NULL);
-
-	return leaf->key;
-}
-
-void
-rb_radixtree_elem_set_data(rb_radixtree_leaf *leaf, void *data)
-{
-	lrb_assert(leaf != NULL);
-
-	leaf->data = data;
-}
-
-void *
-rb_radixtree_elem_get_data(rb_radixtree_leaf *leaf)
-{
-	lrb_assert(leaf != NULL);
-
-	return leaf->data;
-}
-
 /*
  * rb_radixtree_size(rb_radixtree *dict)
  *
@@ -1077,7 +1053,7 @@ rb_radixtree_stats(rb_radixtree *dict, void (*cb)(const char *line, void *privda
 	if (dict->count > 0)
 	{
 		sum = stats_recurse(dict->root, 0, &maxdepth);
-		snprintf(str, sizeof str, "%-30s %-15s %-10u %-10d %-10d %-10d", dict->id, "RADIX", dict->count, sum, sum / dict->count, maxdepth);
+		snprintf(str, sizeof str, "%-30s %-15s %-10u %-10d %-10u %-10d", dict->id, "RADIX", dict->count, sum, sum / dict->count, maxdepth);
 	}
 	else
 	{

@@ -475,9 +475,9 @@ import_config(const char *conf, int id)
 		}
 
 		f_oper = getfield(NULL);
-		f_time = strip_quotes(f_oper + strlen(f_oper) + 2);
 		if(EmptyString(f_oper))
-			f_oper = "unknown";
+			continue;
+		f_time = strip_quotes(f_oper + strlen(f_oper) + 2);
 
 		/* meh */
 		if(id == BANDB_KLINE || id == BANDB_KLINE_PERM)

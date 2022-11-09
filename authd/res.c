@@ -161,7 +161,7 @@ static time_t timeout_query_list(time_t now)
 	rb_dlink_node *next_ptr;
 	struct reslist *request;
 	time_t next_time = 0;
-	time_t timeout = 0;
+	time_t timeout;
 
 	RB_DLINK_FOREACH_SAFE(ptr, next_ptr, request_list.head)
 	{
