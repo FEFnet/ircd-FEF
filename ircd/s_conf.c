@@ -253,10 +253,6 @@ check_client(struct Client *client_p, struct Client *source_p, const char *usern
 			/* jdc - lists server name & port connections are on */
 			/*       a purely cosmetical change */
 			/* why ipaddr, and not just source_p->sockhost? --fl */
-#if 0
-			static char ipaddr[HOSTIPLEN];
-			rb_inet_ntop_sock(&source_p->localClient->ip, ipaddr, sizeof(ipaddr));
-#endif
 			sendto_realops_snomask(SNO_UNAUTH, L_NETWIDE,
 					"Unauthorised client connection from "
 					"%s!%s%s@%s [%s] on [/%u].",

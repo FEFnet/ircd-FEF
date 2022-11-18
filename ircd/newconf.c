@@ -2392,11 +2392,6 @@ conf_call_set(struct TopConf *tc, char *item, conf_parm_t * value)
 
 	if(cf->cf_type & CF_FLIST)
 	{
-#if 0
-		if(cf->cf_arg)
-			conf_set_generic_list(value->v.list, cf->cf_arg);
-		else
-#endif
 		/* just pass it the extended argument list */
 		cf->cf_func(value->v.list);
 	}

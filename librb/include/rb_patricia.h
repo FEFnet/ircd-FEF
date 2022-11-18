@@ -76,10 +76,6 @@ rb_patricia_tree_t *rb_new_patricia(int maxbits);
 void rb_clear_patricia(rb_patricia_tree_t *patricia, void (*func) (void *));
 void rb_destroy_patricia(rb_patricia_tree_t *patricia, void (*func) (void *));
 
-
-#if 0
-rb_prefix_t *ascii2prefix(int family, char *string);
-#endif
 rb_patricia_node_t *make_and_lookup(rb_patricia_tree_t *tree, const char *string);
 rb_patricia_node_t *make_and_lookup_ip(rb_patricia_tree_t *tree, struct sockaddr *, int bitlen);
 

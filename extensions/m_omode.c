@@ -122,10 +122,6 @@ mo_omode(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source
 			      me.name, parv[1], params, source_p->name, source_p->username,
 			      source_p->host);
 
-#if 0
-	set_channel_mode(client_p, source_p->servptr, chptr, msptr,
-			 parc - 2, parv + 2);
-#else
 	if (parc == 4 && !strcmp(parv[2], "+o") && !irccmp(parv[3], source_p->name))
 	{
 		/* Opping themselves */
@@ -163,5 +159,4 @@ mo_omode(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source
 		else
 			remove_user_from_channel(msptr);
 	}
-#endif
 }

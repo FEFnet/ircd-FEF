@@ -57,11 +57,6 @@ static int eb_canjoin(const char *data, struct Client *client_p,
 		return EXTBAN_INVALID;
 	/* this allows getting some information about ban exceptions
 	 * but +s/+p doesn't seem the right criterion */
-#if 0
-	/* privacy! don't allow +s/+p channels to influence another channel */
-	if (!PubChannel(chptr2))
-		return EXTBAN_INVALID;
-#endif
 	recurse = 1;
 	ret = is_banned(chptr2, client_p, NULL, NULL, NULL) != 0 ? EXTBAN_MATCH : EXTBAN_NOMATCH;
 	recurse = 0;
