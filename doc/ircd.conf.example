@@ -8,9 +8,13 @@
  */
 
 /* Extensions */
+#loadmodule "extensions/chm_adminonly";
 #loadmodule "extensions/chm_nonotice";
+#loadmodule "extensions/chm_operonly";
 #loadmodule "extensions/chm_operpeace";
-#loadmodule "extensions/createauthonly";
+#loadmodule "extensions/chm_regmsg";
+#loadmodule "extensions/chm_sslonly";
+##loadmodule "extensions/createauthonly";
 #loadmodule "extensions/extb_account";
 #loadmodule "extensions/extb_canjoin";
 #loadmodule "extensions/extb_channel";
@@ -19,7 +23,7 @@
 #loadmodule "extensions/extb_hostmask";
 #loadmodule "extensions/extb_oper";
 #loadmodule "extensions/extb_realname";
-#loadmodule "extensions/extb_server";
+##loadmodule "extensions/extb_server";
 #loadmodule "extensions/extb_ssl";
 #loadmodule "extensions/extb_usermode";
 #loadmodule "extensions/hurt";
@@ -27,12 +31,19 @@
 #loadmodule "extensions/m_findforwards";
 #loadmodule "extensions/m_identify";
 #loadmodule "extensions/m_locops";
-#loadmodule "extensions/no_oper_invis";
+##loadmodule "extensions/no_oper_invis";
+#loadmodule "extensions/sno_channelcreate";
 #loadmodule "extensions/sno_farconnect";
 #loadmodule "extensions/sno_globalnickchange";
 #loadmodule "extensions/sno_globaloper";
+#loadmodule "extensions/umode_hide_idle_time";
+#loadmodule "extensions/umode_noctcp";
+#loadmodule "extensions/m_omode";
+#loadmodule "extensions/m_opme";
 #loadmodule "extensions/override";
+#loadmodule "extensions/override_kick_immuity";
 #loadmodule "extensions/no_kill_services";
+#loadmodule "extensions/m_webirc.so";
 
 /* IP cloaking extension */
 

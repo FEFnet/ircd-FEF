@@ -34,7 +34,7 @@
 #include "s_newconf.h"
 #include "messages.h"
 
-static const char opme_desc[] = "Allow admins to op themselves on opless channels";
+static const char opme_desc[] = "Allow admins to op themselves on channels";
 
 static void mo_opme(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_p, int parc, const char *parv[]);
 
@@ -56,7 +56,6 @@ mo_opme(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 {
 	struct Channel *chptr;
 	struct membership *msptr;
-	rb_dlink_node *ptr;
 
 	/* admins only */
 	if(!IsOperAdmin(source_p))
@@ -70,17 +69,6 @@ mo_opme(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *source_
 		sendto_one_numeric(source_p, ERR_NOSUCHCHANNEL,
 				   form_str(ERR_NOSUCHCHANNEL), parv[1]);
 		return;
-	}
-
-	RB_DLINK_FOREACH(ptr, chptr->members.head)
-	{
-		msptr = ptr->data;
-
-		if(is_chanop(msptr))
-		{
-			sendto_one_notice(source_p, ":%s Channel is not opless", parv[1]);
-			return;
-		}
 	}
 
 	msptr = find_channel_membership(chptr, source_p);
