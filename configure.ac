@@ -454,7 +454,7 @@ AC_DEFINE([FD_HEAP_SIZE], 128, [Size of fd heap.])
 AC_DEFINE([AWAY_HEAP_SIZE], 128, [Size of away heap.])
 
 AC_ARG_WITH(nicklen,
-AC_HELP_STRING([--with-nicklen=LENGTH],[Set the upper-bound nick length to LENGTH (default 16, max 50)]),
+AC_HELP_STRING([--with-nicklen=LENGTH],[Set the upper-bound nick length to LENGTH (default 15, max 50)]),
 [
   if ! expr "$withval" + 0 >/dev/null 2>&1; then
 	AC_ERROR([NICKLEN must be a numeric value])
@@ -468,7 +468,7 @@ AC_HELP_STRING([--with-nicklen=LENGTH],[Set the upper-bound nick length to LENGT
   else
 	NICKLEN="$withval"
   fi
-], [NICKLEN=16])
+], [NICKLEN=15])
 
 AC_ARG_WITH(topiclen,
 AC_HELP_STRING([--with-topiclen=NUMBER],[Set the max topic length to NUMBER (default 390, max 390)]),
