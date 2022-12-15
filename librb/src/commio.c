@@ -915,16 +915,11 @@ rb_socket(int family, int sock_type, int proto, const char *note)
 		return NULL;	/* errno will be passed through, yay.. */
 
 	/*
-	 * Make sure we can take both IPv4 and IPv6 connections
-	 * on an AF_INET6 SCTP socket, otherwise keep them separate
+	 * Make sure we can take both IPv4 and IPv6 connections on an AF_INET6 socket.
 	 */
 	if(family == AF_INET6)
 	{
-#ifdef HAVE_LIBSCTP
-		int v6only = (proto == IPPROTO_SCTP) ? 0 : 1;
-#else
-		int v6only = 1;
-#endif
+		int v6only = 0;
 		if(setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, (void *) &v6only, sizeof(v6only)) == -1)
 		{
 			rb_lib_log("rb_socket: Could not set IPV6_V6ONLY option to %d on FD %d: %s",
