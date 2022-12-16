@@ -548,7 +548,6 @@ alias "AS" {
 
 general {
 	hide_error_messages = opers;
-	hide_spoof_ips = yes;
 
 	/*
 	 * default_umodes: umodes to enable on connect.

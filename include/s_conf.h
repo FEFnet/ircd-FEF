@@ -197,7 +197,6 @@ struct config_file_entry
 	int pace_wait_simple;
 	int short_motd;
 	int hide_server;
-	int hide_spoof_ips;
 	int hide_error_messages;
 	int client_exit;
 	int oper_only_umodes;

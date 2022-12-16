@@ -1033,9 +1033,6 @@ get_client_name(struct Client *client, int showip)
 		if(!irccmp(client->name, client->host))
 			return client->name;
 
-		if(ConfigFileEntry.hide_spoof_ips &&
-		   showip == SHOW_IP && IsIPSpoof(client))
-			showip = MASK_IP;
 		if(IsAnyServer(client))
 			showip = MASK_IP;
 
@@ -1809,8 +1806,7 @@ show_ip(struct Client *source_p, struct Client *target_p)
 		/* source == NULL indicates message is being sent
 		 * to local opers.
 		 */
-		if(!ConfigFileEntry.hide_spoof_ips &&
-		   (source_p == NULL || HasPrivilege(source_p, "auspex:hostname")))
+		if(source_p == NULL || HasPrivilege(source_p, "auspex:hostname"))
 			return 1;
 		return 0;
 	}
@@ -1825,7 +1821,7 @@ show_ip_conf(struct ConfItem *aconf, struct Client *source_p)
 {
 	if(IsConfDoSpoofIp(aconf))
 	{
-		if(!ConfigFileEntry.hide_spoof_ips && IsOper(source_p))
+		if(IsOper(source_p))
 			return 1;
 
 		return 0;
@@ -1838,7 +1834,7 @@ int
 show_ip_whowas(struct Whowas *whowas, struct Client *source_p)
 {
 	if(whowas->flags & WHOWAS_IP_SPOOFING)
-		if(ConfigFileEntry.hide_spoof_ips || !IsOper(source_p))
+		if(!IsOper(source_p))
 			return 0;
 	if(whowas->flags & WHOWAS_DYNSPOOF)
 		if(!IsOper(source_p))

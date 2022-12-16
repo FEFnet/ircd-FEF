@@ -287,11 +287,6 @@ static struct InfoStruct info_table[] = {
 		INFO_YESNOMASK(&ConfigFileEntry.hide_error_messages),
 	},
 	{
-		"hide_spoof_ips",
-		"Hide IPs of spoofed users",
-		INFO_INTBOOL_YN(&ConfigFileEntry.hide_spoof_ips),
-	},
-	{
 		"kline_reason",
 		"K-lined clients sign off with this reason",
 		INFO_STRING(&ConfigFileEntry.kline_reason),

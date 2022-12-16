@@ -715,7 +715,6 @@ set_default_conf(void)
 	ConfigFileEntry.fname_killlog = NULL;
 	ConfigFileEntry.fname_klinelog = NULL;
 	ConfigFileEntry.fname_ioerrorlog = NULL;
-	ConfigFileEntry.hide_spoof_ips = true;
 	ConfigFileEntry.hide_error_messages = 1;
 	ConfigFileEntry.max_targets = MAX_TARGETS_DEFAULT;
 	ConfigFileEntry.max_ratelimit_tokens = 30;
