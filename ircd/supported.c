@@ -304,8 +304,8 @@ init_isupport(void)
 	static int maxnicklen = NICKLEN - 1;
 
 	add_isupport("CHANTYPES", isupport_string, allowed_chantypes);
-	add_isupport("EXCEPTS", isupport_boolean, NULL);
-	add_isupport("INVEX", isupport_boolean, NULL);
+	add_isupport("EXCEPTS", isupport_string, "");
+	add_isupport("INVEX", isupport_string, "");
 	add_isupport("CHANMODES", isupport_chanmodes, NULL);
 	add_isupport("CHANLIMIT", isupport_chanlimit, NULL);
 	add_isupport("PREFIX", isupport_string, "(ov)@+");
