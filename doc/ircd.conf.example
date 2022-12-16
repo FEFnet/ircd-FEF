@@ -41,9 +41,9 @@ loadmodule "extensions/umode_noctcp";
 loadmodule "extensions/m_omode";
 loadmodule "extensions/m_opme";
 loadmodule "extensions/override";
-loadmodule "extensions/override_kick_immuity";
+loadmodule "extensions/override_kick_immunity";
 loadmodule "extensions/no_kill_services";
-loadmodule "extensions/m_webirc.so";
+loadmodule "extensions/m_webirc";
 
 /* IP cloaking extension */
 
