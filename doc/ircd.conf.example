@@ -224,7 +224,8 @@ auth {
 	 * need_ssl                   | require SSL/TLS for user in this class
 	 * need_sasl                  | require SASL id for user in this class
 	 */
-	flags = kline_exempt, exceed_limit;
+	flags = spoof_notice, exceed_limit, kline_exempt, proxy_exempt, dnsbl_exempt,
+		spambot_exempt, shide_exempt, jupe_exempt, resv_exempt, flood_exempt;
 
 	/* class: the class the user is placed in */
 	class = "opers";
