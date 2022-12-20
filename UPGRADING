@@ -5,4 +5,5 @@ changed, and the cluster/shared sections are gone.
 
 The easiest way is to copy the example conf, change the name/sid/vhost/vhost6
 settings, then replace ONLY the auth/oper/connect blocks with the blocks from
-your old config. Those blocks should be 100% drop-in compatible.
+your old config. Those blocks should be 100% drop-in compatible, except the
+hub_mask line from the connect {} blocks MUST be removed.
