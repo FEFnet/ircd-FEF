@@ -427,12 +427,6 @@ dnsbl {
 
 	host = "torexit.dan.me.uk";
 	reject_reason = "${nick}, your IP (${ip}) is listed as a TOR exit node.  In order to protect ${network-name} from tor-based abuse, we are not allowing TOR exit nodes to connect to our network.";
-
-#	host = "6667.199.154.19.71.ip-port.exitlist.torproject.org";
-#	reject_reason = "${nick}, your IP (${ip}) is listed as a TOR exit node.  In order to protect ${network-name} from tor-based abuse, we are not allowing TOR exit nodes to connect to our network.";
-
-	host = "rbl.dnsbl.im";
-	reject_reason = "${nick}, your IP (${ip}) is listed in DNSBL.im. For more information visit https://www.dnsbl.im/lookup?ip=${ip}";
 };
 
 /* These are the OPM settings.
