@@ -1239,6 +1239,7 @@ conf_end_connect(struct TopConf *tc)
 		return 0;
 	}
 
+#if 0
 	if ((yy_server->flags & SERVER_SSL) && EmptyString(yy_server->certfp))
 	{
 		conf_report_error("Ignoring connect block for %s -- no "
@@ -1246,6 +1247,7 @@ conf_end_connect(struct TopConf *tc)
 		                  "connection.", yy_server->name);
 		return 0;
 	}
+#endif
 
 	if (! (yy_server->flags & SERVER_SSL) && ! EmptyString(yy_server->certfp))
 	{
