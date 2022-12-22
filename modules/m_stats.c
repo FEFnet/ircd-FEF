@@ -352,8 +352,6 @@ stats_connect(struct Client *source_p)
 			if(ServerConfSSL(server_p))
 				*s++ = 'S';
 			*s++ = 'T';
-			if(ServerConfCompressed(server_p))
-				*s++ = 'Z';
 		}
 
 		if(s == buf)
