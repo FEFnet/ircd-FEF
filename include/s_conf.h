@@ -195,6 +195,7 @@ struct config_file_entry
 	int map_oper_only;
 	int pace_wait;
 	int pace_wait_simple;
+	int ping_warn_time;
 	int short_motd;
 	int hide_server;
 	int hide_error_messages;
