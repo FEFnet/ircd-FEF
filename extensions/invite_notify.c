@@ -37,9 +37,6 @@ invite_notify(struct Client *source, struct Client *target, struct Channel *chan
 		":%s!%s@%s INVITE %s %s", source->name, source->username,
 		source->host, target->name, channel->chname);
 
-	if (!ConfigChannel.invite_notify_notice)
-		return;
-
 	sendto_channel_local_with_capability(source, CHFL_CHANOP, 0, CAP_INVITE_NOTIFY, channel,
 		":%s NOTICE %s :%s is inviting %s to %s.",
 		me.name, channel->chname, source->name, target->name, channel->chname);

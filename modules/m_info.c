@@ -527,26 +527,6 @@ static struct InfoStruct info_table[] = {
 		INFO_INTBOOL_YN(&ConfigChannel.only_ascii_channels),
 	},
 	{
-		"use_except",
-		"Enable chanmode +e (ban exceptions)",
-		INFO_INTBOOL_YN(&ConfigChannel.use_except),
-	},
-	{
-		"use_invex",
-		"Enable chanmode +I (invite exceptions)",
-		INFO_INTBOOL_YN(&ConfigChannel.use_invex),
-	},
-	{
-		"use_forward",
-		"Enable chanmode +f (channel forwarding)",
-		INFO_INTBOOL_YN(&ConfigChannel.use_forward),
-	},
-	{
-		"use_knock",
-		"Enable /KNOCK",
-		INFO_INTBOOL_YN(&ConfigChannel.use_knock),
-	},
-	{
 		"resv_forcepart",
 		"Force-part local users on channel RESV",
 		INFO_INTBOOL_YN(&ConfigChannel.resv_forcepart),
