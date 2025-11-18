@@ -33,17 +33,19 @@ loadmodule "extensions/m_identify";
 loadmodule "extensions/no_locops";
 #loadmodule "extensions/no_oper_invis";
 loadmodule "extensions/sno_channelcreate";
-loadmodule "extensions/sno_farconnect";
-loadmodule "extensions/sno_globalnickchange";
-loadmodule "extensions/sno_globaloper";
 loadmodule "extensions/umode_hide_idle_time";
 loadmodule "extensions/umode_noctcp";
 loadmodule "extensions/m_omode";
 loadmodule "extensions/m_opme";
-loadmodule "extensions/override";
 loadmodule "extensions/override_kick_immunity";
-loadmodule "extensions/no_kill_services";
 loadmodule "extensions/m_webirc";
+#loadmodule "extensions/sno_farconnect";
+#loadmodule "extensions/sno_globalnickchange";
+#loadmodule "extensions/sno_globaloper";
+#loadmodule "extensions/override";
+#loadmodule "extensions/no_kill_services";
+#loadmodule "extensions/tag_message_id"
+#loadmodule "extensions/tag_typing"
 
 /* IP cloaking extension */
 
@@ -140,14 +142,15 @@ class "opers" {
 class "hubs" {
 	ping_time = 5 minutes;
 	connectfreq = 5 minutes;
-	max_number = 10;
+	max_number = 1;
+	max_autoconn = 1;
 	sendq = 4 megabytes;
-};
 
 class "leaves" {
 	ping_time = 5 minutes;
 	connectfreq = 30 days;
 	max_number = 10;
+	max_autoconn = 0;
 	sendq = 4 megabytes;
 };
 
@@ -170,11 +173,6 @@ listen {
 	#host = "2001:db8:2::6";
 	#port = 2222, 6667;
 	#sslport = 6697, 9999;
-
-	/* wsock: listeners defined with this option enabled will be websocket listeners,
-	 * and will not accept normal clients.
-	 */
-	#wsock = yes;
 	#sslport = 8888;
 };
 

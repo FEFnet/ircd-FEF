@@ -350,8 +350,7 @@ register_local_user(struct Client *client_p, struct Client *source_p)
 	struct ConfItem *aconf, *xconf;
 	char tmpstr2[BUFSIZE];
 	char ipaddr[HOSTIPLEN];
-	char myusername[USERLEN+1];
-	int umodes;
+	int status, umodes;
 
 	s_assert(NULL != source_p);
 	s_assert(MyConnect(source_p));
@@ -387,27 +386,33 @@ register_local_user(struct Client *client_p, struct Client *source_p)
 	 * rather than initial connection.  */
 	source_p->localClient->firsttime = client_p->localClient->last = rb_current_time();
 
-	/* XXX - fixme. we shouldnt have to build a users buffer twice.. */
-	if(strchr(source_p->username, '[') != NULL)
+	/* valid user name check */
+
+	if(!valid_username(source_p->username))
 	{
-		const char *p;
-		int i = 0;
+		sendto_realops_snomask(SNO_REJ, L_NETWIDE,
+				     "Invalid username: %s (%s@%s)",
+				     source_p->name, source_p->username, source_p->host);
 
-		p = source_p->username;
+		const char *illegal_name_long_client_message = ConfigFileEntry.illegal_name_long_client_message;
+		const char *illegal_name_short_client_message = ConfigFileEntry.illegal_name_short_client_message;
 
-		while(*p && i < USERLEN)
-		{
-			if(*p != '[')
-				myusername[i++] = *p;
-			p++;
-		}
+		if (illegal_name_long_client_message == NULL)
+			illegal_name_long_client_message = "Your username is invalid. Please make sure that your username contains "
+											   "only alphanumeric characters.";
+		if (illegal_name_short_client_message == NULL)
+			illegal_name_short_client_message = "Invalid username";
 
-		myusername[i] = '\0';
+		ServerStats.is_ref++;
+		sendto_one_notice(source_p, ":*** %s", illegal_name_long_client_message);
+		sprintf(tmpstr2, "%s [%s]", illegal_name_short_client_message, source_p->username);
+		exit_client(client_p, source_p, &me, tmpstr2);
+		return (CLIENT_EXITED);
 	}
-	else
-		rb_strlcpy(myusername, source_p->username, sizeof myusername);
 
-	if(check_client(client_p, source_p, myusername) < 0)
+	/* end of valid user name check */
+
+	if((status = check_client(client_p, source_p, source_p->username)) < 0)
 		return (CLIENT_EXITED);
 
 	/* Apply nick override */
@@ -474,22 +479,6 @@ register_local_user(struct Client *client_p, struct Client *source_p)
 
 		exit_client(client_p, source_p, &me, sctp_forbidden_client_message);
 		return (CLIENT_EXITED);
-	}
-
-	/* dont replace username if its supposed to be spoofed --fl */
-	if(!IsConfDoSpoofIp(aconf) || !strchr(aconf->info.name, '@'))
-	{
-		const char *p = myusername;
-		int i = 0;
-
-		while (*p && i < USERLEN)
-		{
-			if(*p != '[')
-				source_p->username[i++] = *p;
-			p++;
-		}
-
-		source_p->username[i] = '\0';
 	}
 
 	if(IsNeedSasl(aconf) && !*source_p->user->suser)
@@ -582,32 +571,6 @@ register_local_user(struct Client *client_p, struct Client *source_p)
 	/* authd rejection check */
 	if(authd_check(client_p, source_p))
 		return CLIENT_EXITED;
-
-	/* valid user name check */
-
-	if(!valid_username(source_p->username))
-	{
-		sendto_realops_snomask(SNO_REJ, L_NETWIDE,
-				     "Invalid username: %s (%s@%s)",
-				     source_p->name, source_p->username, source_p->host);
-
-		const char *illegal_name_long_client_message = ConfigFileEntry.illegal_name_long_client_message;
-		const char *illegal_name_short_client_message = ConfigFileEntry.illegal_name_short_client_message;
-
-		if (illegal_name_long_client_message == NULL)
-			illegal_name_long_client_message = "Your username is invalid. Please make sure that your username contains "
-											   "only alphanumeric characters.";
-		if (illegal_name_short_client_message == NULL)
-			illegal_name_short_client_message = "Invalid username";
-
-		ServerStats.is_ref++;
-		sendto_one_notice(source_p, ":*** %s", illegal_name_long_client_message);
-		sprintf(tmpstr2, "%s [%s]", illegal_name_short_client_message, source_p->username);
-		exit_client(client_p, source_p, &me, tmpstr2);
-		return (CLIENT_EXITED);
-	}
-
-	/* end of valid user name check */
 
 	/* Store original hostname -- jilles */
 	rb_strlcpy(source_p->orighost, source_p->host, HOSTLEN + 1);
@@ -1155,8 +1118,6 @@ user_mode(struct Client *client_p, struct Client *source_p, int parc, const char
 				if(MyConnect(source_p))
 				{
 					source_p->umodes &= ~ConfigFileEntry.oper_only_umodes;
-					source_p->flags &= ~OPER_FLAGS;
-
 					rb_dlinkFindDestroy(source_p, &local_oper_list);
 				}
 
@@ -1466,7 +1427,6 @@ oper_up(struct Client *source_p, struct oper_conf *oper_p)
 	SetExtendChans(source_p);
 	SetExemptKline(source_p);
 
-	source_p->flags |= oper_p->flags;
 	source_p->user->opername = rb_strdup(oper_p->name);
 	source_p->user->privset = privilegeset_ref(oper_p->privset);
 
