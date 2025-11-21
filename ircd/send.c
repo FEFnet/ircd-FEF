@@ -674,8 +674,7 @@ sendto_channel_opmod_internal(struct Client *one, struct Client *source_p, struc
 	struct MsgBuf_cache msgbuf_cache_statusmsg;
 	struct MsgBuf_cache msgbuf_cache_eopmod;
 	struct MsgBuf_cache msgbuf_cache_old;
-	const char *fmt = !strcmp("TAGMSG", command) ? "%s %s%s" : "%s %s%s :%s";
-	const char *statusmsg_prefix = ConfigChannel.opmod_send_statusmsg ? "@" : "";
+	const char *fmt = !strcmp("TAGMSG", command) ? "%s %s" : "%s %s :%s";
 
 	/* remote targets must support CHW */
 	serv_cap |= CAP_CHW;
@@ -683,7 +682,7 @@ sendto_channel_opmod_internal(struct Client *one, struct Client *source_p, struc
 	snprintf(local_source, sizeof(local_source), IsPerson(source_p) ? "%s!%s@%s" : "%s",
 		source_p->name, source_p->username, source_p->host);
 
-	snprintf(buf, sizeof(buf), fmt, command, statusmsg_prefix, chptr->chname, text);
+	snprintf(buf, sizeof(buf), fmt, command, chptr->chname, text);
 	build_msgbuf(&msgbuf_statusmsg, source_p, buf, n_tags, tags);
 	msgbuf_cache_init(&msgbuf_cache_statusmsg, &msgbuf_statusmsg, local_source, use_id(source_p));
 
@@ -1089,7 +1088,7 @@ sendto_common_channels_local_butone(struct Client *user, int cap, int negcap, co
  * side effects - message is sent to matching clients
  */
 static void
-sendto_match_internal(struct Client *one, struct Client *source_p, const char *mask, int what,
+sendto_match_internal(const struct Client *one, struct Client *source_p, const char *mask, int what,
 	int cli_cap, int cli_negcap, int serv_cap, int serv_negcap,
 	const char *pattern, va_list *args, size_t n_tags, const struct MsgTag tags[])
 {

@@ -126,13 +126,13 @@ tag_message_id_outgoing(void *data_)
 		 *    empty string if target is not a channel. We know this is PRIVMSG, NOTICE, or TAGMSG
 		 *    so msgbuf->para[1] is guaranteed to be our target.
 		 */
-		char *encoded = NULL;
+		unsigned char *encoded = NULL;
 		if (IsChannelName(msgbuf->para[1]) || IsChannelName(msgbuf->para[1] + 1))
-			encoded = rb_base64_encode(msgbuf->para[1], strlen(msgbuf->para[1]));
+			encoded = rb_base64_encode((const unsigned char *)msgbuf->para[1], strlen(msgbuf->para[1]));
 
 		snprintf(buf, sizeof(buf), "%c%010d%03d%06d%s%s",
 			MESSAGE_ID_FORMAT + '0', (unsigned)prev_ts, prev_ms, ctr, data->client->id,
-			encoded == NULL ? "" : encoded);
+			encoded == NULL ? (const unsigned char *)"" : encoded);
 		if (encoded != NULL)
 			rb_free(encoded);
 
