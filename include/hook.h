@@ -42,10 +42,6 @@ enum message_tag_approval
 
 typedef void (*hookfn) (void *data);
 
-extern int h_iosend_id;
-extern int h_iorecv_id;
-extern int h_iorecvctrl_id;
-
 extern int h_burst_client;
 extern int h_burst_channel;
 extern int h_burst_finished;
@@ -67,6 +63,7 @@ extern int h_rehash;
 extern int h_priv_change;
 extern int h_cap_change;
 extern int h_message_tag;
+extern int h_message_handler;
 
 void init_hook(void);
 int register_hook(const char *name);
@@ -209,6 +206,7 @@ typedef struct
 	struct Channel *chptr;
 	const char *text;
 	int approved;
+	struct MsgBuf *msgbuf;
 } hook_data_privmsg_channel;
 
 typedef struct
@@ -218,6 +216,7 @@ typedef struct
 	struct Client *target_p;
 	const char *text;
 	int approved;
+	struct MsgBuf *msgbuf;
 } hook_data_privmsg_user;
 
 typedef struct
