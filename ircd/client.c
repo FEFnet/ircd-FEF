@@ -1227,7 +1227,6 @@ recurse_remove_clients(struct Client *source_p, const char *comment, const char 
 
 			if(!IsDead(target_p) && !IsClosing(target_p))
 				exit_remote_client(NULL, target_p, &me, comment, batch);
-		}
 	}
 
 	RB_DLINK_FOREACH_SAFE(ptr, ptr_next, source_p->serv->servers.head)
