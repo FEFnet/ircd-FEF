@@ -533,6 +533,7 @@ SOLANUM_C_GCC_TRY_FLAGS([-Wunused-function -Wunused-label -Wunused-variable], fe
 SOLANUM_C_GCC_TRY_FLAGS([-Wredundant-decls], fef_cv_c_gcc_w_redundant_decls)
 SOLANUM_C_GCC_TRY_FLAGS([-Wfloat-equal], fef_cv_c_gcc_w_float_equal)
 SOLANUM_C_GCC_TRY_FLAGS([-Wformat -Wformat-y2k -Wno-format-security], fef_cv_c_gcc_w_format)
+SOLANUM_C_GCC_TRY_FLAGS([-Wno-format-zero-length], fef_cv_c_gcc_w_format)
 
 IRC_CFLAGS="$CFLAGS"
 ],[

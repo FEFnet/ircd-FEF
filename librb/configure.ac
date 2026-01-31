@@ -367,7 +367,7 @@ fi
 
 AC_ARG_ENABLE(warnings,
 AC_HELP_STRING([--enable-warnings],[Enable all sorts of warnings for debugging.]),
-[CFLAGS="$CFLAGS -Wall -Werror -Wcast-qual -Wmissing-declarations -Wmissing-prototypes -Wnested-externs -Wshadow -Wwrite-strings -W -Wno-unused -Wunused-function -Wunused-variable -Wno-unused-parameter -Wno-null-pointer-subtraction"],[-w])
+[CFLAGS="$CFLAGS -Wall -Werror -Wcast-qual -Wmissing-declarations -Wmissing-prototypes -Wnested-externs -Wshadow -Wwrite-strings -W -Wno-unused -Wunused-function -Wunused-variable -Wno-unused-parameter -Wno-null-pointer-subtraction -Wno-format-zero-length"],[-w])
 
 AC_SUBST(LDFLAGS)
 AC_SUBST(PICFLAGS)
