@@ -170,7 +170,6 @@ struct config_file_entry
 	char *fname_klinelog;
 	char *fname_ioerrorlog;
 
-	int disable_fake_channels;
 	int failed_oper_notice;
 	int anti_nick_flood;
 	int anti_spam_exit_message_time;
@@ -260,7 +259,6 @@ struct config_channel_entry
 	int no_join_on_split;
 	int default_split_server_count;
 	int default_split_user_count;
-	int only_ascii_channels;
 	int disable_local_channels;
 	unsigned int autochanmodes;
 	int displayed_usercount;

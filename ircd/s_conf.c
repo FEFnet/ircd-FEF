@@ -693,7 +693,6 @@ set_default_conf(void)
 	ConfigFileEntry.default_umodes = UMODE_INVISIBLE;
 	ConfigFileEntry.failed_oper_notice = true;
 	ConfigFileEntry.anti_nick_flood = false;
-	ConfigFileEntry.disable_fake_channels = false;
 	ConfigFileEntry.max_nick_time = 20;
 	ConfigFileEntry.max_nick_changes = 5;
 	ConfigFileEntry.max_accept = 20;
@@ -745,7 +744,6 @@ set_default_conf(void)
 	ConfigChannel.max_chans_per_user_large = 60;
 	ConfigChannel.max_bans = 25;
 	ConfigChannel.max_bans_large = 500;
-	ConfigChannel.only_ascii_channels = false;
 
 	ConfigChannel.default_split_user_count = 15000;
 	ConfigChannel.default_split_server_count = 10;

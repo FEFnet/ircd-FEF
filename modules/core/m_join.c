@@ -978,7 +978,7 @@ check_channel_name_loc(struct Client *source_p, const char *name)
 	if(EmptyString(name))
 		return false;
 
-	if(ConfigFileEntry.disable_fake_channels && !IsOperGeneral(source_p))
+	if(!IsOperGeneral(source_p))
 	{
 		for(p = name; *p; ++p)
 		{
@@ -995,12 +995,9 @@ check_channel_name_loc(struct Client *source_p, const char *name)
 		}
 	}
 
-	if(ConfigChannel.only_ascii_channels)
-	{
-		for(p = name; *p; ++p)
-			if(*p < 33 || *p > 126)
-				return false;
-	}
+	for(p = name; *p; ++p)
+		if(*p < 33 || *p > 126)
+			return false;
 
 	return true;
 }

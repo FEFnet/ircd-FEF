@@ -230,11 +230,6 @@ static struct InfoStruct info_table[] = {
 		INFO_STRING(&ConfigFileEntry.illegal_name_short_client_message),
 	},
 	{
-		"disable_fake_channels",
-		"Controls whether bold etc are disabled for JOIN",
-		INFO_INTBOOL_YN(&ConfigFileEntry.disable_fake_channels),
-	},
-	{
 		"failed_oper_notice",
 		"Inform opers if someone /oper's with the wrong password",
 		INFO_INTBOOL(&ConfigFileEntry.failed_oper_notice),
@@ -514,11 +509,6 @@ static struct InfoStruct info_table[] = {
 		"no_join_on_split",
 		"Disallow joining channels when split",
 		INFO_INTBOOL_YN(&ConfigChannel.no_join_on_split),
-	},
-	{
-		"only_ascii_channels",
-		"Controls whether non-ASCII is disabled for JOIN",
-		INFO_INTBOOL_YN(&ConfigChannel.only_ascii_channels),
 	},
 	{
 		"hide_opers",

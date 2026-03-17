@@ -363,7 +363,6 @@ channel {
 	default_split_server_count = 0;
 	no_create_on_split = no;
 	no_join_on_split = no;
-	only_ascii_channels = yes;
 	disable_local_channels = yes;
 	autochanmodes = "+nt";
 	displayed_usercount = 3;
@@ -557,7 +556,6 @@ general {
 	 * Defaults to SaslServ if unspecified.
 	 */
 	sasl_service = "SaslServ";
-	disable_fake_channels = yes;
 	tkline_expire_notices = no;
 	default_floodcount = 10;
 	failed_oper_notice = yes;
