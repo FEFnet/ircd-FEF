@@ -1,5 +1,5 @@
-project('solanum', 'c',
-  version: '1.0-dev',
+project('ircd-FEF', 'c',
+  version: '8.0-dev',
   default_options: ['c_std=c99', 'warning_level=0'],
   meson_version: '>=0.62.0', # dependency('dl')
   license: 'GPLv2'
@@ -91,8 +91,6 @@ option_defaults = {
   'helpdir': default_helpdir,
   'moduledir': default_moduledir,
   'confdir': sysconfdir_base,
-  'custom_branding': meson.project_name(),
-  'custom_version': meson.project_version(),
 }
 foreach varname, default : option_defaults
   opt = get_option(varname)
@@ -130,22 +128,7 @@ endif
 conf_data.set('NICKLEN', get_option('nicklen') + 1)
 conf_data.set('TOPICLEN', get_option('topiclen'))
 
-# Branding
-conf_data.set_quoted('BRANDING_NAME', custom_branding)
-conf_data.set_quoted('BRANDING_VERSION', custom_version)
-
-if get_option('custom_branding') != ''
-  conf_data.set('CUSTOM_BRANDING', 1)
-endif
-
-# Program prefix
-program_prefix = get_option('program_prefix')
-conf_data.set_quoted('PROGRAM_PREFIX', program_prefix)
-
 # Features
-if get_option('oper_chghost')
-  conf_data.set('ENABLE_OPER_CHGHOST', 1)
-endif
 if have_sctp
   conf_data.set('HAVE_LIBSCTP', 1)
 endif
@@ -264,7 +247,6 @@ summary({
   'TLS backend': tls_backend,
   'SCTP': have_sctp,
   'Hyperscan': have_hyperscan,
-  'OPER CHGHOST': get_option('oper_chghost'),
 }, section: 'Features')
 
 summary({
@@ -277,9 +259,3 @@ summary({
   'Nickname length': get_option('nicklen'),
   'Topic length': get_option('topiclen'),
 }, section: 'Protocol Limits')
-
-summary({
-  'Branding name': custom_branding,
-  'Branding version': custom_version,
-  'Program prefix': program_prefix,
-}, section: 'Branding')
