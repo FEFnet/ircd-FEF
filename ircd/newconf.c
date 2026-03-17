@@ -1727,6 +1727,13 @@ conf_set_alias_target(void *data)
 }
 
 static void
+conf_set_channel_kick_on_split_riding(void *data)
+{
+	conf_report_warning("Ignoring deprecated option channel::kick_on_split_riding;"
+		" please remove it from ircd.conf entirely");
+}
+
+static void
 conf_set_channel_autochanmodes(void *data)
 {
 	char *pm;
@@ -2644,7 +2651,6 @@ static struct ConfEntry conf_channel_table[] =
 {
 	{ "default_split_user_count",	CF_INT,  NULL, 0, &ConfigChannel.default_split_user_count	 },
 	{ "default_split_server_count",	CF_INT,	 NULL, 0, &ConfigChannel.default_split_server_count },
-	{ "kick_on_split_riding", CF_YESNO, NULL, 0, &ConfigChannel.kick_on_split_riding },
 	{ "knock_delay",	CF_TIME,  NULL, 0, &ConfigChannel.knock_delay		},
 	{ "knock_delay_channel",CF_TIME,  NULL, 0, &ConfigChannel.knock_delay_channel	},
 	{ "max_bans",		CF_INT,   NULL, 0, &ConfigChannel.max_bans		},
