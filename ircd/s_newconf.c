@@ -139,7 +139,7 @@ clear_s_newconf_bans(void)
 
 void
 propagate_generic(struct Client *source_p, const char *command,
-		const char *target, int cap, const char *format, ...)
+		const char *target, uint64_t cap, const char *format, ...)
 {
 	char buffer[BUFSIZE];
 	va_list args;
@@ -158,7 +158,7 @@ propagate_generic(struct Client *source_p, const char *command,
 
 void
 cluster_generic(struct Client *source_p, const char *command,
-		int cltype, int cap, const char *format, ...)
+		int cltype, uint64_t cap, const char *format, ...)
 {
 	char buffer[BUFSIZE];
 	va_list args;

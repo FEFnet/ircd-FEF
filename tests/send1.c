@@ -47,9 +47,9 @@ int rb_gettimeofday(struct timeval *tv, void *tz)
 	return 0;
 }
 
-unsigned int CAP_ACCOUNT_TAG;
-unsigned int CAP_SERVER_TIME;
-unsigned int CAP_MULTI_PREFIX;
+uint64_t CAP_ACCOUNT_TAG;
+uint64_t CAP_SERVER_TIME;
+uint64_t CAP_MULTI_PREFIX;
 
 static struct Client *user;
 static struct Client *server;
@@ -86,14 +86,6 @@ static void standard_init(void)
 	remote2 = make_remote_person_nick(server2, TEST_REMOTE2_NICK);
 	server3 = make_remote_server_name(&me, TEST_SERVER3_NAME);
 	remote3 = make_remote_person_nick(server3, TEST_REMOTE3_NICK);
-
-	// Expose potential bugs in overlapping capabilities
-	server->localClient->caps |= CAP_ACCOUNT_TAG;
-	server->localClient->caps |= CAP_SERVER_TIME;
-	server2->localClient->caps |= CAP_ACCOUNT_TAG;
-	server2->localClient->caps |= CAP_SERVER_TIME;
-	server3->localClient->caps |= CAP_ACCOUNT_TAG;
-	server3->localClient->caps |= CAP_SERVER_TIME;
 
 	local_chan_o = make_local_person_nick("LChanOp");
 	local_chan_ov = make_local_person_nick("LChanOpVoice");
@@ -165,15 +157,15 @@ static void standard_ids(void)
 	strcpy(remote2_chan_d->id, TEST_SERVER2_ID "90205");
 }
 
-static void standard_server_caps(unsigned int add, unsigned int remove)
+static void standard_server_caps(uint64_t add, uint64_t remove)
 {
-	server->localClient->caps |= add;
-	server2->localClient->caps |= add;
-	server3->localClient->caps |= add;
+	SetServerCap(server, add);
+	SetServerCap(server2, add);
+	SetServerCap(server3, add);
 
-	server->localClient->caps &= ~remove;
-	server2->localClient->caps &= ~remove;
-	server3->localClient->caps &= ~remove;
+	ClearServerCap(server, remove);
+	ClearServerCap(server2, remove);
+	ClearServerCap(server3, remove);
 }
 
 static void standard_free(void)
@@ -223,10 +215,10 @@ static void sendto_one1__tags(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_one(local_chan_o, "Hello %s!", "World");
 	is_client_sendq("@time=" ADVENTURE_TIME " Hello World!" CRLF, local_chan_o, MSG);
@@ -297,10 +289,10 @@ static void sendto_one_prefix1__tags(void)
 
 	strcpy(user->user->suser, "test");
 	strcpy(remote->user->suser, "rtest");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_one_prefix(user, &me, "TEST", ":Hello %s!", "World");
 	is_client_sendq(":" TEST_ME_NAME " TEST " TEST_NICK " :Hello World!" CRLF, user, MSG);
@@ -399,10 +391,10 @@ static void sendto_one_notice1__tags(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_one_notice(local_chan_o, ":Hello %s!", "World");
 	is_client_sendq("@time=" ADVENTURE_TIME " :" TEST_ME_NAME " NOTICE LChanOp :Hello World!" CRLF, local_chan_o, MSG);
@@ -466,10 +458,10 @@ static void sendto_one_numeric1__tags(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_one_numeric(local_chan_o, 1, "Hello %s!", "World");
 	is_client_sendq("@time=" ADVENTURE_TIME " :" TEST_ME_NAME " 001 LChanOp Hello World!" CRLF, local_chan_o, MSG);
@@ -735,10 +727,10 @@ static void sendto_channel_flags__local__all_members__tags(void)
 	standard_init();
 
 	strcpy(local_chan_p->user->suser, "test");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_channel_flags(local_chan_p, ALL_MEMBERS, local_chan_p, channel, "TEST #placeholder :Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on channel; " MSG);
@@ -770,10 +762,10 @@ static void sendto_channel_flags__remote__all_members__tags(void)
 	standard_init();
 
 	strcpy(remote_chan_p->user->suser, "test");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_channel_flags(server, ALL_MEMBERS, remote_chan_p, channel, "TEST #placeholder :Hello %s!", "World");
 	is_client_sendq("@account=test :RChanPeon" TEST_ID_SUFFIX " TEST #placeholder :Hello World!" CRLF, local_chan_o, "On channel; " MSG);
@@ -1283,9 +1275,9 @@ static void sendto_channel_opmod__local__tags(void)
 	standard_init();
 
 	strcpy(local_chan_p->user->suser, "test");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
 
 	// This function does not support TS5...
 	standard_ids();
@@ -1319,10 +1311,10 @@ static void sendto_channel_opmod__local__tags(void)
 	// Moderated channel
 	channel->mode.mode |= MODE_MODERATED;
 
-	local_chan_o->localClient->caps &= ~CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps &= ~CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_ov->localClient->caps &= ~CAP_SERVER_TIME;
+	ClearClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	ClearClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_ACCOUNT_TAG);
+	ClearClientCap(local_chan_ov, CAP_SERVER_TIME);
 
 	sendto_channel_opmod(local_chan_p, local_chan_p, channel, "TEST", "Hello World!");
 	is_client_sendq_empty(user, "Not on channel; " MSG);
@@ -1466,9 +1458,9 @@ static void sendto_channel_opmod__remote__tags(void)
 	standard_init();
 
 	strcpy(remote2_chan_d->user->suser, "test");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
 
 	// This function does not support TS5...
 	standard_ids();
@@ -1498,10 +1490,10 @@ static void sendto_channel_opmod__remote__tags(void)
 	// Moderated channel
 	channel->mode.mode |= MODE_MODERATED;
 
-	local_chan_o->localClient->caps &= ~CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps &= ~CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_ov->localClient->caps &= ~CAP_SERVER_TIME;
+	ClearClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	ClearClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_ACCOUNT_TAG);
+	ClearClientCap(local_chan_ov, CAP_SERVER_TIME);
 
 	sendto_channel_opmod(server2, remote2_chan_d, channel, "TEST", "Hello World!");
 	is_client_sendq(":R2ChanDeaf" TEST_ID_SUFFIX " TEST " TEST_CHANNEL " :Hello World!" CRLF, local_chan_o, "On channel; " MSG);
@@ -1615,10 +1607,10 @@ static void sendto_channel_local1__tags(void)
 	standard_init();
 
 	strcpy(user->user->suser, "test");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_channel_local(user, ALL_MEMBERS, channel, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on channel; " MSG);
@@ -1681,8 +1673,8 @@ static void sendto_channel_local1__tags(void)
 	add_user_to_channel(lchannel, oper1, CHFL_PEON);
 	add_user_to_channel(lchannel, oper2, CHFL_PEON);
 
-	oper1->localClient->caps |= CAP_ACCOUNT_TAG;
-	oper2->localClient->caps |= CAP_SERVER_TIME;
+	SetClientCap(oper1, CAP_ACCOUNT_TAG);
+	SetClientCap(oper2, CAP_SERVER_TIME);
 
 	sendto_channel_local(user, ALL_MEMBERS, lchannel, "Hello %s!", "World");
 	is_client_sendq("Hello World!" CRLF, user, "On channel; " MSG);
@@ -1700,8 +1692,8 @@ static void sendto_channel_local1__tags(void)
 	is_client_sendq_empty(server2, MSG);
 	is_client_sendq_empty(server3, MSG);
 
-	oper1->localClient->caps &= ~CAP_ACCOUNT_TAG;
-	oper2->localClient->caps |= CAP_ACCOUNT_TAG;
+	ClearClientCap(oper1, CAP_ACCOUNT_TAG);
+	SetClientCap(oper2, CAP_ACCOUNT_TAG);
 
 	sendto_channel_local(user, ALL_MEMBERS, lchannel, "Hello %s!", "World");
 	is_client_sendq("Hello World!" CRLF, user, "On channel; " MSG);
@@ -1726,8 +1718,8 @@ static void sendto_channel_local_with_capability1(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	sendto_channel_local_with_capability(user, ALL_MEMBERS, CAP_MULTI_PREFIX, 0, channel, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on channel; " MSG);
@@ -1856,14 +1848,14 @@ static void sendto_channel_local_with_capability1__tags(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	strcpy(user->user->suser, "test");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_channel_local_with_capability(user, ALL_MEMBERS, CAP_MULTI_PREFIX, 0, channel, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on channel; " MSG);
@@ -1992,8 +1984,8 @@ static void sendto_channel_local_with_capability_butone1(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	sendto_channel_local_with_capability_butone(NULL, ALL_MEMBERS, CAP_MULTI_PREFIX, 0, channel, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on channel; " MSG);
@@ -2092,15 +2084,15 @@ static void sendto_channel_local_with_capability_butone1__tags(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	strcpy(local_chan_o->user->suser, "test_o");
 	strcpy(local_chan_p->user->suser, "test_p");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_channel_local_with_capability_butone(NULL, ALL_MEMBERS, CAP_MULTI_PREFIX, 0, channel, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on channel; " MSG);
@@ -2300,10 +2292,10 @@ static void sendto_channel_local_butone1__tags(void)
 	strcpy(local_chan_ov->user->suser, "test_ov");
 	strcpy(local_chan_v->user->suser, "test_v");
 	strcpy(local_chan_p->user->suser, "test_p");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_channel_local_butone(NULL, ALL_MEMBERS, channel, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on channel; " MSG);
@@ -2402,8 +2394,8 @@ static void sendto_common_channels_local1(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	sendto_common_channels_local(local_chan_o, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2468,7 +2460,7 @@ static void sendto_common_channels_local1(void)
 	is_client_sendq_empty(server, MSG);
 	is_client_sendq_empty(server2, MSG);
 
-	local_no_chan->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_no_chan, CAP_MULTI_PREFIX);
 
 	sendto_common_channels_local(local_no_chan, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2507,15 +2499,15 @@ static void sendto_common_channels_local1__tags(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	strcpy(local_chan_o->user->suser, "test_o");
 	strcpy(local_no_chan->user->suser, "test_n");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_common_channels_local(local_chan_o, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2550,7 +2542,7 @@ static void sendto_common_channels_local1__tags(void)
 	is_client_sendq_empty(server, MSG);
 	is_client_sendq_empty(server2, MSG);
 
-	local_no_chan->localClient->caps |= CAP_SERVER_TIME;
+	SetClientCap(local_no_chan, CAP_SERVER_TIME);
 
 	sendto_common_channels_local(local_no_chan, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2582,8 +2574,8 @@ static void sendto_common_channels_local1__tags(void)
 	is_client_sendq_empty(server, MSG);
 	is_client_sendq_empty(server2, MSG);
 
-	local_no_chan->localClient->caps |= CAP_MULTI_PREFIX;
-	local_no_chan->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_no_chan, CAP_MULTI_PREFIX);
+	SetClientCap(local_no_chan, CAP_ACCOUNT_TAG);
 
 	sendto_common_channels_local(local_no_chan, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2615,7 +2607,7 @@ static void sendto_common_channels_local1__tags(void)
 	is_client_sendq_empty(server, MSG);
 	is_client_sendq_empty(server2, MSG);
 
-	local_no_chan->localClient->caps &= ~CAP_SERVER_TIME;
+	ClearClientCap(local_no_chan, CAP_SERVER_TIME);
 
 	sendto_common_channels_local(local_no_chan, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2654,8 +2646,8 @@ static void sendto_common_channels_local_butone1(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	sendto_common_channels_local_butone(local_chan_o, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2720,7 +2712,7 @@ static void sendto_common_channels_local_butone1(void)
 	is_client_sendq_empty(server, MSG);
 	is_client_sendq_empty(server2, MSG);
 
-	local_no_chan->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_no_chan, CAP_MULTI_PREFIX);
 
 	sendto_common_channels_local_butone(local_no_chan, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2759,15 +2751,15 @@ static void sendto_common_channels_local_butone1__tags(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	strcpy(local_chan_o->user->suser, "test_o");
 	strcpy(local_no_chan->user->suser, "test_n");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_common_channels_local_butone(local_chan_o, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2802,7 +2794,7 @@ static void sendto_common_channels_local_butone1__tags(void)
 	is_client_sendq_empty(server, MSG);
 	is_client_sendq_empty(server2, MSG);
 
-	local_no_chan->localClient->caps |= CAP_SERVER_TIME;
+	SetClientCap(local_no_chan, CAP_SERVER_TIME);
 
 	sendto_common_channels_local_butone(local_no_chan, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2834,8 +2826,8 @@ static void sendto_common_channels_local_butone1__tags(void)
 	is_client_sendq_empty(server, MSG);
 	is_client_sendq_empty(server2, MSG);
 
-	local_no_chan->localClient->caps |= CAP_MULTI_PREFIX;
-	local_no_chan->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_no_chan, CAP_MULTI_PREFIX);
+	SetClientCap(local_no_chan, CAP_ACCOUNT_TAG);
 
 	sendto_common_channels_local_butone(local_no_chan, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -2867,7 +2859,7 @@ static void sendto_common_channels_local_butone1__tags(void)
 	is_client_sendq_empty(server, MSG);
 	is_client_sendq_empty(server2, MSG);
 
-	local_no_chan->localClient->caps &= ~CAP_SERVER_TIME;
+	ClearClientCap(local_no_chan, CAP_SERVER_TIME);
 
 	sendto_common_channels_local_butone(local_no_chan, CAP_MULTI_PREFIX, 0, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Not on common channel; " MSG);
@@ -3008,10 +3000,10 @@ static void sendto_match_butone__host__tags(void)
 
 	strcpy(user->user->suser, "test");
 	strcpy(remote->user->suser, "rtest");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	// This function does not support TS5...
 	standard_ids();
@@ -3215,10 +3207,10 @@ static void sendto_match_butone__server__tags(void)
 
 	strcpy(user->user->suser, "test");
 	strcpy(remote->user->suser, "rtest");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	// This function does not support TS5...
 	standard_ids();
@@ -3320,8 +3312,8 @@ static void sendto_local_clients_with_capability1(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	sendto_local_clients_with_capability(CAP_MULTI_PREFIX, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Doesn't have cap; " MSG);
@@ -3340,8 +3332,8 @@ static void sendto_local_clients_with_capability1__tags(void)
 {
 	standard_init();
 
-	local_chan_o->localClient->caps |= CAP_MULTI_PREFIX;
-	local_chan_v->localClient->caps |= CAP_MULTI_PREFIX;
+	SetClientCap(local_chan_o, CAP_MULTI_PREFIX);
+	SetClientCap(local_chan_v, CAP_MULTI_PREFIX);
 
 	strcpy(user->user->suser, "test");
 	strcpy(local_chan_o->user->suser, "test_o");
@@ -3349,10 +3341,10 @@ static void sendto_local_clients_with_capability1__tags(void)
 	strcpy(local_chan_v->user->suser, "test_v");
 	strcpy(local_chan_p->user->suser, "test_p");
 	strcpy(local_chan_d->user->suser, "test_d");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_local_clients_with_capability(CAP_MULTI_PREFIX, "Hello %s!", "World");
 	is_client_sendq_empty(user, "Doesn't have cap; " MSG);
@@ -3399,10 +3391,10 @@ static void sendto_monitor1__tags(void)
 	standard_init();
 
 	strcpy(user->user->suser, "test");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	monptr = find_monitor(TEST_NICK, 1);
 	rb_dlinkAddAlloc(local_chan_o, &monptr->users);
@@ -3492,10 +3484,10 @@ static void sendto_anywhere1__tags(void)
 	strcpy(local_chan_ov->user->suser, "test_ov");
 	strcpy(local_chan_v->user->suser, "test_v");
 	strcpy(local_chan_p->user->suser, "test_p");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	// This function does not support TS5...
 	standard_ids();
@@ -3604,10 +3596,10 @@ static void sendto_anywhere_echo1__tags(void)
 	strcpy(local_chan_ov->user->suser, "test_ov");
 	strcpy(local_chan_v->user->suser, "test_v");
 	strcpy(local_chan_p->user->suser, "test_p");
-	local_chan_o->localClient->caps |= CAP_ACCOUNT_TAG;
-	local_chan_o->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_ov->localClient->caps |= CAP_SERVER_TIME;
-	local_chan_v->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(local_chan_o, CAP_ACCOUNT_TAG);
+	SetClientCap(local_chan_o, CAP_SERVER_TIME);
+	SetClientCap(local_chan_ov, CAP_SERVER_TIME);
+	SetClientCap(local_chan_v, CAP_ACCOUNT_TAG);
 
 	sendto_anywhere_echo(local_chan_o, local_chan_o, "TEST", "Hello %s!", "World");
 	is_client_sendq("@time=" ADVENTURE_TIME ";account=test_o :LChanOp" TEST_ID_SUFFIX " TEST LChanOp Hello World!" CRLF, local_chan_o, MSG);
@@ -3718,10 +3710,9 @@ static void sendto_match_servs1(void)
 {
 	standard_init();
 
-	server->localClient->caps = CAP_ENCAP;
-	server2->localClient->caps = CAP_ENCAP;
-	server2->localClient->caps |= CAP_KNOCK;
-	server3->localClient->caps = CAP_BAN;
+	server->localClient->server_caps = CAP_ENCAP;
+	server2->localClient->server_caps = CAP_ENCAP | CAP_KNOCK;
+	server3->localClient->server_caps = CAP_BAN;
 
 	// This function does not support TS5...
 	standard_ids();
@@ -3861,13 +3852,12 @@ static void sendto_match_servs1__tags(void)
 
 	strcpy(user->user->suser, "test");
 	strcpy(remote->user->suser, "rtest");
-	user->localClient->caps |= CAP_ACCOUNT_TAG;
-	user->localClient->caps |= CAP_SERVER_TIME;
+	SetClientCap(user, CAP_ACCOUNT_TAG);
+	SetClientCap(user, CAP_SERVER_TIME);
 
-	server->localClient->caps = CAP_ENCAP;
-	server2->localClient->caps = CAP_ENCAP;
-	server2->localClient->caps |= CAP_KNOCK;
-	server3->localClient->caps = CAP_BAN;
+	server->localClient->server_caps = CAP_ENCAP;
+	server2->localClient->server_caps = CAP_ENCAP | CAP_KNOCK;
+	server3->localClient->server_caps = CAP_BAN;
 
 	// This function does not support TS5...
 	standard_ids();
@@ -4023,8 +4013,8 @@ static void sendto_realops_snomask1(void)
 	oper3->user->privset = privilegeset_get("admin");
 	oper4->user->privset = privilegeset_get("admin");
 
-	server->localClient->caps = CAP_ENCAP | CAP_TS6;
-	server2->localClient->caps = 0;
+	server->localClient->server_caps = CAP_ENCAP | CAP_TS6;
+	server2->localClient->server_caps = 0;
 
 	remote_rehash_oper_p = remote;
 
@@ -4100,10 +4090,10 @@ static void sendto_realops_snomask1__tags(void)
 	strcpy(oper3->user->suser, "test3");
 	strcpy(oper4->user->suser, "test4");
 
-	oper1->localClient->caps |= CAP_ACCOUNT_TAG;
-	oper1->localClient->caps |= CAP_SERVER_TIME;
-	oper2->localClient->caps |= CAP_SERVER_TIME;
-	oper3->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(oper1, CAP_ACCOUNT_TAG);
+	SetClientCap(oper1, CAP_SERVER_TIME);
+	SetClientCap(oper2, CAP_SERVER_TIME);
+	SetClientCap(oper3, CAP_ACCOUNT_TAG);
 
 	make_local_person_oper(oper1);
 	make_local_person_oper(oper2);
@@ -4118,8 +4108,8 @@ static void sendto_realops_snomask1__tags(void)
 	oper3->user->privset = privilegeset_get("admin");
 	oper4->user->privset = privilegeset_get("admin");
 
-	server->localClient->caps = CAP_ENCAP | CAP_TS6;
-	server2->localClient->caps = 0;
+	server->localClient->server_caps = CAP_ENCAP | CAP_TS6;
+	server2->localClient->server_caps = 0;
 
 	remote_rehash_oper_p = remote;
 
@@ -4303,10 +4293,10 @@ static void sendto_realops_snomask_from1__tags(void)
 	strcpy(oper3->user->suser, "test3");
 	strcpy(oper4->user->suser, "test4");
 
-	oper1->localClient->caps |= CAP_ACCOUNT_TAG;
-	oper1->localClient->caps |= CAP_SERVER_TIME;
-	oper2->localClient->caps |= CAP_SERVER_TIME;
-	oper3->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(oper1, CAP_ACCOUNT_TAG);
+	SetClientCap(oper1, CAP_SERVER_TIME);
+	SetClientCap(oper2, CAP_SERVER_TIME);
+	SetClientCap(oper3, CAP_ACCOUNT_TAG);
 
 	make_local_person_oper(oper1);
 	make_local_person_oper(oper2);
@@ -4480,10 +4470,10 @@ static void sendto_wallops_flags1__tags(void)
 	strcpy(oper3->user->suser, "test3");
 	strcpy(oper4->user->suser, "test4");
 
-	oper1->localClient->caps |= CAP_ACCOUNT_TAG;
-	oper1->localClient->caps |= CAP_SERVER_TIME;
-	oper2->localClient->caps |= CAP_SERVER_TIME;
-	oper3->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(oper1, CAP_ACCOUNT_TAG);
+	SetClientCap(oper1, CAP_SERVER_TIME);
+	SetClientCap(oper2, CAP_SERVER_TIME);
+	SetClientCap(oper3, CAP_ACCOUNT_TAG);
 
 	make_local_person_oper(oper1);
 	make_local_person_oper(oper2);
@@ -4600,10 +4590,10 @@ static void sendto_wallops_flags2__tags(void)
 	strcpy(oper3->user->suser, "test3");
 	strcpy(oper4->user->suser, "test4");
 
-	oper1->localClient->caps |= CAP_ACCOUNT_TAG;
-	oper1->localClient->caps |= CAP_SERVER_TIME;
-	oper2->localClient->caps |= CAP_SERVER_TIME;
-	oper3->localClient->caps |= CAP_ACCOUNT_TAG;
+	SetClientCap(oper1, CAP_ACCOUNT_TAG);
+	SetClientCap(oper1, CAP_SERVER_TIME);
+	SetClientCap(oper2, CAP_SERVER_TIME);
+	SetClientCap(oper3, CAP_ACCOUNT_TAG);
 
 	make_local_person_oper(oper1);
 	make_local_person_oper(oper2);
