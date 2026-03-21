@@ -101,6 +101,7 @@ uint64_t CLICAP_CHGHOST;
 uint64_t CLICAP_ECHO_MESSAGE;
 uint64_t CLICAP_MESSAGE_TAGS;
 uint64_t CLICAP_BATCH;
+uint64_t CLICAP_NO_IMPLICIT_NAMES;
 
 /*
  * initialize our builtin capability table. --nenolod
@@ -155,6 +156,7 @@ init_builtin_capabs(void)
 	CLICAP_ECHO_MESSAGE = capability_put(cli_capindex, "echo-message", NULL);
 	CLICAP_MESSAGE_TAGS = capability_put(cli_capindex, "message-tags", NULL);
 	CLICAP_BATCH = capability_put(cli_capindex, "batch", &high_priority);
+	CLICAP_NO_IMPLICIT_NAMES = capability_put(cli_capindex, "no-implicit-names", NULL);
 }
 
 static CNCB serv_connect_callback;
