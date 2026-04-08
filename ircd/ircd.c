@@ -155,6 +155,9 @@ const char *ircd_pathnames[IRCD_PATH_COUNT] = {
 
 const char *logFileName = NULL;
 const char *pidFileName = NULL;
+const char *banFileName = NULL;
+const char *motdFileName = NULL;
+const char *operMotdFileName = NULL;
 
 void
 ircd_shutdown(const char *reason)
@@ -260,6 +263,12 @@ struct lgetopt myopts[] = {
 	 STRING, "File to use for ircd.log"},
 	{"pidfile", &pidFileName,
 	 STRING, "File to use for process ID"},
+	{"banfile", &banFileName,
+	 STRING, "File to use for ban.db"},
+	{"motdfile", &motdFileName,
+	 STRING, "File to use for ircd.motd"},
+	{"opermotdfile", &operMotdFileName,
+	 STRING, "File to use for opers.motd"},
 	{"foreground", &server_state_foreground,
 	 YESNO, "Run in foreground (don't detach)"},
 	{"version", &printVersion,
@@ -532,6 +541,9 @@ solanum_main(int argc, char * const argv[])
 
 	logFileName = ircd_paths[IRCD_PATH_IRCD_LOG];
 	pidFileName = ircd_paths[IRCD_PATH_IRCD_PID];
+	banFileName = ircd_paths[IRCD_PATH_BANDB];
+	motdFileName = ircd_paths[IRCD_PATH_IRCD_MOTD];
+	operMotdFileName = ircd_paths[IRCD_PATH_IRCD_OMOTD];
 
 	ConfigFileEntry.dpath = ircd_paths[IRCD_PATH_PREFIX];
 	ConfigFileEntry.configfile = ircd_paths[IRCD_PATH_IRCD_CONF];	/* Server configuration file */
@@ -625,6 +637,7 @@ solanum_main(int argc, char * const argv[])
 	init_builtin_capabs();
 	default_server_capabs = CAP_MASK;
 
+	init_hook();
 	init_main_logfile();
 	newconf_init();
 	init_s_conf();
@@ -634,7 +647,6 @@ solanum_main(int argc, char * const argv[])
 	init_host_hash();
 	clear_hash_parse();
 	init_client();
-	init_hook();
 	init_channels();
 	initclass();
 	whowas_init();
