@@ -73,5 +73,6 @@ int add_conf_item(const char *topconf, const char *name, int type, void (*func) 
 int add_top_conf(const char *name, int (*sfunc) (struct TopConf *), int (*efunc) (struct TopConf *), struct ConfEntry *items);
 struct TopConf *find_top_conf(const char *name);
 struct ConfEntry *find_conf_item(const struct TopConf *top, const char *name);
+int remove_top_conf(char *name);
 
 #endif
