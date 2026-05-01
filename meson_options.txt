@@ -15,9 +15,9 @@ option('rundir', type: 'string', value: '',
 # TLS
 option('openssl', type: 'feature', value: 'auto',
   description: 'Enable OpenSSL support')
-option('mbedtls', type: 'feature', value: false,
+option('mbedtls', type: 'feature', value: 'auto',
   description: 'Enable mbedTLS support')
-option('gnutls', type: 'feature', value: false,
+option('gnutls', type: 'feature', value: 'auto',
   description: 'Enable GnuTLS support')
 
 # Features

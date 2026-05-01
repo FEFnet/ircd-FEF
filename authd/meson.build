@@ -6,7 +6,6 @@ authd_sources = files(
   'res.c',
   'reslib.c',
   'providers/dnsbl.c',
-  'providers/ident.c',
   'providers/opm.c',
   'providers/rdns.c',
 )

@@ -35,7 +35,6 @@ autoload_modules = [
   'm_motd',
   'm_names',
   'm_oper',
-  'm_operspy',
   'm_pass',
   'm_ping',
   'm_pong',
