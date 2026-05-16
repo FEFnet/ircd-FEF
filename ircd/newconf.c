@@ -320,7 +320,6 @@ struct mode_table
 static struct mode_table umode_table[] = {
 	{"deaf",	UMODE_DEAF	},
 	{"invisible",	UMODE_INVISIBLE	},
-	{"locops",	UMODE_LOCOPS	},
 	{"noforward",	UMODE_NOFORWARD	},
 	{"servnotice",	UMODE_SERVNOTICE},
 	{"wallop",	UMODE_WALLOP	},

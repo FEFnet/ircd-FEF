@@ -279,6 +279,7 @@ struct LocalUser
 
 	uint32_t pending_batch_lines;	/* number of lines held in pending client-initiated batches */
 	rb_dlink_list pending_batches;	/* batches this client started but did not finish */
+	rb_dlink_list pending_remote_responses; /* labeled-response replies we're awaiting from remote servers */
 };
 
 #define AUTHC_F_DEFERRED 0x01
@@ -308,11 +309,20 @@ struct PreClient
 	char id[IDLEN]; /* UID/SID, unique on the network (unverified) */
 };
 
+struct ResponseInfo;
+
 struct ListClient
 {
-	char *chname, *mask, *nomask;
-	unsigned int users_min, users_max;
-	time_t created_min, created_max, topic_min, topic_max;
+	char *chname;
+	char *mask;
+	char *nomask;
+	unsigned int users_min;
+	unsigned int users_max;
+	time_t created_min;
+	time_t created_max;
+	time_t topic_min;
+	time_t topic_max;
+	struct ResponseInfo *response_info;
 };
 
 /*
@@ -437,7 +447,6 @@ struct ListClient
 #define UMODE_WALLOP       0x0002	/* send wallops to them */
 #define UMODE_OPERWALL     0x0004	/* Operwalls */
 #define UMODE_INVISIBLE    0x0008	/* makes user invisible */
-#define UMODE_LOCOPS       0x0020	/* show locops */
 #define UMODE_SERVICE      0x0040
 #define UMODE_DEAF	   0x0080
 #define UMODE_NOFORWARD    0x0100	/* don't forward */
@@ -447,8 +456,7 @@ struct ListClient
 #define UMODE_ADMIN        0x2000	/* Admin on server */
 #define UMODE_SECURE       0x4000	/* has a secure connection */
 
-#define DEFAULT_OPER_UMODES (UMODE_SERVNOTICE | UMODE_OPERWALL | \
-                             UMODE_WALLOP | UMODE_LOCOPS)
+#define DEFAULT_OPER_UMODES (UMODE_SERVNOTICE | UMODE_OPERWALL | UMODE_WALLOP)
 #define DEFAULT_OPER_SNOMASK SNO_GENERAL
 
 /*
@@ -521,7 +529,6 @@ struct ListClient
 #define ClearInvisible(x)       ((x)->umodes &= ~UMODE_INVISIBLE)
 #define IsSecureClient(x)       ((x)->umodes & UMODE_SECURE)
 #define SendWallops(x)          ((x)->umodes & UMODE_WALLOP)
-#define SendLocops(x)           ((x)->umodes & UMODE_LOCOPS)
 #define SendServNotice(x)       ((x)->umodes & UMODE_SERVNOTICE)
 #define SendOperwall(x)         ((x)->umodes & UMODE_OPERWALL)
 #define IsService(x)            ((x)->umodes & UMODE_SERVICE)

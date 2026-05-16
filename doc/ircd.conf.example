@@ -26,11 +26,9 @@ loadmodule "extensions/extb_realname";
 #loadmodule "extensions/extb_server";
 loadmodule "extensions/extb_ssl";
 loadmodule "extensions/extb_usermode";
-loadmodule "extensions/hurt";
 loadmodule "extensions/m_extendchans";
 loadmodule "extensions/m_findforwards";
 loadmodule "extensions/m_identify";
-loadmodule "extensions/no_locops";
 #loadmodule "extensions/no_oper_invis";
 loadmodule "extensions/sno_channelcreate";
 loadmodule "extensions/umode_hide_idle_time";
@@ -285,7 +283,7 @@ operator "god" {
 	 * If this is specified an oper will not be given oper_umodes
 	 * These are described above oper_only_umodes in general {};
 	 */
-	umodes = servnotice, operwall, wallop, noforward;
+	umodes = servnotice, operwall, wallop;
 
 	/* fingerprint: if specified, the oper's client certificate
 	 * fingerprint will be checked against the specified fingerprint

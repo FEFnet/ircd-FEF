@@ -34,7 +34,6 @@ extension_LTLIBRARIES =		\
   force_user_invis.la		\
   helpops.la			\
   hide_uncommon_channels.la	\
-  hurt.la			\
   identify_msg.la		\
   invex_regonly.la		\
   invite_notify.la		\
@@ -44,7 +43,6 @@ extension_LTLIBRARIES =		\
   m_extendchans.la		\
   m_findforwards.la		\
   m_identify.la			\
-  m_locops.la			\
   m_mkpasswd.la			\
   m_ojoin.la			\
   m_okick.la			\
@@ -56,7 +54,6 @@ extension_LTLIBRARIES =		\
   m_shedding.la			\
   m_webirc.la			\
   no_kill_services.la		\
-  no_locops.la			\
   no_oper_invis.la		\
   override.la			\
   override_kick_immunity.la	\

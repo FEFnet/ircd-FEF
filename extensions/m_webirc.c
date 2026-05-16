@@ -52,6 +52,7 @@
 #include "hash.h"
 #include "s_conf.h"
 #include "reject.h"
+#include "response.h"
 
 static const char webirc_desc[] = "Adds support for the WebIRC system";
 
@@ -154,6 +155,7 @@ mr_webirc(struct MsgBuf *msgbuf_p, struct Client *client_p, struct Client *sourc
 
 	if (secure && !IsSecure(source_p))
 	{
+		begin_local_response_batch();
 		sendto_one(source_p, "NOTICE * :CGI:IRC is not connected securely; marking you as insecure");
 		secure = 0;
 	}
