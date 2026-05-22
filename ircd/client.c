@@ -1717,6 +1717,11 @@ exit_client(struct Client *client_p,	/* The local client originating the
 
 	if(MyConnect(source_p))
 	{
+		RB_DLINK_FOREACH_SAFE(ptr, nptr, source_p->localClient->pending_remote_responses.head)
+		{
+			free_response_batch(ptr->data);
+		}
+
 		/* Local clients of various types */
 		if(IsPerson(source_p))
 			ret = exit_local_client(client_p, source_p, from, comment, NULL);
@@ -1725,11 +1730,6 @@ exit_client(struct Client *client_p,	/* The local client originating the
 		/* IsUnknown || IsConnecting || IsHandShake */
 		else if(!IsReject(source_p))
 			ret = exit_unknown_client(client_p, source_p, from, comment);
-
-		RB_DLINK_FOREACH_SAFE(ptr, nptr, source_p->localClient->pending_remote_responses.head)
-		{
-			free_response_batch(ptr->data);
-		}
 	}
 	else
 	{
