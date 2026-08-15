@@ -12,6 +12,7 @@ extension_LTLIBRARIES =		\
   chm_adminonly.la		\
   chm_operonly.la		\
   chm_insecure.la		\
+  chm_nobots.la			\
   chm_nonotice.la		\
   chm_operpeace.la		\
   chm_regmsg.la			\
@@ -57,6 +58,7 @@ extension_LTLIBRARIES =		\
   no_oper_invis.la		\
   override.la			\
   override_kick_immunity.la	\
+  restrict_botmode.la		\
   restrict-unauthenticated.la	\
   sasl_usercloak.la		\
   sno_channelcreate.la		\
@@ -67,6 +69,7 @@ extension_LTLIBRARIES =		\
   tag_message_id.la		\
   tag_reply.la      \
   tag_typing.la		\
+  umode_bot.la			\
   umode_hide_idle_time.la	\
   umode_noctcp.la		\
   example_module.la
