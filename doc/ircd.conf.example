@@ -42,7 +42,9 @@ loadmodule "extensions/m_webirc";
 #loadmodule "extensions/sno_globaloper";
 #loadmodule "extensions/override";
 loadmodule "extensions/no_kill_services";
+loadmodule "extensions/tag_channel_context";
 loadmodule "extensions/tag_message_id";
+loadmodule "extensions/tag_reply";
 #loadmodule "extensions/tag_typing";
 
 /* IP cloaking extension */
