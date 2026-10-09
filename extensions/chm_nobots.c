@@ -119,16 +119,13 @@ chm_nobots_can_join(void *data_)
 	}
 
 	/* Check for invexes. */
-	if (ConfigChannel.use_invex)
+	matchset_for_client(client, &ms);
+	RB_DLINK_FOREACH(ptr, chptr->invexlist.head)
 	{
-		matchset_for_client(client, &ms);
-		RB_DLINK_FOREACH(ptr, chptr->invexlist.head)
-		{
-			invex = ptr->data;
-			if (matches_mask(&ms, invex->banstr) ||
-					match_extban(invex->banstr, client, chptr, CHFL_INVEX))
-				return;
-		}
+		invex = ptr->data;
+		if (matches_mask(&ms, invex->banstr) ||
+				match_extban(invex->banstr, client, chptr, CHFL_INVEX))
+			return;
 	}
 
 	/* If we're here, umode AND cmode +B are set, and the client is not exempt for any reason. */
