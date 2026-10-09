@@ -2477,6 +2477,29 @@ add_conf_item(const char *topconf, const char *name, int type, void (*func) (voi
 	return 0;
 }
 
+int
+remove_conf_item(const char *topconf, const char *name)
+{
+	struct TopConf *tc;
+	struct ConfEntry *cf;
+	rb_dlink_node *ptr;
+
+	if((tc = find_top_conf(topconf)) == NULL)
+		return -1;
+
+	if((cf = find_conf_item(tc, name)) == NULL)
+		return -1;
+
+	if((ptr = rb_dlinkFind(cf, &tc->tc_items)) == NULL)
+		return -1;
+
+	rb_dlinkDestroy(ptr, &tc->tc_items);
+	rb_free(cf);
+	conf_changed = true;
+
+	return 0;
+}
+
 /* *INDENT-OFF* */
 static struct ConfEntry conf_serverinfo_table[] =
 {
