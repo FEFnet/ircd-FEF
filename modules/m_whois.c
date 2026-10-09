@@ -236,7 +236,7 @@ single_whois(struct Client *source_p, struct Client *target_p)
 
 	hdata.client = source_p;
 	hdata.target = target_p;
-	hdata.approved = operspy;
+	hdata.approved = 0;
 
 	if (!IsService(target_p))
 	{
