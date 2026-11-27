@@ -341,6 +341,9 @@ single_whois(struct Client *source_p, struct Client *target_p)
 					   target_p->name, target_p->orighost,
 					   show_ip(source_p, target_p) ? target_p->sockhost : "255.255.255.255");
 			SetDynSpoof(target_p);
+			sendto_one_numeric(source_p, RPL_WHOISSPECIAL,
+					   "%s :has a cloak (%sIP address is hidden from other users)",
+					   target_p->name, source_p == target_p ? "Your " : "");
 		}
 		else if(show_ip(source_p, target_p))
 			sendto_one_numeric(source_p, RPL_WHOISACTUALLY,
@@ -403,6 +406,9 @@ single_whois(struct Client *source_p, struct Client *target_p)
 					   target_p->name, target_p->orighost,
 					   show_ip(source_p, target_p) && !EmptyString(target_p->sockhost) && strcmp(target_p->sockhost, "0")? target_p->sockhost : "255.255.255.255");
 			SetDynSpoof(target_p);
+			sendto_one_numeric(source_p, RPL_WHOISSPECIAL,
+					   "%s :has a cloak (%sIP address is hidden from other users)",
+					   target_p->name, source_p == target_p ? "Your " : "");
 		}
 		else if(show_ip(source_p, target_p) &&
 		   !EmptyString(target_p->sockhost) && strcmp(target_p->sockhost, "0"))
